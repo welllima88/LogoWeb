@@ -1,0 +1,16 @@
+{% extends 'CibCoreBundle::layout.html.twig' %}
+
+
+{% block body %}
+    {% include 'CibCoreBundle:Core:displayFlash.html.twig' %}
+    {% for tpe in tpes %}
+        {{ tpe.tpeNumber }}
+        <a href="{{ path('editTpe',{'id':tpe.tpeId}) }}">modifier</a>
+        <a href="{{ path('deleteTpe',{'id':tpe.tpeId,'token':tpe.token}) }}">supprimer</a>
+
+    {% else %}
+        Aucun tpe à afficher
+    {% endfor %}
+
+    <a href="{{ path('addTpe') }}">Ajouter tpe</a>
+{% endblock body %}

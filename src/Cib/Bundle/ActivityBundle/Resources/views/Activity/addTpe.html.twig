@@ -1,0 +1,8 @@
+{% extends 'CibCoreBundle::layout.html.twig' %}
+
+
+{% block body %}
+    <form action="{{ path('addTpe') }}" method="post">
+        {% include 'CibActivityBundle:Form:formTpe.html.twig' %}
+    </form>
+{% endblock body %}

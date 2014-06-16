@@ -1,0 +1,9 @@
+{% extends 'CibCoreBundle::layout.html.twig' %}
+
+
+{% block body %}
+    {{ app.request.query.get('id') }}
+    <form action="{{ path('editTpe',{'id':id}) }}" method="post">
+        {% include 'CibActivityBundle:Form:formTpe.html.twig' %}
+    </form>
+{% endblock body %}

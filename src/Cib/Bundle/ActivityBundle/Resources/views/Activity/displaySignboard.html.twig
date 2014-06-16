@@ -1,0 +1,16 @@
+{% extends 'CibCoreBundle::layout.html.twig' %}
+
+
+{% block body %}
+    {% include 'CibCoreBundle:Core:displayFlash.html.twig' %}
+    {% for signboard in signboards %}
+        {{ signboard.signboardName }}
+        <a href="{{ path('editSignboard',{'id':signboard.signboardId}) }}">modifier</a>
+        <a href="{{ path('deleteSignboard',{'id':signboard.signboardId,'token':signboard.token}) }}">supprimer</a>
+
+    {% else %}
+        Aucune enseigne à afficher
+    {% endfor %}
+
+    <a href="{{ path('addSignboard') }}">Ajouter enseigne</a>
+{% endblock body %}

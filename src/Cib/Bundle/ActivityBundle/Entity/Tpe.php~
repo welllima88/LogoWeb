@@ -1,0 +1,54 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: cedric
+ * Date: 12/06/14
+ * Time: 12:03
+ */
+
+namespace Cib\Bundle\ActivityBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="cib_tpe")
+ * @UniqueEntity(fields="tpeNumber", message="un tpe portant ce numéro éxiste déjà")
+ */
+class Tpe
+{
+    /**
+     * @var
+     *
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $tpeId;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="text")
+     * @Assert\Length(min=6,max=8,minMessage="Le numéro de tpe doit être composé de 6 caractères minimum",maxMessage="Le numéro de tpe ne peut pas excéder 8 caractères")
+     */
+    private $tpeNumber;
+
+//    /**
+//     * @var
+//     *
+//     * @ORM\Column()
+//     */
+//    private $parameter;
+
+    /**
+     * @var
+     *
+     * @ORM\ManyToOne(targetEntity="Store")
+     * @ORM\JoinColumn(name="storeId", referencedColumnName="storeId")
+     */
+    private $store;
+
+} 

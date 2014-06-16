@@ -1,0 +1,8 @@
+{% extends 'CibCoreBundle::layout.html.twig' %}
+
+
+{% block body %}
+    <form action="{{ path('addStore') }}" method="post">
+        {% include 'CibActivityBundle:Form:formStore.html.twig' %}
+    </form>
+{% endblock body %}

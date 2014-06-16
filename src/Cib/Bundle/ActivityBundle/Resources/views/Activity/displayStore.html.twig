@@ -1,0 +1,16 @@
+{% extends 'CibCoreBundle::layout.html.twig' %}
+
+
+{% block body %}
+    {% include 'CibCoreBundle:Core:displayFlash.html.twig' %}
+    {% for store in stores %}
+        {{ store.storeName }}
+        <a href="{{ path('editStore',{'id':store.storeId}) }}">modifier</a>
+        <a href="{{ path('deleteStore',{'id':store.storeId,'token':store.token}) }}">supprimer</a>
+
+    {% else %}
+        Aucun magasin à afficher
+    {% endfor %}
+
+    <a href="{{ path('addStore') }}">Ajouter magasin</a>
+{% endblock body %}

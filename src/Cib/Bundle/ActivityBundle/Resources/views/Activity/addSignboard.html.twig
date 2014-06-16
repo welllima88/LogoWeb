@@ -1,0 +1,8 @@
+{% extends 'CibCoreBundle::layout.html.twig' %}
+
+
+{% block body %}
+<form action="{{ path('addSignboard') }}" method="post">
+    {% include 'CibActivityBundle:Form:formSignboard.html.twig' %}
+</form>
+{% endblock body %}
