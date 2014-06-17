@@ -69,7 +69,7 @@ class Client
      * @var
      *
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\Length(min=4,min=50,minMessage="L'adresse du client doit être composé d'au moins 4 caractères",maxMessage="L'adresse du client ne peut pas dépasser 50 caractères")
+     * @Assert\Length(min=4,max=50,minMessage="L'adresse du client doit être composé d'au moins 4 caractères",maxMessage="L'adresse du client ne peut pas dépasser 50 caractères")
      */
     private $clientAddress;
 
