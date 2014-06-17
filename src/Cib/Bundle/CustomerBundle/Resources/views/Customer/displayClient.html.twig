@@ -6,7 +6,7 @@
     {% for client in clients %}
         {{ client.clientName }}
         <a href="{{ path('editClient',{'id':client.clientId}) }}">modifier</a>
-        <a href="#">supprimer</a>
+        <a href="{{ path('deleteClient',{'id':client.clientId,'token':client.token}) }}">supprimer</a>
 
     {% else %}
         Aucun client à afficher

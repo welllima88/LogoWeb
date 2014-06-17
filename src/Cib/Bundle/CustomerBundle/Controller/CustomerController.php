@@ -31,6 +31,10 @@ class CustomerController extends Controller
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('CibCustomerBundle:Client');
         $clients = $repo->findAll();
+        $csrf = $this->get('form.csrf_provider');
+        foreach($clients as $client)
+            $client->setToken($csrf->generateCsrfToken($client->getClientId()));
+
 
         return[
             'clients' => $clients,
@@ -123,5 +127,34 @@ class CustomerController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @param $token
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @internal param $ $
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route("/loggedin/client/delete/{id}/{token}", name="deleteClient")
+     */
+    public function deleteClientAction(Request $request,$id,$token)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('CibCustomerBundle:Client');
+        $client = $repo->find($id);
+        $csrf = $this->get('form.csrf_provider');
+        if($csrf->generateCsrfToken($client->getClientId()) == $token)
+        {
+            $em->remove($client);
+            $em->flush();
+            $this->get('session')->getFlashBag()->all();
+            $this->get('session')->getFlashBag()->add('status','Suppression effectuée');
 
+            return $this->redirect($this->generateUrl('displayClient'));
+        }
+        else
+            throw $this->createNotFoundException('Page introuvable');
+
+
+    }
 } 

@@ -152,6 +152,15 @@ class Client
     private $token;
 
 
+    public function setToken($token)
+    {
+        $this->token = $token;
+    }
+
+    public function getToken()
+    {
+        return $this->token;
+    }
     public function getAbsolutePath()
     {
         return null === $this->picturePath
