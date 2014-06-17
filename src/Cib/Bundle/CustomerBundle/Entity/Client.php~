@@ -1,0 +1,198 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: cedric
+ * Date: 13/06/14
+ * Time: 15:49
+ */
+
+namespace Cib\Bundle\CustomerBundle\Entity;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="cib_client")
+ */
+class Client
+{
+    /**
+     * @var
+     *
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $clientId;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="string")
+     */
+    private $clientNumber;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="string")
+     * @Assert\Length(min=4,min=50,minMessage="Le nom du client doit être composé d'au moins 4 caractères",maxMessage="Le nom du client ne peut pas dépasser 50 caractères")
+     */
+    private $clientName;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="string")
+     * @Assert\Length(min=4,min=50,minMessage="Le prénom du client doit être composé d'au moins 4 caractères",maxMessage="Le prénom du client ne peut pas dépasser 50 caractères")
+     */
+    private $clientFirstName;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="string")
+     */
+    private $clientGender;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="datetime")
+     */
+    private $clientBirthDate;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="string")
+     * @Assert\Length(min=4,min=50,minMessage="L'adresse du client doit être composé d'au moins 4 caractères",maxMessage="L'adresse du client ne peut pas dépasser 50 caractères")
+     */
+    private $clientAddress;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="string")
+     * @Assert\Length(min=5,max=5,minMessage="Le code postal doit être composé de 5 chiffres",maxMessage="Le code postal doit être composé de 5 chiffres")
+     * @Assert\Regex(pattern="/^[0-9]{5}$/",message="Le code postal doit être composé de cinq chiffres")
+     */
+    private $clientZipCode;
+
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="string")
+     */
+    private $clientCity;
+
+    /**
+     * @var
+     * @ORM\Column(type="string")
+     * @Assert\Length(min=10,max=15,minMessage="Le numéro de téléphone doit-être composé d'au moins 10 caractères",maxMessage="Le numéro de téléphone ne peut pas excéder 15 caractères")
+     */
+    private $homePhone;
+
+
+    /**
+     * @var
+     * @ORM\Column(type="string")
+     * @Assert\Length(min=10,max=15,minMessage="Le numéro de téléphone doit-être composé d'au moins 10 caractères",maxMessage="Le numéro de téléphone ne peut pas excéder 15 caractères")
+     */
+    private $cellPhone;
+
+
+    /**
+     * @var
+     * @ORM\Column(type="string")
+     * @Assert\Length(min=10,max=15,minMessage="Le numéro de téléphone doit-être composé d'au moins 10 caractères",maxMessage="Le numéro de téléphone ne peut pas excéder 15 caractères")
+     */
+    private $officePhone;
+
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="string")
+     */
+    private $mailAddress;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="string")
+     */
+    private $age;
+
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $pictureName;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $picturePath;
+
+    /**
+     * @Assert\File(maxSize="6000000")
+     */
+    private $pictureFile;
+
+    private $token;
+
+
+    public function getAbsolutePath()
+    {
+        return null === $this->picturePath
+            ? null
+            : $this->getUploadRootDir().'/'.$this->picturePath;
+    }
+
+    public function getWebPath()
+    {
+        return null === $this->picturePath
+            ? null
+            : $this->getUploadDir().'/'.$this->picturePath;
+    }
+
+    protected function getUploadRootDir()
+    {
+        // the absolute directory path where uploaded
+        // documents should be saved
+        return __DIR__.'/../../../../web/'.$this->getUploadDir();
+    }
+
+    protected function getUploadDir()
+    {
+        // get rid of the __DIR__ so it doesn't screw up
+        // when displaying uploaded doc/image in the view.
+        return 'uploads/documents';
+    }
+
+
+    /**
+     * Sets file.
+     *
+     * @param \Symfony\Component\HttpFoundation\File\UploadedFile $pictureFile
+     * @internal param \Symfony\Component\HttpFoundation\File\UploadedFile $file
+     */
+    public function setPictureFile(UploadedFile $pictureFile = null)
+    {
+        $this->pictureFile = $pictureFile;
+    }
+
+    /**
+     * Get file.
+     *
+     * @return UploadedFile
+     */
+    public function getPictureFile()
+    {
+        return $this->pictureFile;
+    }
+} 

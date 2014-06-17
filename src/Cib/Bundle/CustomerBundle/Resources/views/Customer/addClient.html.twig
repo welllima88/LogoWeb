@@ -1,0 +1,10 @@
+{% extends 'CibCoreBundle::layout.html.twig' %}
+
+
+{% block body %}
+    <form action="{{ path('addClient') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
+        {% include 'CibCustomerBundle:Form:formClient.html.twig' %}
+        {#{{ form_widget(form) }}#}
+        {#<button type="submit" value="valider" name="valider">Valider</button>#}
+    </form>
+{% endblock body %}

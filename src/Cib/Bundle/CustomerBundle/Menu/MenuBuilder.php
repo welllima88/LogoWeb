@@ -27,7 +27,7 @@ class MenuBuilder
         $menu = $this->factory->createItem('customer');
         $menu->setChildrenAttribute('class','nav pull-right');
         $menu->addChild('Clients')->setAttribute('dropdown',true);
-        $menu['Clients']->addChild('Clients',array('uri' => '#'))->setAttribute('divider_append',true);
+        $menu['Clients']->addChild('Clients',array('route' => 'displayClient'))->setAttribute('divider_append',true);
         $menu['Clients']->addChild('Cartes',array('uri' => '#'))->setAttribute('divider_append',true);
 
         return $menu;

@@ -26,7 +26,7 @@ class ActivityController extends Controller
     /**
      * @param Request $request
      * @return array
-     * @Route("/signboard/display", name="displaySignboard")
+     * @Route("/loggedin/signboard/display", name="displaySignboard")
      *
      * @Template()
      */
@@ -49,7 +49,7 @@ class ActivityController extends Controller
      * @param Request $request
      * @internal param \Symfony\Component\HttpFoundation\Session\Session $session
      * @return array|RedirectResponse
-     * @Route("/signboard/add", name="addSignboard")
+     * @Route("/loggedin/signboard/add", name="addSignboard")
      *
      * @Template()
      */
@@ -80,7 +80,7 @@ class ActivityController extends Controller
      * @param $id
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return array|RedirectResponse
-     * @Route("/signboard/edit/{id}", name="editSignboard", defaults={"id" = "0"})
+     * @Route("/loggedin/signboard/edit/{id}", name="editSignboard", defaults={"id" = "0"})
      *
      * @Template()
      */
@@ -124,7 +124,7 @@ class ActivityController extends Controller
      * @param $token
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return array|RedirectResponse
-     * @Route("/signboard/delete/{id}/{token}", name="deleteSignboard")
+     * @Route("/loggedin/signboard/delete/{id}/{token}", name="deleteSignboard")
      *
      * @Template()
      */
@@ -154,7 +154,7 @@ class ActivityController extends Controller
     /**
      * @param Request $request
      * @return array
-     * @Route("store/display", name="displayStore")
+     * @Route("/loggedin/store/display", name="displayStore")
      *
      * @Template()
      */
@@ -175,7 +175,7 @@ class ActivityController extends Controller
     /**
      * @param Request $request
      * @return array|RedirectResponse
-     * @Route("store/add", name="addStore")
+     * @Route("/loggedin/store/add", name="addStore")
      *
      * @Template()
      */
@@ -206,7 +206,7 @@ class ActivityController extends Controller
      * @param $id
      * @return array|RedirectResponse
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     * @Route("/store/edit/{id}", name="editStore", defaults={"id" = "0"})
+     * @Route("/loggedin/store/edit/{id}", name="editStore", defaults={"id" = "0"})
      *
      * @Template()
      */
@@ -253,7 +253,7 @@ class ActivityController extends Controller
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return RedirectResponse
      *
-     * @Route("/store/delete/{id}/{token}", name="deleteStore")
+     * @Route("/loggedin/store/delete/{id}/{token}", name="deleteStore")
      */
     public function deleteStoreAction(Request $request,$id,$token)
     {
@@ -285,7 +285,7 @@ class ActivityController extends Controller
     /**
      * @param Request $request
      * @return array
-     * @Route("/tpe/display", name="displayTpe")
+     * @Route("/loggedin/tpe/display", name="displayTpe")
      *
      * @Template()
      */
@@ -308,7 +308,7 @@ class ActivityController extends Controller
      * @param Request $request
      * @return array|RedirectResponse
      *
-     * @Route("/tpe/add", name="addTpe")
+     * @Route("/loggedin/tpe/add", name="addTpe")
      * @Template()
      */
     public function addTpeAction(Request $request)
@@ -337,7 +337,7 @@ class ActivityController extends Controller
      * @param Request $request
      * @param $id
      *
-     * @Route("/tpe/edit/{id}", name="editTpe", defaults={"id" = "0"})
+     * @Route("/loggedin/tpe/edit/{id}", name="editTpe", defaults={"id" = "0"})
      * @Template()
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
@@ -386,7 +386,7 @@ class ActivityController extends Controller
      * @param $token
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @Route("/tpe/delete/{id}/{token}", name="deleteTpe")
+     * @Route("/loggedin/tpe/delete/{id}/{token}", name="deleteTpe")
      */
     public function deleteTpeAction(Request $request, $id, $token)
     {

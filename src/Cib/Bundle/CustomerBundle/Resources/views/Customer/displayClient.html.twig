@@ -1,0 +1,16 @@
+{% extends 'CibCoreBundle::layout.html.twig' %}
+
+
+{% block body %}
+    {% include 'CibCoreBundle:Core:displayFlash.html.twig' %}
+    {% for client in clients %}
+        {{ client.clientName }}
+        <a href="{{ path('editClient',{'id':client.clientId}) }}">modifier</a>
+        <a href="#">supprimer</a>
+
+    {% else %}
+        Aucun client à afficher
+    {% endfor %}
+
+    <a href="{{ path('addClient') }}">Ajouter client</a>
+{% endblock body %}
