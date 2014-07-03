@@ -1,0 +1,137 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+
+framework:
+    #esi:             ~
+    translator:      { fallback: "%locale%" }
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+        #assets_version: SomeVersionScheme
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:
+        # handler_id set to null will use default session handler from php.ini
+        handler_id:  ~
+    fragments:       ~
+    http_method_override: true
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+
+# Assetic Configuration
+assetic:
+    debug:          "%kernel.debug%"
+    use_controller: false
+    bundles:        [ ]
+    #java: /usr/bin/java
+    filters:
+        cssrewrite: ~
+        #closure:
+        #    jar: "%kernel.root_dir%/Resources/java/compiler.jar"
+        #yui_css:
+        #    jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar"
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   "%database_driver%"
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
+        charset:  UTF8
+        # if using pdo_sqlite as your database driver, add the path in parameters.yml
+        # e.g. database_path: "%kernel.root_dir%/data/data.db3"
+        # path:     "%database_path%"
+
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        auto_mapping: true
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    spool:     { type: memory }
+
+# Fos_User Bundle Configuration
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: Cib\Bundle\UserBundle\Entity\User
+
+services:
+    cib_user_menu.menu_builder:
+        class: Cib\Bundle\UserBundle\Menu\MenuBuilder
+        arguments: ["@knp_menu.factory"]
+
+    cib_activity_menu.menu_builder:
+        class: Cib\Bundle\ActivityBundle\Menu\MenuBuilder
+        arguments: ["@knp_menu.factory"]
+
+    cib_customer_menu.menu_builder:
+        class: Cib\Bundle\CustomerBundle\Menu\MenuBuilder
+        arguments: ["@knp_menu.factory"]
+
+    cib_core_menu.menu_builder:
+        class: Cib\Bundle\CoreBundle\Menu\MenuBuilder
+        arguments: ["@knp_menu.factory"]
+
+    cib_menu.menu.login:
+        class: Knp\Menu\MenuItem # the service definition requires setting the class
+        factory_service: cib_user_menu.menu_builder
+        factory_method: createLoginMenu
+        arguments: ["@request"]
+        scope: request # needed as we have the request as a dependency here
+        tags:
+            - { name: knp_menu.menu, alias: login } # The alias is what is used to retrieve the menu
+
+    cib_menu.menu.loggedIn:
+        class: Knp\Menu\MenuItem # the service definition requires setting the class
+        factory_service: cib_user_menu.menu_builder
+        factory_method: createLoggedInMenu
+        arguments: ["@request","@security.context"]
+        scope: request # needed as we have the request as a dependency here
+        tags:
+            - { name: knp_menu.menu, alias: loggedin } # The alias is what is used to retrieve the menu
+
+    cib_menu.menu.activity:
+        class: Knp\Menu\MenuItem # the service definition requires setting the class
+        factory_service: cib_activity_menu.menu_builder
+        factory_method: createActivityMenu
+        arguments: ["@request"]
+        scope: request # needed as we have the request as a dependency here
+        tags:
+            - { name: knp_menu.menu, alias: activity } # The alias is what is used to retrieve the menu
+
+    cib_menu.menu.customer:
+        class: Knp\Menu\MenuItem # the service definition requires setting the class
+        factory_service: cib_customer_menu.menu_builder
+        factory_method: createCustomerMenu
+        arguments: ["@request"]
+        scope: request # needed as we have the request as a dependency here
+        tags:
+            - { name: knp_menu.menu, alias: customer } # The alias is what is used to retrieve the menu
+
+    cib_menu.menu.parameters:
+        class: Knp\Menu\MenuItem # the service definition requires setting the class
+        factory_service: cib_core_menu.menu_builder
+        factory_method: createParametersMenu
+        arguments: ["@request"]
+        scope: request # needed as we have the request as a dependency here
+        tags:
+            - { name: knp_menu.menu, alias: parameters } # The alias is what is used to retrieve the menu
