@@ -1,0 +1,95 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: cedric
+ * Date: 01/07/14
+ * Time: 16:50
+ */
+
+namespace Cib\Bundle\CoreBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="cib_parameters")
+ */
+class Parameters
+{
+    /**
+     * @var
+     *
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $parameterId;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="boolean",nullable=true)
+     */
+    private $Pme1;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="boolean",nullable=true)
+     */
+    private $Pme2;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="boolean",nullable=true)
+     */
+    private $Pme3;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="boolean",nullable=true)
+     */
+    private $Pme4;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="boolean",nullable=true)
+     */
+    private $Pme5;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="string")
+     */
+    private $ftpUrl;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="string")
+     * @Assert\Length(max=5, maxMessage="le numéro de port ne peut contenir plus de 5 caractères")
+     * @Assert\Regex(pattern="/^\d{1,5}$/", message="le numéro de port est uniquement composé de chiffres")
+     */
+    private $ftpPort;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="string")
+     */
+    private $ftpUser;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="string")
+     */
+    private $ftpPassword;
+} 

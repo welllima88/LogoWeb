@@ -1,0 +1,36 @@
+{% extends 'CibCoreBundle::layout.html.twig' %}
+
+
+{% block body %}
+    {% include 'CibCoreBundle:Core:displayFlash.html.twig' %}
+
+    {% if cards %}
+        <form action="{{ path('deleteCard') }}" method="post">
+        <table class="">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>numéro de carte</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+
+        {% for card in cards %}
+            <tbody>
+                <tr>
+                    <td><input type="checkbox" name="multiDelete[]" value="{{ card.cardId }}"></td>
+                    <td><a href="{{ path('displayDetailCard',{'id' : card.cardId}) }}"> {{ card.cardNumber }} </a></td>
+                    <td><a href="{{ path('editCard',{'id' : card.cardId}) }}">modifier</a></td>
+                    <td><a href="{{ path('deleteCard',{'id' : card.cardId, 'token' : card.token }) }}">supprimer</a></td>
+                </tr>
+            </tbody>
+        {% endfor %}
+        </table>
+        <button type="submit" name="delete "value="delete">supprimer</button>
+        </form>
+    {% endif %}
+
+    <a href="{{ path('addCard') }}">Ajouter carte</a>
+
+{% endblock body %}

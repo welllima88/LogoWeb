@@ -49,25 +49,35 @@ class ClientType extends AbstractType
             ))
             ->add('homePhone','text',array(
                 'label' => 'tel. fixe',
+                'attr' => array(
+                    'maxlength' => 15,
+                )
             ))
             ->add('cellPhone','text',array(
                 'label' => 'tel. mobile',
+                'attr' => array(
+                    'maxlength' => 15,
+                )
             ))
             ->add('officePhone','text',array(
-                'label' => 'tel. bureau'
+                'label' => 'tel. bureau',
+                'attr' => array(
+                    'maxlength' => 15,
+                )
             ))
             ->add('mailAddress','email',array(
-                'label' => 'mail'
+                'label' => 'mail',
             ))
-//            ->add('age','text',array(
-//                'attr' => array(
-//                    'maxlength' => 3,
-//                )
-//            ))
-//            ->add('pictureName')
-//            ->add('picturePath')
             ->add('pictureFile','file',array(
                 'label' => 'Photo',
+            ))
+            ->add('card','collection',array(
+                'type' => new CardType(),
+                'allow_add' => true,
+                'allow_delete' => true,
+                'prototype' => true,
+                'by_reference' => false,
+                'label' => false,
             ))
         ;
     }
@@ -78,7 +88,8 @@ class ClientType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Cib\Bundle\CustomerBundle\Entity\Client'
+            'data_class' => 'Cib\Bundle\CustomerBundle\Entity\Client',
+            'cascade_validation' => true,
         ));
     }
 

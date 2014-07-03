@@ -26,11 +26,11 @@ class MenuBuilder
     public function createActivityMenu(Request $request)
     {
         $menu = $this->factory->createItem('activity');
-        $menu->setChildrenAttribute('class','nav pull-right');
+        $menu->setChildrenAttribute('class','navbar navbar-right list-inline');
         $menu->addChild('Activité')->setAttribute('dropdown',true);
         $menu['Activité']->addChild('Enseigne',array('route' => 'displaySignboard'))->setAttribute('divider_append',true);
         $menu['Activité']->addChild('Magasin',array('route' => 'displayStore'))->setAttribute('divider_append',true);
-        $menu['Activité']->addChild('Tpe',array('route' => 'displayTpe'))->setAttribute('divider_append',true);
+        $menu['Activité']->addChild('Tpe',array('route' => 'displayTpe'));
 
         return $menu;
     }

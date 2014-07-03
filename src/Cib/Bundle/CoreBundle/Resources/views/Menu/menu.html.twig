@@ -16,9 +16,10 @@
     {#</div>#}
 {#{% endfor %}#}
 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-    {{ knp_menu_render('loggedin',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
-    {{ knp_menu_render('activity') }}
-    {{ knp_menu_render('customer') }}
+        {{ knp_menu_render('parameters',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
+        {{ knp_menu_render('customer',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
+        {{ knp_menu_render('activity',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
+        {{ knp_menu_render('loggedin',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
 {% else %}
     {{ knp_menu_render('login') }}
 {% endif %}

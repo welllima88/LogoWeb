@@ -25,10 +25,10 @@ class MenuBuilder
     public function createCustomerMenu(Request $request)
     {
         $menu = $this->factory->createItem('customer');
-        $menu->setChildrenAttribute('class','nav pull-right');
+        $menu->setChildrenAttribute('class','navbar navbar-right list-inline');
         $menu->addChild('Clients')->setAttribute('dropdown',true);
         $menu['Clients']->addChild('Clients',array('route' => 'displayClient'))->setAttribute('divider_append',true);
-        $menu['Clients']->addChild('Cartes',array('uri' => '#'))->setAttribute('divider_append',true);
+        $menu['Clients']->addChild('Cartes',array('route' => 'displayCard'))->setAttribute('divider_append',true);
 
         return $menu;
     }

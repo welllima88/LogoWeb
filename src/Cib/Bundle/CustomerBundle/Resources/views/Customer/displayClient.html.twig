@@ -3,14 +3,37 @@
 
 {% block body %}
     {% include 'CibCoreBundle:Core:displayFlash.html.twig' %}
-    {% for client in clients %}
-        {{ client.clientName }}
-        <a href="{{ path('editClient',{'id':client.clientId}) }}">modifier</a>
-        <a href="{{ path('deleteClient',{'id':client.clientId,'token':client.token}) }}">supprimer</a>
 
+    {% if clients %}
+        <form action="{{ path('deleteClient') }}" method="post">
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+            {% for client in clients %}
+                <tbody>
+                    <tr>
+                        <td><input type="checkbox" name="multiDelete[]" value="{{ client.clientId }}"></td>
+                        <td>{{ client.clientName }}</td>
+                        <td>{{ client.clientFirstName }}</td>
+                        <td><a href="{{ path('editClient',{'id':client.clientId}) }}" class="glyphicon glyphicon-edit" style="color:darkorange"></a></td>
+                        <td><a href="{{ path('deleteClient',{'id':client.clientId,'token':client.token}) }}" class="glyphicon glyphicon-remove" style="color:orangered"></a></td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+            </table>
+
+            <button type="submit" name="delete" value="delete" class="btn btn-link glyphicon glyphicon-remove" style="color:red">supprimer</button>
+        </form>
     {% else %}
         Aucun client à afficher
-    {% endfor %}
+    {% endif %}
 
     <a href="{{ path('addClient') }}">Ajouter client</a>
 {% endblock body %}

@@ -6,9 +6,5 @@
     <form action="{{ path('editClient',{'id':id}) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
         {% include 'CibCustomerBundle:Form:formClient.html.twig' %}
     </form>
-    {% if client.pictureName %}
-        <div>
-            <img src="{{ asset(client.getWebPath()) }}" alt="photo identité" style="width:20%;height:20%"/>
-        </div>
-    {% endif %}
+
 {% endblock body %}

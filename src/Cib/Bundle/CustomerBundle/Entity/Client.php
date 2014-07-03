@@ -9,11 +9,13 @@
 namespace Cib\Bundle\CustomerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="cib_client")
  */
 class Client
@@ -94,7 +96,7 @@ class Client
      * @var
      * @ORM\Column(type="string", nullable=true)
      * @Assert\Length(min=10,max=15,minMessage="Le numéro de téléphone doit-être composé d'au moins 10 caractères",maxMessage="Le numéro de téléphone ne peut pas excéder 15 caractères")
-     * @Assert\Regex(pattern="/^\d{10}$/", message="Le numéro de téléphone doit-être composé de chiffre uniquement")
+     * @Assert\Regex(pattern="/^\d{10,15}$/", message="Le numéro de téléphone doit-être composé de chiffre uniquement")
      */
     private $homePhone;
 
@@ -103,7 +105,7 @@ class Client
      * @var
      * @ORM\Column(type="string", nullable=true)
      * @Assert\Length(min=10,max=15,minMessage="Le numéro de téléphone doit-être composé d'au moins 10 caractères",maxMessage="Le numéro de téléphone ne peut pas excéder 15 caractères")
-     * @Assert\Regex(pattern="/^\d{10}$/", message="Le numéro de téléphone doit-être composé de chiffre uniquement")
+     * @Assert\Regex(pattern="/^\d{10,15}$/", message="Le numéro de téléphone doit-être composé de chiffre uniquement")
      */
     private $cellPhone;
 
@@ -112,7 +114,7 @@ class Client
      * @var
      * @ORM\Column(type="string", nullable=true)
      * @Assert\Length(min=10,max=15,minMessage="Le numéro de téléphone doit-être composé d'au moins 10 caractères",maxMessage="Le numéro de téléphone ne peut pas excéder 15 caractères")
-     * @Assert\Regex(pattern="/^\d{10}$/", message="Le numéro de téléphone doit-être composé de chiffre uniquement")
+     * @Assert\Regex(pattern="/^\d{10,15}$/", message="Le numéro de téléphone doit-être composé de chiffre uniquement")
      */
     private $officePhone;
 
@@ -148,6 +150,13 @@ class Client
      * @Assert\File(maxSize="6000000")
      */
     private $pictureFile;
+
+
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="Card", mappedBy="client", cascade={"persist","remove"})
+     */
+    private $card;
 
     private $token;
 
@@ -603,4 +612,67 @@ class Client
 //    {
 //
 //    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->card = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add card
+     *
+     * @param \Cib\Bundle\CustomerBundle\Entity\Card $card
+     * @return Client
+     */
+    public function addCard(\Cib\Bundle\CustomerBundle\Entity\Card $card)
+    {
+        $this->card[] = $card;
+        $card->setClient($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove card
+     *
+     * @param \Cib\Bundle\CustomerBundle\Entity\Card $card
+     */
+    public function removeCard(\Cib\Bundle\CustomerBundle\Entity\Card $card)
+    {
+        $this->card->removeElement($card);
+    }
+
+    /**
+     * Get card
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCard()
+    {
+        return $this->card;
+    }
+
+
+    public function deleteUploadedFile()
+    {
+        if($this->getPicturePath())
+        {
+            unlink($this->getUploadRootDir().'/'.$this->getPicturePath());
+        }
+        // « nettoie » la propriété « file » comme vous n'en aurez plus besoin
+        $this->pictureFile = null;
+    }
+
+    /**
+     * @ORM\PostRemove()
+     */
+    public function removeUpload()
+    {
+        if($file = $this->getAbsolutePath()){
+            unlink(utf8_decode($file));
+        }
+    }
+
 }
