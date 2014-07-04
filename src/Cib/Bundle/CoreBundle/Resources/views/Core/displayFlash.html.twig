@@ -1,3 +1,6 @@
 {% for key in app.session.flashbag.get('status') %}
-    {{ key }}
+    <div class="row alert alert-success">
+        {{ key }}
+    </div>
+
 {% endfor %}

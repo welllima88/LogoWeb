@@ -8,12 +8,15 @@
 
 namespace Cib\Bundle\UserBundle\Entity;
 
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="fos_user")
+ * @UniqueEntity(fields="username", message="Cet utilisateur existe déjà")
+ * @UniqueEntity(fields="email", message="Adresse mail dèjà utilisée")
  */
 class User extends BaseUser
 {

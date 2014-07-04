@@ -135,3 +135,9 @@ services:
         scope: request # needed as we have the request as a dependency here
         tags:
             - { name: knp_menu.menu, alias: parameters } # The alias is what is used to retrieve the menu
+
+    cib_user.registration_complet:
+        class: Cib\Bundle\UserBundle\EventListener\RegistrationConfirmListener
+        arguments: [@router]
+        tags:
+            - { name: kernel.event_subscriber }

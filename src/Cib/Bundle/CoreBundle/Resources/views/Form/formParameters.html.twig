@@ -1,2 +1,62 @@
-{{ form_widget(form) }}
+<table>
+    <thead>
+    <tr>
+        <th> PME </th>
+        <th> Actif</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>{{ form_label(form.Pme1) }}</td>
+        <td>{{ form_widget(form.Pme1) }}</td>
+        <td>{{ form_errors(form.Pme1) }}</td>
+    </tr>
+    <tr>
+        <td>{{ form_label(form.Pme2) }}</td>
+        <td>{{ form_widget(form.Pme2) }}</td>
+        <td>{{ form_errors(form.Pme2) }}</td>
+    </tr>
+    <tr>
+        <td>{{ form_label(form.Pme3) }}</td>
+        <td>{{ form_widget(form.Pme3) }}</td>
+        <td>{{ form_errors(form.Pme3) }}</td>
+    </tr>
+    <tr>
+        <td>{{ form_label(form.Pme4) }}</td>
+        <td>{{ form_widget(form.Pme4) }}</td>
+        <td>{{ form_errors(form.Pme4) }}</td>
+    </tr>
+    <tr>
+        <td>{{ form_label(form.Pme5) }}</td>
+        <td>{{ form_widget(form.Pme5) }}</td>
+        <td>{{ form_errors(form.Pme5) }}</td>
+    </tr>
+    </tbody>
+</table>
+<table>
+    <tr>
+        <td>{{ form_label(form.ftpUrl) }}</td>
+        <td>{{ form_widget(form.ftpUrl) }}</td>
+        <td>{{ form_errors(form.ftpUrl) }}</td>
+    </tr>
+    <tr>
+        <td>{{ form_label(form.ftpPort) }}</td>
+        <td>{{ form_widget(form.ftpPort) }}</td>
+        <td>{{ form_errors(form.ftpPort) }}</td>
+    </tr>
+    <tr>
+        <td>{{ form_label(form.ftpUser) }}</td>
+        <td>{{ form_widget(form.ftpUser) }}</td>
+        <td>{{ form_errors(form.ftpUser) }}</td>
+    </tr>
+    <tr>
+        <td>{{ form_label(form.ftpPassword) }}</td>
+        <td>{{ form_widget(form.ftpPassword) }}</td>
+        <td>{{ form_errors(form.ftpPassword) }}</td>
+    </tr>
+</table>
+
+
+{{ form_rest(form) }}
 <button type="submit" name="valid" >Valider</button>

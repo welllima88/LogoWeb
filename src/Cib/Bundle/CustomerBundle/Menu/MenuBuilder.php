@@ -28,7 +28,7 @@ class MenuBuilder
         $menu->setChildrenAttribute('class','navbar navbar-right list-inline');
         $menu->addChild('Clients')->setAttribute('dropdown',true);
         $menu['Clients']->addChild('Clients',array('route' => 'displayClient'))->setAttribute('divider_append',true);
-        $menu['Clients']->addChild('Cartes',array('route' => 'displayCard'))->setAttribute('divider_append',true);
+        $menu['Clients']->addChild('Cartes',array('route' => 'displayCard'));
 
         return $menu;
     }

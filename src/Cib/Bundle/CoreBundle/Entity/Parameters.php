@@ -75,7 +75,7 @@ class Parameters
      *
      * @ORM\Column(type="string")
      * @Assert\Length(max=5, maxMessage="le numéro de port ne peut contenir plus de 5 caractères")
-     * @Assert\Regex(pattern="/^\d{1,5}$/", message="le numéro de port est uniquement composé de chiffres")
+     *  @Assert\Regex(pattern="/^\d{1,5}$/", message="le numéro de port est uniquement composé de chiffres")
      */
     private $ftpPort;
 

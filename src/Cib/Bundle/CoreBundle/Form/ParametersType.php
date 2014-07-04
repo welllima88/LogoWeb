@@ -16,19 +16,19 @@ class ParametersType extends AbstractType
     {
         $builder
             ->add('Pme1','checkbox',array(
-                'label' => 'actif',
+                'label' => 'Pme 1',
             ))
             ->add('Pme2','checkbox',array(
-                'label' => 'actif',
+                'label' => 'Pme 2',
             ))
             ->add('Pme3','checkbox',array(
-                'label' => 'actif',
+                'label' => 'Pme 3',
             ))
             ->add('Pme4','checkbox',array(
-                'label' => 'actif',
+                'label' => 'Pme 4',
             ))
             ->add('Pme5','checkbox',array(
-                'label' => 'actif',
+                'label' => 'Pme 5',
             ))
             ->add('ftpUrl','text',array(
                 'label' => 'url ftp'
