@@ -5,35 +5,40 @@
     {% include 'CibCoreBundle:Core:displayFlash.html.twig' %}
 
     {% if clients %}
-        <form action="{{ path('deleteClient') }}" method="post">
-            <table class="table table-bordered table-responsive">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Nom</th>
-                        <th>Prénom</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-            {% for client in clients %}
-                <tbody>
-                    <tr>
-                        <td><input type="checkbox" name="multiDelete[]" value="{{ client.clientId }}"></td>
-                        <td>{{ client.clientName }}</td>
-                        <td>{{ client.clientFirstName }}</td>
-                        <td><a href="{{ path('editClient',{'id':client.clientId}) }}" class="glyphicon glyphicon-edit" style="color:darkorange"></a></td>
-                        <td><a href="{{ path('deleteClient',{'id':client.clientId,'token':client.token}) }}" class="glyphicon glyphicon-remove" style="color:orangered"></a></td>
-                    </tr>
-                </tbody>
-            {% endfor %}
-            </table>
+        <div class="row">
+            <div class="col-xs-offset-3 col-xs-6">
+                <form action="{{ path('deleteClient') }}" method="post">
+                    <table class="table table-bordered table-responsive">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    {% for client in clients %}
+                        <tbody>
+                            <tr>
+                                <td><input type="checkbox" name="multiDelete[]" value="{{ client.clientId }}"></td>
+                                <td>{{ client.clientName }}</td>
+                                <td>{{ client.clientFirstName }}</td>
+                                <td><a href="{{ path('editClient',{'id':client.clientId}) }}" class="glyphicon glyphicon-edit" style="color:darkorange"></a></td>
+                                <td><a href="{{ path('deleteClient',{'id':client.clientId,'token':client.token}) }}" class="glyphicon glyphicon-remove" style="color:orangered"></a></td>
+                            </tr>
+                        </tbody>
+                    {% endfor %}
+                    </table>
+                    <button type="submit" name="delete" value="delete" class="btn btn-link glyphicon glyphicon-remove">supprimer<span style="font-style: italic"> (la séléction)</span></button>
+                    <a href="{{ path('addClient') }}" class="btn btn-link glyphicon glyphicon-floppy-save">Ajouter client</a>
+                </form>
+            </div>
+        </div>
 
-            <button type="submit" name="delete" value="delete" class="btn btn-link glyphicon glyphicon-remove" style="color:red">supprimer</button>
-        </form>
     {% else %}
         Aucun client à afficher
     {% endif %}
 
-    <a href="{{ path('addClient') }}">Ajouter client</a>
+
 {% endblock body %}

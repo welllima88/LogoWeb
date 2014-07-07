@@ -134,7 +134,7 @@ class Card
 
     /**
      * @var
-     * @ORM\ManyToOne(targetEntity="Client")
+     * @ORM\ManyToOne(targetEntity="Client", inversedBy="card")
      * @ORM\JoinColumn(name="clientId", referencedColumnName="clientId")
      */
     private $client;

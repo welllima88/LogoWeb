@@ -2,9 +2,9 @@
 
 
 {% block body %}
-    <form action="{{ path('addClient') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
-        {% include 'CibCustomerBundle:Form:formClient.html.twig' %}
-        {#{{ form_widget(form) }}#}
-        {#<button type="submit" value="valider" name="valider">Valider</button>#}
-    </form>
+    <div class="row">
+        <form action="{{ path('addClient') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
+            {% include 'CibCustomerBundle:Form:formClient.html.twig' %}
+        </form>
+    </div>
 {% endblock body %}
