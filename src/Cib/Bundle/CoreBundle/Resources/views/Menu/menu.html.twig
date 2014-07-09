@@ -15,11 +15,26 @@
         {#{{ key|trans([], 'FOSUserBundle') }}#}
     {#</div>#}
 {#{% endfor %}#}
+    <div class="col-md-2">
+        <a href="{{ path('index') }}"><img src="{{ asset('bundles/cibcore/pictures/cameleon.jpg') }}" alt="CashPass"></a>
+    </div>
 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+    <div class="col-md-offset-1 col-md-2" style="padding-top: 5%">
         {{ knp_menu_render('parameters',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
+    </div>
+    <div class="col-md-2" style="padding-top: 5%">
         {{ knp_menu_render('customer',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
+    </div>
+    <div class="col-md-2" style="padding-top: 5%">
         {{ knp_menu_render('activity',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
+    </div>
+    <div style="padding-top: 5%">
         {{ knp_menu_render('loggedin',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
+    </div>
+
 {% else %}
-    {{ knp_menu_render('login') }}
+    <div style="padding-top: 5%">
+        {{ knp_menu_render('login',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
+    </div>
+
 {% endif %}

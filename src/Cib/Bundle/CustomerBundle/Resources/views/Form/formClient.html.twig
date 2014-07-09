@@ -1,4 +1,3 @@
-{#{{ form_enctype(form) }}#}
 <div class="row">
     <div class="col-xs-3 col-md-3">
         {{ form_label(form.clientNumber) }}
@@ -8,9 +7,6 @@
     </div>
     <div class="col-xs-3 col-md-3">
         {{ form_label(form.clientFirstName) }}
-    </div>
-    <div class="col-xs-3 col-md-3">
-        {{ form_label(form.clientGender) }}
     </div>
 </div>
 <div class="row">
@@ -26,15 +22,28 @@
         {{ form_errors(form.clientFirstName) }}
         {{ form_widget(form.clientFirstName) }}
     </div>
+
+</div>
+<div class="row">
     <div class="col-xs-3 col-md-3">
-        {{ form_errors(form.clientGender) }}
-        {{ form_widget(form.clientGender) }}
+        {{ form_label(form.clientGender) }}
+    </div>
+    <div class="col-xs-3 col-md-3">
+        {{ form_label(form.clientBirthDate) }}
     </div>
 </div>
 <div class="row">
     <div class="col-xs-3 col-md-3">
-        {{ form_label(form.clientBirthDate) }}
+        {{ form_errors(form.clientGender) }}
+        {{ form_widget(form.clientGender) }}
     </div>
+    <div class="col-xs-3 col-md-3">
+        {{ form_errors(form.clientBirthDate) }}
+        {{ form_widget(form.clientBirthDate) }}
+    </div>
+</div>
+<div class="row">
+
     <div class="col-xs-3 col-md-3">
         {{ form_label(form.clientAddress) }}
     </div>
@@ -46,10 +55,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-xs-3 col-md-3">
-        {{ form_errors(form.clientBirthDate) }}
-        {{ form_widget(form.clientBirthDate) }}
-    </div>
+
     <div class="col-xs-3 col-md-3">
         {{ form_errors(form.clientAddress) }}
         {{ form_widget(form.clientAddress) }}
@@ -73,9 +79,6 @@
     <div class="col-xs-3 col-md-3">
         {{ form_label(form.officePhone) }}
     </div>
-    <div class="col-xs-3 col-md-3">
-        {{ form_label(form.mailAddress) }}
-    </div>
 </div>
 <div class="row">
     <div class="col-xs-3 col-md-3">
@@ -90,6 +93,13 @@
         {{ form_errors(form.officePhone) }}
         {{ form_widget(form.officePhone) }}
     </div>
+</div>
+<div class="row">
+    <div class="col-xs-3 col-md-3">
+        {{ form_label(form.mailAddress) }}
+    </div>
+</div>
+<div class="row">
     <div class="col-xs-3 col-md-3">
         {{ form_errors(form.mailAddress) }}
         {{ form_widget(form.mailAddress) }}
@@ -108,31 +118,6 @@
         {% endif %}
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <ul class="card" data-prototype="{{ form_widget(form.card.vars.prototype)|e }}">
     {% for card in form.card %}

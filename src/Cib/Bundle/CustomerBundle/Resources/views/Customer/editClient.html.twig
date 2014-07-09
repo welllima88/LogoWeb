@@ -3,8 +3,14 @@
 
 {% block body %}
     {{ app.request.query.get('id') }}
-    <form action="{{ path('editClient',{'id':id}) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
-        {% include 'CibCustomerBundle:Form:formClient.html.twig' %}
-    </form>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-offset-2 col-md-offset-2">
+                <form action="{{ path('editClient',{'id':id}) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
+                    {% include 'CibCustomerBundle:Form:formClient.html.twig' %}
+                </form>
+            </div>
+        </div>
+    </div>
 
 {% endblock body %}

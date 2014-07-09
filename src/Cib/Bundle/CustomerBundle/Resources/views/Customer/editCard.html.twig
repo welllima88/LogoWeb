@@ -1,6 +1,5 @@
 {% extends 'CibCoreBundle::layout.html.twig' %}
 
-
 {% block body %}
     {{ app.request.query.get('id') }}
     <form action="{{ path('editCard',{'id':id}) }}" method="post" novalidate="novalidate">

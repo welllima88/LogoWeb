@@ -2,9 +2,13 @@
 
 
 {% block body %}
+    <div class="container">
     <div class="row">
-        <form action="{{ path('addClient') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
-            {% include 'CibCustomerBundle:Form:formClient.html.twig' %}
-        </form>
+        <div class="col-xs-offset-2 col-md-offset-2">
+            <form action="{{ path('addClient') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
+                {% include 'CibCustomerBundle:Form:formClient.html.twig' %}
+            </form>
+        </div>
+    </div>
     </div>
 {% endblock body %}
