@@ -11,7 +11,7 @@
     {% endblock %}
 </head>
 <body>
-<div class="navbar navbar-header navbar-fixed-top navbar-inverse">
+<div class="navbar navbar-fixed-top navbar-inverse">
     <div class="container">
         <div class="row">
             {% include 'CibCoreBundle:Menu:menu.html.twig' %}
@@ -23,11 +23,13 @@
 
 
 
+<div class="row" style="margin-top: 10%">
+
 
 {% block body %}
 
 {% endblock %}
-
+</div>
 {% block javascript %}
     <script src="{{ asset('bundles/cibcore/jquery/jquery.js') }}"></script>
     <script src="{{ asset('bundles/cibcore/bootstrap/js/bootstrap.js') }}"></script>
@@ -36,6 +38,5 @@
     {% endif %}
 {% endblock %}
 
-</div>
 </body>
 </html>

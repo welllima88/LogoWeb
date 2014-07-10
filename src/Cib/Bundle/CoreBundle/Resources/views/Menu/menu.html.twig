@@ -16,24 +16,31 @@
     {#</div>#}
 {#{% endfor %}#}
     <div class="col-md-2">
-        <a href="{{ path('index') }}"><img src="{{ asset('bundles/cibcore/pictures/cameleon.jpg') }}" alt="CashPass"></a>
+        <ul class="navbar-brand navbar-right list-inline">
+            <li>
+                <a href="{{ path('index') }}">Accueil</a>
+            </li>
+        </ul>
     </div>
 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-    <div class="col-md-offset-1 col-md-2" style="padding-top: 5%">
+    <div class="col-md-offset-1 col-md-6" {#style="padding-top: 5%"#}>
         {{ knp_menu_render('parameters',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
-    </div>
-    <div class="col-md-2" style="padding-top: 5%">
+    {#</div>#}
+    {#<div class="col-md-2" &#123;&#35;style="padding-top: 5%"&#35;&#125;>#}
         {{ knp_menu_render('customer',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
-    </div>
-    <div class="col-md-2" style="padding-top: 5%">
+    {#</div>#}
+    {#<div class="col-md-2" &#123;&#35;style="padding-top: 5%"&#35;&#125;>#}
         {{ knp_menu_render('activity',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
     </div>
-    <div style="padding-top: 5%">
+
+    <div>
+    {#</div>#}
+    {#<div &#123;&#35;style="padding-top: 5%"&#35;&#125;>#}
         {{ knp_menu_render('loggedin',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
     </div>
 
 {% else %}
-    <div style="padding-top: 5%">
+    <div {#style="padding-top: 5%"#}>
         {{ knp_menu_render('login',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
     </div>
 

@@ -15,14 +15,14 @@ body {
 }
 
 .navbar-brand > li > a{
-    text-decoration: none;
+    /*text-decoration: none;*/
     color: gold;
 }
 
 .navbar-brand > li > a:hover{
-    padding: 15px 3px 15px 3px;
-    background-color: #aba9a9;
-    color: black;
+    /*padding: 15px 3px 15px 3px;*/
+    /*background-color: #aba9a9;*/
+    /*color: black;*/
 }
 
 .test:before, .test:after{
