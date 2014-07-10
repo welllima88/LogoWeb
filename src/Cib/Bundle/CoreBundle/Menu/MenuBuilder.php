@@ -26,7 +26,7 @@ class MenuBuilder
     public function createParametersMenu(Request $request)
     {
         $menu = $this->factory->createItem('parameters');
-        $menu->setChildrenAttribute('class','navbar-brand navbar-left list-inline');
+        $menu->setChildrenAttribute('class','nav navbar-nav');
         $menu->addChild('Parametres',array('route' => 'displayParameters'));
 
         return $menu;

@@ -25,7 +25,7 @@ class MenuBuilder
     public function createCustomerMenu(Request $request)
     {
         $menu = $this->factory->createItem('customer');
-        $menu->setChildrenAttribute('class','navbar-brand navbar-left list-inline');
+        $menu->setChildrenAttribute('class','nav navbar-nav');
         $menu->addChild('Clients')->setAttribute('dropdown',true);
         $menu['Clients']->addChild('Clients',array('route' => 'displayClient'))->setAttribute('divider_append',true);
         $menu['Clients']->addChild('Cartes',array('route' => 'displayCard'));

@@ -1,47 +1,26 @@
-{#<div>#}
-    {#{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}#}
-        {#<a href="{{ path('fos_user_profile_show') }}">{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}</a> |#}
-        {#<a href="{{ path('fos_user_security_logout') }}">#}
-            {#{{ 'layout.logout'|trans([], 'FOSUserBundle') }}#}
-        {#</a>#}
-    {#{% else %}#}
-        {#<a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans([], 'FOSUserBundle') }}</a> |#}
-        {#<a href="{{ path('fos_user_registration_register') }}">{{ 'layout.register'|trans([], 'FOSUserBundle') }}</a>#}
-    {#{% endif %}#}
-{#</div>#}
+<nav class="navbar navbar-default navbar-inverse" role="navigation">
+    <div class="container">
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Brand</a>
+        </div>
 
-{#{% for key, flash in app.session.getFlashes() %}#}
-    {#<div class="{{ flash }}">#}
-        {#{{ key|trans([], 'FOSUserBundle') }}#}
-    {#</div>#}
-{#{% endfor %}#}
-    <div class="col-md-2">
-        <ul class="navbar-brand navbar-right list-inline">
-            <li>
-                <a href="{{ path('index') }}">Accueil</a>
-            </li>
-        </ul>
-    </div>
-{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-    <div class="col-md-offset-1 col-md-6" {#style="padding-top: 5%"#}>
-        {{ knp_menu_render('parameters',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
-    {#</div>#}
-    {#<div class="col-md-2" &#123;&#35;style="padding-top: 5%"&#35;&#125;>#}
-        {{ knp_menu_render('customer',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
-    {#</div>#}
-    {#<div class="col-md-2" &#123;&#35;style="padding-top: 5%"&#35;&#125;>#}
-        {{ knp_menu_render('activity',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
-    </div>
-
-    <div>
-    {#</div>#}
-    {#<div &#123;&#35;style="padding-top: 5%"&#35;&#125;>#}
-        {{ knp_menu_render('loggedin',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
-    </div>
-
-{% else %}
-    <div {#style="padding-top: 5%"#}>
-        {{ knp_menu_render('login',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
-    </div>
-
-{% endif %}
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            {{ knp_menu_render('parameters',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
+            {{ knp_menu_render('customer',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
+            {{ knp_menu_render('activity',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
+            {{ knp_menu_render('loggedin',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
+            {% else %}
+            {{ knp_menu_render('login',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
+            {% endif %}
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
