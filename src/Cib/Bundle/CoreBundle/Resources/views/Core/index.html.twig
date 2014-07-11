@@ -1,1 +1,47 @@
 {%  extends "CibCoreBundle::layout.html.twig" %}
+
+{% block body %}
+<div class="row">
+    <div class="container">
+        <div class="pagination">
+            <a href="{{ path('index') }}">Acceuil</a> >
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="container-fluid" >
+        <div class="container">
+            <div style="margin-top: 5%">
+                <a href="{{ path('displayClient') }}" style="text-decoration: none;font-family: 'Lato';color: gold">
+                    <div class="col-md-offset-1 col-md-4" style="border:solid #606060 1px; background-color: #606060;padding: 10%">
+                        <h1>CLIENTS</h1>
+                    </div>
+                </a>
+                <a href="{{ path('displayCard') }}" style="text-decoration: none;font-family: 'Lato';color: #606060">
+                    <div class="col-md-offset-1 col-md-4" style="border:solid gold 1px; background-color: #ffcc00;padding: 10%">
+                        <h1>CARTES</h1>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="container-fluid">
+        <div class="container" style="padding-bottom: 5%">
+            <div style="margin-top: 5%">
+                <a href="{{ path('displayClient') }}" style="text-decoration: none;font-family: 'Lato';color: #606060">
+                    <div class="col-md-offset-1 col-md-4" style="border:solid gold 1px; background-color: #ffcc00;padding: 10%">
+                        <h1>ACTIVITE</h1>
+                    </div>
+                </a>
+                <a href="{{ path('displayParameters') }}" style="text-decoration: none;font-family: 'Lato';color: gold">
+                    <div class="col-md-offset-1 col-md-4" style="border:solid #606060 1px; background-color: #606060;padding: 10%">
+                        <h1>PARAM</h1>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}
