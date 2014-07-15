@@ -16,6 +16,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity
  * @ORM\Table(name="cib_card")
+ * @ORM\Entity(repositoryClass="Cib\Bundle\CustomerBundle\Entity\cardRepository")
  * @UniqueEntity(fields="cardNumber", message="une carte portant ce numéro existe déjà")
  */
 class Card

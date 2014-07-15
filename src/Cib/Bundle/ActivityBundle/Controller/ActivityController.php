@@ -24,6 +24,17 @@ class ActivityController extends Controller
 {
 
     /**
+     * @Route("loggedin/activity/list", name="listActivity")
+     *
+     * @Template()
+     */
+    public function listActivityAction(Request $request)
+    {
+        $list = 'toto';
+        return $this->render('CibActivityBundle:Activity:listActivity.html.twig');
+    }
+
+    /**
      * @param Request $request
      * @return array
      * @Route("/loggedin/signboard/display", name="displaySignboard")

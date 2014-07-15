@@ -16,6 +16,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity
  * @ORM\Table(name="cib_card")
+ * @ORM\Entity(repositoryClass="Cib\Bundle\CustomerBundle\Entity\cardRepository")
+ * @UniqueEntity(fields="cardNumber", message="une carte portant ce numéro existe déjà")
  */
 class Card
 {
@@ -34,6 +36,8 @@ class Card
      * @var
      *
      * @ORM\Column(type="text")
+     * @Assert\NotBlank()
+     * @Assert\Regex(pattern="/^\d{8,10}$/")
      */
     private $cardNumber;
 
@@ -45,109 +49,73 @@ class Card
      */
     private $cardValidity;
 
-
     /**
      * @var
      *
-     * @ORM\Column(type="integer")
-     */
-    private $Pme1;
-
-    /**
-     * @var
-     *
-     * @ORM\Column(type="integer")
-     */
-    private $Pme2;
-
-    /**
-     * @var
-     *
-     * @ORM\Column(type="integer")
-     */
-    private $Pme3;
-
-    /**
-     * @var
-     *
-     * @ORM\Column(type="integer")
-     */
-    private $Pme4;
-
-    /**
-     * @var
-     *
-     * @ORM\Column(type="integer")
-     */
-    private $Pme5;
-
-    /**
-     * @var
-     *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer",nullable=true)
      */
     private $moneyAmount1;
 
     /**
      * @var
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer",nullable=true)
      */
     private $unitAmount1;
 
     /**
      * @var
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer",nullable=true)
      */
     private $moneyAmount2;
 
     /**
      * @var
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer",nullable=true)
      */
     private $unitAmount2;
 
     /**
      * @var
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer",nullable=true)
      */
     private $moneyAmount3;
 
     /**
      * @var
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer",nullable=true)
      */
     private $unitAmount3;
 
     /**
      * @var
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer",nullable=true)
      */
     private $moneyAmount4;
 
     /**
      * @var
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer",nullable=true)
      */
     private $unitAmount4;
 
     /**
      * @var
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer",nullable=true)
      */
     private $moneyAmount5;
 
     /**
      * @var
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer",nullable=true)
      */
     private $unitAmount5;
 
@@ -167,13 +135,26 @@ class Card
 
     /**
      * @var
-     * @ORM\ManyToOne(targetEntity="Client")
-     * @ORM\JoinColumn(name="clientId", referencedColumnName="clientId", onDelete="SET NULL" )
+     * @ORM\ManyToOne(targetEntity="Client", inversedBy="card")
+     * @ORM\JoinColumn(name="clientId", referencedColumnName="clientId")
      */
     private $client;
 
 
+    private $token;
 
+
+
+
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    public function setToken($token)
+    {
+        $this->token = $token;
+    }
     /**
      * Get cardId
      *

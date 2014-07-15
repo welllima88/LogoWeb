@@ -1,0 +1,46 @@
+{%  extends "CibCoreBundle::layout.html.twig" %}
+
+{% block body %}
+    <div class="row">
+        <div class="container">
+            <div class="pagination">
+                <a href="{{ path('index') }}"> Acceuil</a> > Activité
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container-fluid" >
+            <div class="container">
+                <div style="margin-top: 5%">
+
+                    <a href="{{ path('displaySignboard') }}" style="text-decoration: none;font-family: 'Lato';color: gold">
+                        <div class="col-md-3" style="border:solid #606060 1px; background-color: #606060;padding: 10% 2%">
+                            <center><h1>ENSEIGNE</h1></center>
+                        </div>
+                    </a>
+                    <a href="{{ path('displayStore') }}" style="text-decoration: none;font-family: 'Lato';color: #606060">
+                        <div class="col-md-offset-1 col-md-3" style="border:solid gold 1px; background-color: #ffcc00;padding: 10% 2%">
+                            <center><h1>MAGASIN</h1></center>
+                        </div>
+                    </a>
+                    <a href="{{ path('displayTpe') }}" style="text-decoration: none;font-family: 'Lato';color: #606060">
+                        <div class="col-md-offset-1 col-md-3" style="border:solid gold 1px; background-color: #ffcc00;padding: 10% 2%">
+                            <center><h1>TPE</h1></center>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container-fluid">
+            <div class="container" style="padding-bottom: 5%">
+                <div style="margin-top: 5%">
+                    <center>
+
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

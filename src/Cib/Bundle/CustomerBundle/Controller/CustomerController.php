@@ -25,23 +25,36 @@ class CustomerController extends Controller
 
     /**
      * @param Request $request
+     * @param $page
+     * @internal param $search
      * @return array
      *
-     * @Route("/loggedin/client/display", name="displayClient")
+     * @Route("/loggedin/client/display/{page}", name="displayClient", defaults={ "page"  = 1,})
      * @Template()
      */
-    public function displayClientAction(Request $request)
+    public function displayClientAction(Request $request, $page)
     {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('CibCustomerBundle:Client');
-        $clients = $repo->findAll();
+        if(!$request->request->get('search'))
+            $clients = $repo->findAll();
+        else
+            $clients = $repo->selectClientList($em,$request->request->get('txtSearch'));
         $csrf = $this->get('form.csrf_provider');
         foreach($clients as $client)
             $client->setToken($csrf->generateCsrfToken($client->getClientId()));
 
 
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $clients,
+            $page,
+            10
+        );
+
+
         return[
-            'clients' => $clients,
+            'pagination' => $pagination,
         ];
     }
 
@@ -233,22 +246,35 @@ class CustomerController extends Controller
 
     /**
      * @param Request $request
+     * @param $page
      * @return array
-     * @Route("/loggedin/card/display", name="displayCard")
+     * @Route("/loggedin/card/display/{page}", name="displayCard", defaults={"page" = 1})
      *
      * @Template()
      */
-    public function displayCardAction(Request $request)
+    public function displayCardAction(Request $request, $page)
     {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('CibCustomerBundle:Card');
-        $cards = $repo->findAll();
+        if(!$request->request->get('search'))
+            $cards = $repo->findAll();
+        else
+            $cards = $repo->selectCardList($em,$request->request->get('txtSearch'));
+
         $csrf = $this->get('form.csrf_provider');
         foreach($cards as $card)
             $card->setToken($csrf->generateCsrfToken($card->getCardId()));
 
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $cards,
+            $page,
+            10
+        );
+
         return [
             'cards' => $cards,
+            'pagination' => $pagination,
         ];
     }
 

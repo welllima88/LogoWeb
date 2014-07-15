@@ -7,7 +7,7 @@ class AppKernel extends Kernel
 {
     public function registerBundles()
     {
-        $bundles = array(
+        $bundles = [
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
@@ -22,7 +22,8 @@ class AppKernel extends Kernel
             new Cib\Bundle\ActivityBundle\CibActivityBundle(),
             new Cib\Bundle\CustomerBundle\CibCustomerBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
-        );
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+        ];
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
 //            $bundles[] = new Acme\DemoBundle\AcmeDemoBundle();

@@ -2,35 +2,75 @@
 
 
 {% block body %}
+
+    <div class="row">
+        <div class="container">
+            <div class="pagination">
+                <a href="{{ path('index') }}"> Acceuil</a> > Cartes
+            </div>
+        </div>
+    </div>
+
     {% include 'CibCoreBundle:Core:displayFlash.html.twig' %}
 
-    {% if cards %}
-        <form action="{{ path('deleteCard') }}" method="post">
-        <table class="">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>numéro de carte</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
+    <div class="row" style="margin-top: 5%">
+        <div class="container">
+            <div class="col-xs-offset-4 col-xs-6">
+                <form action="{{ path('displayCard',{'page' : 1}) }}" method="post">
+                    <input type="text" name="txtSearch" placeholder="entrer le numéro de carte"/>
+                    <button type="submit" name="search" value="search">Rechercher</button>
+                </form>
+            </div>
+        </div>
+    </div>
 
-        {% for card in cards %}
-            <tbody>
-                <tr>
-                    <td><input type="checkbox" name="multiDelete[]" value="{{ card.cardId }}"></td>
-                    <td><a href="{{ path('displayDetailCard',{'id' : card.cardId}) }}"> {{ card.cardNumber }} </a></td>
-                    <td><a href="{{ path('editCard',{'id' : card.cardId}) }}">modifier</a></td>
-                    <td><a href="{{ path('deleteCard',{'id' : card.cardId, 'token' : card.token }) }}">supprimer</a></td>
-                </tr>
-            </tbody>
-        {% endfor %}
-        </table>
-        <button type="submit" name="delete "value="delete">supprimer</button>
-        </form>
+    {% if pagination %}
+        <div class="row" style="margin-top: 5%">
+            <div class="container">
+                <div class="col-xs-offset-3 col-xs-6">
+                    <form action="{{ path('deleteCard') }}" method="post">
+                        <table class="table table-bordered table-responsive">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>numéro de carte</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+
+                            {% for card in pagination.items %}
+                                <tbody>
+                                <tr>
+                                    <td><input type="checkbox" name="multiDelete[]" value="{{ card.cardId }}"></td>
+                                    <td><a href="{{ path('displayDetailCard',{'id' : card.cardId}) }}"> {{ card.cardNumber }} </a></td>
+                                    <td><a href="{{ path('editCard',{'id' : card.cardId}) }}" class="glyphicon glyphicon-edit" style="color:darkorange"></a></td>
+                                    <td><a href="{{ path('deleteCard',{'id' : card.cardId, 'token' : card.token }) }}" class="glyphicon glyphicon-remove" style="color:orangered"></a></td>
+                                </tr>
+                                </tbody>
+                            {% endfor %}
+                        </table>
+                        <button type="submit" name="delete" value="delete" class="btn btn-link glyphicon glyphicon-remove">supprimer<span style="font-style: italic"> (la séléction)</span></button>
+                        <a href="{{ path('addCard') }}" class="btn btn-link glyphicon glyphicon-floppy-save">Ajouter carte</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     {% endif %}
 
-    <a href="{{ path('addCard') }}">Ajouter carte</a>
+
+
+    <div class="row">
+        <div class="container">
+            <div class="col-xs-offset-3 col-xs-6">
+                <center>
+                    <div class="navigation">
+                        {{ knp_pagination_render(pagination) }}
+                    </div>
+                </center>
+            </div>
+        </div>
+    </div>
 
 {% endblock body %}

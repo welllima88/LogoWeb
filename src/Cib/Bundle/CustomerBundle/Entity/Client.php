@@ -17,6 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="cib_client")
+ * @ORM\Entity(repositoryClass="Cib\Bundle\CustomerBundle\Entity\clientRepository")
  */
 class Client
 {
