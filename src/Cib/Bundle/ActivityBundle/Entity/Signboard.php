@@ -15,6 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity
  * @ORM\Table(name="cib_signboard")
+ * @ORM\Entity(repositoryClass="Cib\Bundle\ActivityBundle\Entity\signboardRepository")
  * @UniqueEntity(fields="signboardName", message="une enseigne portant ce nom existe déjà")
  * @UniqueEntity(fields="signboardNumber", message="une enseigne portant ce numéro existe déjà")
  */

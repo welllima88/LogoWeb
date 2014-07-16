@@ -30,29 +30,40 @@ class ActivityController extends Controller
      */
     public function listActivityAction(Request $request)
     {
-        $list = 'toto';
         return $this->render('CibActivityBundle:Activity:listActivity.html.twig');
     }
 
     /**
      * @param Request $request
+     * @param $page
      * @return array
-     * @Route("/loggedin/signboard/display", name="displaySignboard")
+     * @Route("/loggedin/signboard/display/{page}", name="displaySignboard", defaults={"page" = 1})
      *
      * @Template()
      */
-    public function displaySignboardAction(Request $request)
+    public function displaySignboardAction(Request $request,$page)
     {
-        $em = $this->getDoctrine()->getRepository('CibActivityBundle:Signboard');
-        $signboards = $em->findAll();
+        $em = $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('CibActivityBundle:Signboard');
+        if(!$request->request->get('search'))
+            $signboards = $repo->findAll();
+        else
+            $signboards = $repo->selectSignboardList($em,$request->request->get('txtSearch'));
 
         $csrf = $this->get('form.csrf_provider');
         foreach($signboards as $signboard)
             $signboard->setToken($csrf->generateCsrfToken($signboard->getSignboardId()));
 
+        $paginator= $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $signboards,
+            $page,
+            10
+        );
+
 
         return[
-            'signboards' => $signboards,
+            'pagination' => $pagination,
         ];
     }
 
@@ -135,30 +146,54 @@ class ActivityController extends Controller
      * @param $token
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return array|RedirectResponse
-     * @Route("/loggedin/signboard/delete/{id}/{token}", name="deleteSignboard")
+     * @Route("/loggedin/signboard/delete/{id}/{token}", name="deleteSignboard", defaults={"id" = 0,"token" = 0})
      *
-     * @Template()
+     *
      */
     public function deleteSignboardAction(Request $request,$id,$token)
     {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('CibActivityBundle:Signboard');
-        $signboard = $repo->find($id);
+
 
         $csrf = $this->get('form.csrf_provider');
-        $tokenCompare = $csrf->generateCsrfToken($id);
 
-        if($token == $tokenCompare)
+        if($id ==0)
         {
-            $em->remove($signboard);
-            $em->flush();
-            $this->get('session')->getFlashBag()->all();
-            $this->get('session')->getFlashBag()->add('status','Suppression effectuée');
+            if($request->isMethod('POST'))
+            {
+                if($request->get('multiDelete'))
+                {
+                    foreach($request->get('multiDelete') as $signboardId)
+                    {
+                        $tempSignboard = $repo->find($signboardId);
+                        $em->remove($tempSignboard);
+                    }
+                    $em->flush();
+                    $this->get('session')->getFlashBag()->all();
+                    $this->get('session')->getFlashBag()->add('status','Suppression effectuée');
+                }
 
-            return $this->redirect($this->generateUrl('displaySignboard'));
+                return $this->redirect($this->generateUrl('displaySignboard'));
+            }
         }
         else
-            throw $this->createNotFoundException('page introuvable');
+        {
+            $signboard = $repo->find($id);
+            if($token == $csrf->generateCsrfToken($signboard->getSignboardId()))
+            {
+                $em->remove($signboard);
+                $em->flush();
+                $this->get('session')->getFlashBag()->all();
+                $this->get('session')->getFlashBag()->add('status','Suppression effectuée');
+
+                return $this->redirect($this->generateUrl('displaySignboard'));
+            }
+            else
+                throw $this->createNotFoundException('page introuvable');
+
+        }
+
 
     }
 

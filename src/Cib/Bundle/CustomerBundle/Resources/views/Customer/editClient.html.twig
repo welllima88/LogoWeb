@@ -2,10 +2,24 @@
 
 
 {% block body %}
-    {{ app.request.query.get('id') }}
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-offset-2 col-md-offset-2">
+
+    <div class="row">
+        <div class="container">
+            <div class="pagination">
+                <a href="{{ path('index') }}"> Acceuil</a> > Clients
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="container">
+            <center><h1 class="title">Détails de {{ form.vars.value.clientName }} {{ form.vars.value.clientFirstName }}</h1></center><br>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="container well well-lg">
+            <div>
                 <form action="{{ path('editClient',{'id':id}) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
                     {% include 'CibCustomerBundle:Form:formClient.html.twig' %}
                 </form>

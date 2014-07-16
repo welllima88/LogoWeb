@@ -2,15 +2,73 @@
 
 
 {% block body %}
+
+    <div class="row">
+        <div class="container">
+            <div class="pagination">
+                <a href="{{ path('index') }}"> Acceuil</a> > <a href="{{ path('listActivity') }}">Activité</a> > Enseignes
+            </div>
+        </div>
+    </div>
+
     {% include 'CibCoreBundle:Core:displayFlash.html.twig' %}
-    {% for signboard in signboards %}
-        {{ signboard.signboardName }}
-        <a href="{{ path('editSignboard',{'id':signboard.signboardId}) }}">modifier</a>
-        <a href="{{ path('deleteSignboard',{'id':signboard.signboardId,'token':signboard.token}) }}">supprimer</a>
 
-    {% else %}
-        Aucune enseigne à afficher
-    {% endfor %}
+    <div class="row" style="margin-top: 5%">
+        <div class="container">
+            <div class="col-xs-offset-4 col-xs-6">
+                <form action="{{ path('displaySignboard',{'page' : 1}) }}" method="post">
+                    <input type="text" name="txtSearch" placeholder="entrer le numéro ou nom de l'enseigne" />
+                    <button type="submit" name="search" value="search">Rechercher</button>
+                </form>
+            </div>
+        </div>
+    </div>
 
-    <a href="{{ path('addSignboard') }}">Ajouter enseigne</a>
+    {% if pagination %}
+        <div class="row" style="margin-top: 5%">
+            <div class="container">
+                <div class="col-xs-offset-3 col-xs-6">
+                    <form action="{{ path('deleteSignboard') }}" method="post">
+                        <table class="table table-bordered table-responsive">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Enseigne</th>
+                                <th>Numéro</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+
+                            {% for signboard in pagination.items %}
+                                <tbody>
+                                <tr>
+                                    <td><input type="checkbox" name="multiDelete[]" value="{{ signboard.signboardId }}"></td>
+                                    <td>{{ signboard.signboardName }}</td>
+                                    <td>{{ signboard.signboardNumber }}</td>
+                                    <td><a href="{{ path('editSignboard',{'id' : signboard.signboardId }) }}" class="glyphicon glyphicon-edit" style="color:darkorange"></a></td>
+                                    <td><a href="{{ path('deleteSignboard',{'id' : signboard.signboardId , 'token' : signboard.token }) }}" class="glyphicon glyphicon-remove" style="color:orangered"></a></td>
+                                </tr>
+                                </tbody>
+                            {% endfor %}
+                        </table>
+                        <button type="submit" name="delete" value="delete" class="btn btn-link glyphicon glyphicon-remove">supprimer<span style="font-style: italic"> (la séléction)</span></button>
+                        <a href="{{ path('addSignboard') }}" class="btn btn-link glyphicon glyphicon-floppy-save">Ajouter enseigne</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+
+    {#{% for signboard in signboards %}#}
+        {#{{ signboard.signboardName }}#}
+        {#<a href="{{ path('editSignboard',{'id':signboard.signboardId}) }}">modifier</a>#}
+        {#<a href="{{ path('deleteSignboard',{'id':signboard.signboardId,'token':signboard.token}) }}">supprimer</a>#}
+
+    {#{% else %}#}
+        {#Aucune enseigne à afficher#}
+    {#{% endfor %}#}
+
+    {#<a href="{{ path('addSignboard') }}" class="">Ajouter enseigne</a>#}
 {% endblock body %}

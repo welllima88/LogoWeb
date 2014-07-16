@@ -4,9 +4,8 @@
 // Récupère le div qui contient la collection de tags
 var collectionHolder = $('ul.card');
 // ajoute un lien « add a tag »
-var $addCardLink = $('<a href="#" class="add_card_link">Ajouter une carte</a>');
+var $addCardLink = $('<div class="row"><div class="container"><div class="col-md-offset-3 col-md-2"><a href="#" class="add_card_link btn btn-info">Ajouter une carte</a></div></div></div>');
 var $newLinkLi = $('<span></span>').append($addCardLink);
-//    var $removeLink = $('<li></li>').append($removeCardLink);
 
 jQuery(document).ready(function() {
     // ajoute l'ancre « ajouter un tag » et li à la balise ul
@@ -21,6 +20,10 @@ jQuery(document).ready(function() {
 
         // ajoute un nouveau formulaire tag (voir le prochain bloc de code)
         addCardForm(collectionHolder, $newLinkLi);
+    });
+
+    $('#toggleCard').click(function(){
+        $('.toggle').toggle();
     });
 });
 
