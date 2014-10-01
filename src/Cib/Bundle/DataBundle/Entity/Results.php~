@@ -1,0 +1,82 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: cedric
+ * Date: 18/09/2014
+ * Time: 10:05
+ */
+
+namespace Cib\Bundle\DataBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+
+/**
+ * Class Results
+ * @package Cib\Bundle\DataBundle\Entity
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="cib_results")
+ * @ORM\Entity(repositoryClass="Cib\Bundle\DataBundle\Entity\resultsRepository")
+ *
+ */
+class Results {
+
+    /**
+     * @var
+     *
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $resultId;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="text")
+     *
+     */
+    private $month;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="datetime")
+     */
+    private $dateStart;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="datetime")
+     */
+    private $dateStop;
+
+    /**
+     * @var
+     *
+     * @ORM\ManyToOne(targetEntity="Cib\Bundle\CustomerBundle\Entity\Card")
+     * @ORM\JoinColumn(name="cardId", referencedColumnName="cardId")
+     */
+    private $card;
+
+    /**
+     * @var
+     *
+     * @ORM\ManyToOne(targetEntity="Cib\Bundle\CustomerBundle\Entity\Client")
+     * @ORM\JoinColumn(name="clientId", referencedColumnName="clientId")
+     */
+    private $client;
+
+    /**
+     * @var
+     *
+     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\Store")
+     * @ORM\JoinColumn(name="storeId", referencedColumnName="storeId")
+     */
+    private $store;
+} 
