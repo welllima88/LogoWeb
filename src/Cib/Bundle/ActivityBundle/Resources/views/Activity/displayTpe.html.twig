@@ -2,15 +2,72 @@
 
 
 {% block body %}
+    <div class="row">
+        <div class="container">
+            <div class="pagination">
+                <a href="{{ path('index') }}"> Acceuil</a> > <a href="{{ path('listActivity') }}">Activité</a> > TPE
+            </div>
+        </div>
+    </div>
+
     {% include 'CibCoreBundle:Core:displayFlash.html.twig' %}
-    {% for tpe in tpes %}
-        {{ tpe.tpeNumber }}
-        <a href="{{ path('editTpe',{'id':tpe.tpeId}) }}">modifier</a>
-        <a href="{{ path('deleteTpe',{'id':tpe.tpeId,'token':tpe.token}) }}">supprimer</a>
 
-    {% else %}
-        Aucun tpe à afficher
-    {% endfor %}
+    <div class="row" style="margin-top: 5%">
+        <div class="container">
+            <div class="col-xs-offset-4 col-xs-6">
+                <form action="{{ path('displayTpe',{'page' : 1}) }}" method="post">
+                    <input type="text" name="txtSearch" placeholder="entrer le nom du magasin" />
+                    <button type="submit" name="search" value="search">Rechercher</button>
+                </form>
+            </div>
+        </div>
+    </div>
 
-    <a href="{{ path('addTpe') }}">Ajouter tpe</a>
+    {% if pagination %}
+        <div class="row" style="margin-top: 5%">
+            <div class="container">
+                <div class="col-xs-offset-3 col-xs-6">
+                    <form action="{{ path('deleteTpe') }}" method="post">
+                        <table class="table table-bordered table-responsive">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>TPE</th>
+                                {#<th>Numéro</th>#}
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+
+                            {% for tpe in pagination.items %}
+                                <tbody>
+                                <tr>
+                                    <td><input type="checkbox" name="multiDelete[]" value="{{ tpe.tpeId }}"></td>
+                                    <td>{{ tpe.tpeNumber }}</td>
+                                    {#<td>{{ signboard.signboardNumber }}</td>#}
+                                    <td><a href="{{ path('editTpe',{'id' : tpe.tpeId }) }}" class="glyphicon glyphicon-edit" style="color:darkorange"></a></td>
+                                    <td><a href="{{ path('deleteTpe',{'id' : tpe.tpeId , 'token' : tpe.token }) }}" class="glyphicon glyphicon-remove" style="color:orangered"></a></td>
+                                </tr>
+                                </tbody>
+                            {% endfor %}
+                        </table>
+                        <button type="submit" name="delete" value="delete" class="btn btn-link glyphicon glyphicon-remove">supprimer<span style="font-style: italic"> (la séléction)</span></button>
+                        <a href="{{ path('addTpe') }}" class="btn btn-link glyphicon glyphicon-floppy-save">Ajouter TPE</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+
+    {#{% for tpe in pagination.items %}#}
+        {#{{ tpe.tpeNumber }}#}
+        {#<a href="{{ path('editTpe',{'id':tpe.tpeId}) }}">modifier</a>#}
+        {#<a href="{{ path('deleteTpe',{'id':tpe.tpeId,'token':tpe.token}) }}">supprimer</a>#}
+
+    {#{% else %}#}
+        {#Aucun tpe à afficher#}
+    {#{% endfor %}#}
+
+    {#<a href="{{ path('addTpe') }}">Ajouter tpe</a>#}
 {% endblock body %}

@@ -28,40 +28,40 @@ class Parameters
      */
     private $parameterId;
 
-    /**
-     * @var
-     *
-     * @ORM\Column(type="boolean",nullable=true)
-     */
-    private $Pme1;
-
-    /**
-     * @var
-     *
-     * @ORM\Column(type="boolean",nullable=true)
-     */
-    private $Pme2;
-
-    /**
-     * @var
-     *
-     * @ORM\Column(type="boolean",nullable=true)
-     */
-    private $Pme3;
-
-    /**
-     * @var
-     *
-     * @ORM\Column(type="boolean",nullable=true)
-     */
-    private $Pme4;
-
-    /**
-     * @var
-     *
-     * @ORM\Column(type="boolean",nullable=true)
-     */
-    private $Pme5;
+//    /**
+//     * @var
+//     *
+//     * @ORM\Column(type="boolean",nullable=true)
+//     */
+//    private $Pme1;
+//
+//    /**
+//     * @var
+//     *
+//     * @ORM\Column(type="boolean",nullable=true)
+//     */
+//    private $Pme2;
+//
+//    /**
+//     * @var
+//     *
+//     * @ORM\Column(type="boolean",nullable=true)
+//     */
+//    private $Pme3;
+//
+//    /**
+//     * @var
+//     *
+//     * @ORM\Column(type="boolean",nullable=true)
+//     */
+//    private $Pme4;
+//
+//    /**
+//     * @var
+//     *
+//     * @ORM\Column(type="boolean",nullable=true)
+//     */
+//    private $Pme5;
 
     /**
      * @var
@@ -103,120 +103,120 @@ class Parameters
         return $this->parameterId;
     }
 
-    /**
-     * Set Pme1
-     *
-     * @param boolean $pme1
-     * @return Parameters
-     */
-    public function setPme1($pme1)
-    {
-        $this->Pme1 = $pme1;
-
-        return $this;
-    }
-
-    /**
-     * Get Pme1
-     *
-     * @return boolean 
-     */
-    public function getPme1()
-    {
-        return $this->Pme1;
-    }
-
-    /**
-     * Set Pme2
-     *
-     * @param boolean $pme2
-     * @return Parameters
-     */
-    public function setPme2($pme2)
-    {
-        $this->Pme2 = $pme2;
-
-        return $this;
-    }
-
-    /**
-     * Get Pme2
-     *
-     * @return boolean 
-     */
-    public function getPme2()
-    {
-        return $this->Pme2;
-    }
-
-    /**
-     * Set Pme3
-     *
-     * @param boolean $pme3
-     * @return Parameters
-     */
-    public function setPme3($pme3)
-    {
-        $this->Pme3 = $pme3;
-
-        return $this;
-    }
-
-    /**
-     * Get Pme3
-     *
-     * @return boolean 
-     */
-    public function getPme3()
-    {
-        return $this->Pme3;
-    }
-
-    /**
-     * Set Pme4
-     *
-     * @param boolean $pme4
-     * @return Parameters
-     */
-    public function setPme4($pme4)
-    {
-        $this->Pme4 = $pme4;
-
-        return $this;
-    }
-
-    /**
-     * Get Pme4
-     *
-     * @return boolean 
-     */
-    public function getPme4()
-    {
-        return $this->Pme4;
-    }
-
-    /**
-     * Set Pme5
-     *
-     * @param boolean $pme5
-     * @return Parameters
-     */
-    public function setPme5($pme5)
-    {
-        $this->Pme5 = $pme5;
-
-        return $this;
-    }
-
-    /**
-     * Get Pme5
-     *
-     * @return boolean 
-     */
-    public function getPme5()
-    {
-        return $this->Pme5;
-    }
+//    /**
+//     * Set Pme1
+//     *
+//     * @param boolean $pme1
+//     * @return Parameters
+//     */
+//    public function setPme1($pme1)
+//    {
+//        $this->Pme1 = $pme1;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get Pme1
+//     *
+//     * @return boolean
+//     */
+//    public function getPme1()
+//    {
+//        return $this->Pme1;
+//    }
+//
+//    /**
+//     * Set Pme2
+//     *
+//     * @param boolean $pme2
+//     * @return Parameters
+//     */
+//    public function setPme2($pme2)
+//    {
+//        $this->Pme2 = $pme2;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get Pme2
+//     *
+//     * @return boolean
+//     */
+//    public function getPme2()
+//    {
+//        return $this->Pme2;
+//    }
+//
+//    /**
+//     * Set Pme3
+//     *
+//     * @param boolean $pme3
+//     * @return Parameters
+//     */
+//    public function setPme3($pme3)
+//    {
+//        $this->Pme3 = $pme3;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get Pme3
+//     *
+//     * @return boolean
+//     */
+//    public function getPme3()
+//    {
+//        return $this->Pme3;
+//    }
+//
+//    /**
+//     * Set Pme4
+//     *
+//     * @param boolean $pme4
+//     * @return Parameters
+//     */
+//    public function setPme4($pme4)
+//    {
+//        $this->Pme4 = $pme4;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get Pme4
+//     *
+//     * @return boolean
+//     */
+//    public function getPme4()
+//    {
+//        return $this->Pme4;
+//    }
+//
+//    /**
+//     * Set Pme5
+//     *
+//     * @param boolean $pme5
+//     * @return Parameters
+//     */
+//    public function setPme5($pme5)
+//    {
+//        $this->Pme5 = $pme5;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get Pme5
+//     *
+//     * @return boolean
+//     */
+//    public function getPme5()
+//    {
+//        return $this->Pme5;
+//    }
 
     /**
      * Set ftpUrl

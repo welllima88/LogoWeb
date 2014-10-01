@@ -18,6 +18,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Response;
+use Unirest;
 
 
 class CustomerController extends Controller
@@ -59,19 +61,20 @@ class CustomerController extends Controller
     }
 
 
-
     /**
      *
      * @Route("/loggedin/client/edit/{id}", name="editClient")
      *
      * @Template()
+     * @param Request $request
+     * @param $id
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function editClientAction(Request $request,$id)
     {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('CibCustomerBundle:Client');
         $client = $repo->find($id);
-//        $client->addCard(new Card());
 
         $originalCards = new ArrayCollection();
 
@@ -79,43 +82,31 @@ class CustomerController extends Controller
             $originalCards->add($card);
         }
 
-//        var_dump($originalCards);
         $form = $this->createForm(new ClientType(),$client);
-//        $form->handleRequest($request);
-
         if($request->isMethod('POST')){
-
-            $form->bind($this->getRequest());
-
-//            var_dump($form);die;
-            if($form->isValid())
-            {
-//                $client = $form->getData();
-                $client->setAge();
-                $client->upload();
-                foreach ($originalCards as $card) {
-                    if ($client->getCard()->contains($card) == false) {
-                        // supprime la « Task » du Tag
-                        $card->setClient(null);
-                        // si c'était une relation ManyToOne, vous pourriez supprimer la
-                        // relation comme ceci
-                        // $tag->setTask(null);
-
-                        $em->remove($card);
-
-                        // si vous souhaitiez supprimer totalement le Tag, vous pourriez
-                        // aussi faire comme cela
-                        // $em->remove($tag);
-                    }
+            $form->handleRequest($request);
+        if($form->isValid())
+        {
+            $client->setAge();
+            $client->upload();
+            $bankAccount = $form->getData()->getBankAccount();
+            $bankAccount->setClient($form->getData());
+            $club = $form->getData()->getClub();
+            $club->addClient($form->getData());
+            foreach ($originalCards as $card) {
+                if ($client->getCard()->contains($card) == false) {
+                    $card->setClient(null);
+                    $em->remove($card);
                 }
-//                die;
-                $em->persist($client);
-                $em->flush();
-                $this->get('session')->getFlashBag()->all();
-                $this->get('session')->getFlashBag()->add('status','Modification(s) effectuée(s)');
-
-                return $this->redirect($this->generateUrl('displayClient'));
             }
+            $em->persist($client);
+            $em->flush();
+            $this->get('session')->getFlashBag()->all();
+            $this->get('session')->getFlashBag()->add('status','Modification(s) effectuée(s)');
+
+            return $this->redirect($this->generateUrl('displayClient'));
+        }
+
         }
 
         return[
@@ -137,13 +128,10 @@ class CustomerController extends Controller
     public function addClientAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $repo = $em->getRepository('CibCustomerBundle:Client');
-
         $client = new Client();
         $originalCards = new ArrayCollection();
 
         $form = $this->createForm(new ClientType(),$client);
-//        $form->handleRequest($request);
 
         if($request->isMethod('POST'))
         {
@@ -155,19 +143,12 @@ class CustomerController extends Controller
                 {
                     $client->setAge();
                     $client->upload();
+                    $bankAccount = $form->getData()->getBankAccount();
+                    $bankAccount->setClient($form->getData());
                     foreach ($originalCards as $card) {
                         if ($client->getCard()->contains($card) == false) {
-                            // supprime la « Task » du Tag
                             $card->setClient(null);
-                            // si c'était une relation ManyToOne, vous pourriez supprimer la
-                            // relation comme ceci
-                            // $tag->setTask(null);
-
                             $em->remove($card);
-
-                            // si vous souhaitiez supprimer totalement le Tag, vous pourriez
-                            // aussi faire comme cela
-                            // $em->remove($tag);
                         }
                     }
                     $em->persist($client);
@@ -428,6 +409,31 @@ class CustomerController extends Controller
             'card' => $card,
             'param' => $param,
         ];
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/loggedin/get/city", name="getCity")
+     */
+    public function getCityAction(Request $request)
+    {
+        if($request->isXmlHttpRequest())
+        {
+//            $ch = curl_init();
+//            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//            curl_setopt($ch, CURLOPT_URL,'https://api.zippopotam.us?country='.$request->request->get('country').'&postal_code='.$request->request->get('postal_code'));
+//
+//            $content = curl_exec($ch);
+            $response = Unirest::get("https://us-w1.zippopotam.us/".$request->query->get('country')."/".$request->query->get('postal_code'),
+                array(
+                    "X-Mashape-Key" => "cHk24A6zULmshCf1JFcPG6RVx2iXp1bTrENjsn8zLhYHurk8hU"
+                )
+            );
+
+            return new Response($response);
+        }
     }
 
 } 

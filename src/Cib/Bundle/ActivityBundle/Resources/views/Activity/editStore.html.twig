@@ -2,8 +2,24 @@
 
 
 {% block body %}
-    {{ app.request.query.get('id') }}
-    <form action="{{ path('editStore',{'id':id}) }}" method="post">
-        {% include 'CibActivityBundle:Form:formStore.html.twig' %}
-    </form>
+    <div class="row">
+        <div class="container">
+            <div class="pagination">
+                <a href="{{ path('index') }}"> Acceuil</a> > <a href="{{ path('listActivity') }}">Activité</a> > <a href="{{ path('displayStore') }}">Magasin</a> > Modifier
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <center><h1 class="title">Modifier un magasin</h1></center><br>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <form action="{{ path('editStore',{'id':id}) }}" method="post">
+                {% include 'CibActivityBundle:Form:formStore.html.twig' %}
+            </form>
+        </div>
+    </div>
+
 {% endblock body %}

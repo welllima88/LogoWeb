@@ -2,6 +2,7 @@
 
 namespace Cib\Bundle\CustomerBundle\Form;
 
+use Cib\Bundle\ActivityBundle\Form\ClubType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -79,6 +80,8 @@ class ClientType extends AbstractType
                 'by_reference' => false,
                 'label' => false,
             ))
+            ->add('bankAccount',new bankAccountType($this))
+            ->add('club',new ClubType($this))
         ;
     }
     

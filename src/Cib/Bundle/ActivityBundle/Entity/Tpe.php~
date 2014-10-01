@@ -15,6 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity
  * @ORM\Table(name="cib_tpe")
+ * @ORM\Entity(repositoryClass="Cib\Bundle\ActivityBundle\Entity\tpeRepository")
  * @UniqueEntity(fields="tpeNumber", message="un tpe portant ce numéro éxiste déjà")
  */
 class Tpe
@@ -33,8 +34,17 @@ class Tpe
      *
      * @ORM\Column(type="text")
      * @Assert\Length(min=6,max=8,minMessage="Le numéro de tpe doit être composé de 6 caractères minimum",maxMessage="Le numéro de tpe ne peut pas excéder 8 caractères")
+     * @Assert\Regex(pattern="/(^\d{6,8}$)/", message="le numéro de terminal est composé uniquement de 6 à 8 chiffres")
+     * @Assert\NotBlank()
      */
     private $tpeNumber;
+
+    /**
+     * @var
+     *
+     * @Assert\Type(type="Cib\ActivityBundle\Entity\tpeParameters")
+     */
+    private $tpeParameters;
 
 //    /**
 //     * @var
@@ -46,9 +56,100 @@ class Tpe
     /**
      * @var
      *
-     * @ORM\ManyToOne(targetEntity="Store")
-     * @ORM\JoinColumn(name="storeId", referencedColumnName="storeId")
+     * @ORM\ManyToOne(targetEntity="Store", cascade={"persist"})
+     * @ORM\JoinColumn(name="storeId", referencedColumnName="storeId", onDelete="SET NULL")
      */
     private $store;
 
-} 
+
+    private $token;
+
+    public function setToken($token)
+    {
+        $this->token = $token;
+    }
+
+    public function getToken()
+    {
+     return $this->token;
+    }
+
+    /**
+     * Get tpeId
+     *
+     * @return integer 
+     */
+    public function getTpeId()
+    {
+        return $this->tpeId;
+    }
+
+    /**
+     * Set tpeNumber
+     *
+     * @param string $tpeNumber
+     * @return Tpe
+     */
+    public function setTpeNumber($tpeNumber)
+    {
+        $this->tpeNumber = $tpeNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get tpeNumber
+     *
+     * @return string 
+     */
+    public function getTpeNumber()
+    {
+        return $this->tpeNumber;
+    }
+
+    /**
+     * Set store
+     *
+     * @param \Cib\Bundle\ActivityBundle\Entity\Store $store
+     * @return Tpe
+     */
+    public function setStore(\Cib\Bundle\ActivityBundle\Entity\Store $store = null)
+    {
+        $this->store = $store;
+
+        return $this;
+    }
+
+    /**
+     * Get store
+     *
+     * @return \Cib\Bundle\ActivityBundle\Entity\Store 
+     */
+    public function getStore()
+    {
+        return $this->store;
+    }
+
+    /**
+     * Set tpeParameters
+     *
+     * @param \Cib\Bundle\ActivityBundle\Entity\tpeParameters $tpeParameters
+     * @return Tpe
+     */
+    public function setTpeParameters(\Cib\Bundle\ActivityBundle\Entity\tpeParameters $tpeParameters = null)
+    {
+        $this->tpeParameters = $tpeParameters;
+
+        return $this;
+    }
+
+    /**
+     * Get tpeParameters
+     *
+     * @return \Cib\Bundle\ActivityBundle\Entity\tpeParameters 
+     */
+    public function getTpeParameters()
+    {
+        return $this->tpeParameters;
+    }
+}

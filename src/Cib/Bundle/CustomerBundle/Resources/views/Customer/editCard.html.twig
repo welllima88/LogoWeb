@@ -1,9 +1,26 @@
 {% extends 'CibCoreBundle::layout.html.twig' %}
 
 {% block body %}
-    {{ app.request.query.get('id') }}
-    <form action="{{ path('editCard',{'id':id}) }}" method="post" novalidate="novalidate">
-        {% include 'CibCustomerBundle:Form:formCard.html.twig' %}
-    </form>
+    <div class="row">
+        <div class="container">
+            <div class="pagination">
+                <a href="{{ path('index') }}"> Acceuil</a> > <a href="{{ path('displayCard') }}">Cartes</a> > Modifier
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <center><h1 class="title">Modifier une carte</h1></center><br>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <form action="{{ path('editCard',{'id':id}) }}" method="post" novalidate="novalidate">
+                {% include 'CibCustomerBundle:Form:formCard.html.twig' %}
+            </form>
+        </div>
+
+    </div>
+
 
 {% endblock body %}

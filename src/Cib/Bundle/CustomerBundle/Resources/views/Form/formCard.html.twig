@@ -1,2 +1,10 @@
-{{ form_widget(form) }}
-<button type="submit" name="valider">Valider</button>
+{% form_theme form 'form_table_layout.html.twig' %}
+<br>
+<div class="row">
+    <div class="container">
+        <div class="col-md-offset-4 col-xs-offset-4">
+            {{ form_widget(form) }}
+            <button type="submit" name="valider" class="btn btn-primary">Valider</button>
+        </div>
+    </div>
+</div>

@@ -14,13 +14,14 @@
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                {{ knp_menu_render('parameters',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
+                {{ knp_menu_render('results',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
                 {{ knp_menu_render('customer',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
                 {{ knp_menu_render('activity',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
+                {{ knp_menu_render('parameters',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
                 {{ knp_menu_render('loggedin',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
-            {% else %}
+        {% else %}
                 {{ knp_menu_render('login',{'template':'CibCoreBundle:Menu:knp_menu.html.twig'}) }}
-            {% endif %}
+        {% endif %}
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>

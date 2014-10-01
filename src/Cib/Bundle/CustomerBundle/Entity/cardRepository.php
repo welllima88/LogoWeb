@@ -4,6 +4,7 @@ namespace Cib\Bundle\CustomerBundle\Entity;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * cardRepository
@@ -20,6 +21,31 @@ class cardRepository extends EntityRepository
         $query = $em->createQuery($dql);
         $query->setParameter('search','%'.$search.'%');
 
-        return $clients = $query->getResult();
+        return $cards = $query->getResult();
+    }
+
+    public function selectAjaxCardList(EntityManager $em,$search)
+    {
+        $dql = "SELECT c FROM CibCustomerBundle:Card c WHERE c.cardNumber LIKE :search ";
+        $query = $em->createQuery($dql);
+        $query->setParameter('search','%'.$search.'%');
+
+        $cards = $query->getArrayResult();
+
+        return new Response(json_encode($cards), 200);
+//        return $cards = $query->getResult();
+    }
+
+    public function selectAjaxCard(EntityManager $em,$search)
+    {
+        $dql = "SELECT c FROM CibCustomerBundle:Card c WHERE c.cardNumber LIKE :search ";
+        $query = $em->createQuery($dql);
+        $query->setParameter('search',$search);
+
+//        if($query->getResult())
+//            return $query->getResult();
+//        else
+//            return new Card();
+        return $query->getOneOrNullResult();
     }
 }

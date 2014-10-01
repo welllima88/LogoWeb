@@ -2,9 +2,19 @@
 
 
 {% block body %}
+    <div class="row">
+        <div class="container">
+            <div class="pagination">
+                <a href="{{ path('index') }}"> Acceuil</a> > <a href="{{ path('displayCard') }}">Cartes</a> > Ajouter
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <center><h1 class="title">Ajouter une carte</h1></center><br>
+        </div>
+    </div>
     <form action="{{ path('addCard') }}" method="post" novalidate="novalidate">
         {% include 'CibCustomerBundle:Form:formCard.html.twig' %}
-        {#{{ form_widget(form) }}#}
-        {#<button type="submit" value="valider" name="valider">Valider</button>#}
     </form>
 {% endblock body %}

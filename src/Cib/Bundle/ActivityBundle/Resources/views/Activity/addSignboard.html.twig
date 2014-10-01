@@ -2,6 +2,18 @@
 
 
 {% block body %}
+    <div class="row">
+        <div class="container">
+            <div class="pagination">
+                <a href="{{ path('index') }}"> Acceuil</a> > <a href="{{ path('listActivity') }}">Activité</a> > <a href="{{ path('displaySignboard') }}">Enseigne</a> > Ajouter
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <center><h1 class="title">Ajouter une enseigne</h1></center><br>
+        </div>
+    </div>
 <form action="{{ path('addSignboard') }}" method="post">
     {% include 'CibActivityBundle:Form:formSignboard.html.twig' %}
 </form>

@@ -12,12 +12,17 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+
 
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="cib_client")
  * @ORM\Entity(repositoryClass="Cib\Bundle\CustomerBundle\Entity\clientRepository")
+ *
+ * @ExclusionPolicy("all")
  */
 class Client
 {
@@ -159,6 +164,29 @@ class Client
      */
     private $card;
 
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="Cib\Bundle\DataBundle\Entity\Transaction", mappedBy="client", cascade={"persist","remove"})
+     */
+    private $transaction;
+
+    /**
+     * @var
+     *
+     * @ORM\OneToOne(targetEntity="Cib\Bundle\CustomerBundle\Entity\bankAccount", mappedBy="client", cascade={"persist","remove"})
+     */
+    private $bankAccount;
+
+    /**
+     * @var
+     *
+     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\Club", inversedBy="client", cascade={"persist","remove"})
+     * @ORM\JoinColumn(name="clubId", referencedColumnName="clubId", onDelete="SET NULL" )
+     */
+    private $club;
+
+
+
     private $token;
 
 
@@ -224,7 +252,7 @@ class Client
     /**
      * Get clientId
      *
-     * @return integer 
+     * @return integer
      */
     public function getClientId()
     {
@@ -247,7 +275,7 @@ class Client
     /**
      * Get clientNumber
      *
-     * @return string 
+     * @return string
      */
     public function getClientNumber()
     {
@@ -270,7 +298,7 @@ class Client
     /**
      * Get clientName
      *
-     * @return string 
+     * @return string
      */
     public function getClientName()
     {
@@ -293,7 +321,7 @@ class Client
     /**
      * Get clientFirstName
      *
-     * @return string 
+     * @return string
      */
     public function getClientFirstName()
     {
@@ -316,7 +344,7 @@ class Client
     /**
      * Get clientGender
      *
-     * @return string 
+     * @return string
      */
     public function getClientGender()
     {
@@ -339,7 +367,7 @@ class Client
     /**
      * Get clientBirthDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getClientBirthDate()
     {
@@ -362,7 +390,7 @@ class Client
     /**
      * Get clientAddress
      *
-     * @return string 
+     * @return string
      */
     public function getClientAddress()
     {
@@ -385,7 +413,7 @@ class Client
     /**
      * Get clientZipCode
      *
-     * @return string 
+     * @return string
      */
     public function getClientZipCode()
     {
@@ -408,7 +436,7 @@ class Client
     /**
      * Get clientCity
      *
-     * @return string 
+     * @return string
      */
     public function getClientCity()
     {
@@ -431,7 +459,7 @@ class Client
     /**
      * Get homePhone
      *
-     * @return string 
+     * @return string
      */
     public function getHomePhone()
     {
@@ -454,7 +482,7 @@ class Client
     /**
      * Get cellPhone
      *
-     * @return string 
+     * @return string
      */
     public function getCellPhone()
     {
@@ -477,7 +505,7 @@ class Client
     /**
      * Get officePhone
      *
-     * @return string 
+     * @return string
      */
     public function getOfficePhone()
     {
@@ -500,7 +528,7 @@ class Client
     /**
      * Get mailAddress
      *
-     * @return string 
+     * @return string
      */
     public function getMailAddress()
     {
@@ -525,7 +553,7 @@ class Client
     /**
      * Get age
      *
-     * @return string 
+     * @return string
      */
     public function getAge()
     {
@@ -548,7 +576,7 @@ class Client
     /**
      * Get pictureName
      *
-     * @return string 
+     * @return string
      */
     public function getPictureName()
     {
@@ -571,7 +599,7 @@ class Client
     /**
      * Get picturePath
      *
-     * @return string 
+     * @return string
      */
     public function getPicturePath()
     {
@@ -648,7 +676,7 @@ class Client
     /**
      * Get card
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getCard()
     {
@@ -676,4 +704,83 @@ class Client
         }
     }
 
+
+    /**
+     * Add transaction
+     *
+     * @param \Cib\Bundle\DataBundle\Entity\Transaction $transaction
+     * @return Client
+     */
+    public function addTransaction(\Cib\Bundle\DataBundle\Entity\Transaction $transaction)
+    {
+        $this->transaction[] = $transaction;
+
+        return $this;
+    }
+
+    /**
+     * Remove transaction
+     *
+     * @param \Cib\Bundle\DataBundle\Entity\Transaction $transaction
+     */
+    public function removeTransaction(\Cib\Bundle\DataBundle\Entity\Transaction $transaction)
+    {
+        $this->transaction->removeElement($transaction);
+    }
+
+    /**
+     * Get transaction
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTransaction()
+    {
+        return $this->transaction;
+    }
+
+    /**
+     * Set bankAccount
+     *
+     * @param \Cib\Bundle\CustomerBundle\Entity\bankAccount $bankAccount
+     * @return Client
+     */
+    public function setBankAccount(\Cib\Bundle\CustomerBundle\Entity\bankAccount $bankAccount = null)
+    {
+        $this->bankAccount = $bankAccount;
+
+        return $this;
+    }
+
+    /**
+     * Get bankAccount
+     *
+     * @return \Cib\Bundle\CustomerBundle\Entity\bankAccount 
+     */
+    public function getBankAccount()
+    {
+        return $this->bankAccount;
+    }
+
+    /**
+     * Set club
+     *
+     * @param \Cib\Bundle\ActivityBundle\Entity\Club $club
+     * @return Client
+     */
+    public function setClub(\Cib\Bundle\ActivityBundle\Entity\Club $club = null)
+    {
+        $this->club = $club;
+
+        return $this;
+    }
+
+    /**
+     * Get club
+     *
+     * @return \Cib\Bundle\ActivityBundle\Entity\Club 
+     */
+    public function getClub()
+    {
+        return $this->club;
+    }
 }

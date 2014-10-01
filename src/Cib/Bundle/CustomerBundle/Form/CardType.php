@@ -16,11 +16,10 @@ class CardType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('cardNumber','text',array(
-                'label' => 'numéro de carte',
-                'required' => false,
+            ->add('cardNumber','text', array(
+                'label' => 'Numéro de carte',
                 'attr' => array(
-                    'maxlength' => 10
+                    'max_length' => 10,
                 )
             ))
             ->add('cardValidity','date',array(
@@ -54,8 +53,8 @@ class CardType extends AbstractType
             ))
             ->add('client','entity',array(
                 'class' => 'CibCustomerBundle:Client',
-                'property' => 'clientNumber',
-                'label' => 'numéro client',
+                'property' => 'clientName',
+                'label' => 'Client',
                 'required' => false,
             ))
         ;

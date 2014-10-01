@@ -2,13 +2,26 @@
 
 
 {% block body %}
-    <div class="container">
+    {#<div class="container">#}
+
     <div class="row">
-        <div class="col-xs-offset-2 col-md-offset-2">
+        <div class="container">
+            <div class="pagination">
+                <a href="{{ path('index') }}"> Acceuil</a> > <a href="{{ path('displayClient') }}">Clients</a> > Ajouter
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <center><h1 class="title">Ajouter un client</h1></center><br>
+        </div>
+    </div>
+    <div class="row">
+        {#<div class="col-xs-offset-2 col-md-offset-2">#}
             <form action="{{ path('addClient') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
                 {% include 'CibCustomerBundle:Form:formClient.html.twig' %}
             </form>
-        </div>
+        {#</div>#}
     </div>
-    </div>
+    {#</div>#}
 {% endblock body %}

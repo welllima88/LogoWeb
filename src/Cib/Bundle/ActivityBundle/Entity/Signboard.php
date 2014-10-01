@@ -11,6 +11,8 @@ namespace Cib\Bundle\ActivityBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 
 /**
  * @ORM\Entity
@@ -18,6 +20,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass="Cib\Bundle\ActivityBundle\Entity\signboardRepository")
  * @UniqueEntity(fields="signboardName", message="une enseigne portant ce nom existe déjà")
  * @UniqueEntity(fields="signboardNumber", message="une enseigne portant ce numéro existe déjà")
+ *
+ * @ExclusionPolicy("all")
  */
 class Signboard
 {

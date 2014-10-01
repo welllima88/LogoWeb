@@ -2,7 +2,19 @@
 
 
 {% block body %}
-    <form action="{{ path('addTpe') }}" method="post">
+    <div class="row">
+        <div class="container">
+            <div class="pagination">
+                <a href="{{ path('index') }}"> Acceuil</a> > <a href="{{ path('listActivity') }}">Activité</a> > <a href="{{ path('displayTpe') }}">TPE</a> > Ajouter
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <center><h1 class="title">Ajouter un TPE</h1></center><br>
+        </div>
+    </div>
+    <form action="{{ path('addTpe') }}" method="post" novalidate="novalidate">
         {% include 'CibActivityBundle:Form:formTpe.html.twig' %}
     </form>
 {% endblock body %}

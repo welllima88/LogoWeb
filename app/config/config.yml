@@ -98,6 +98,10 @@ services:
         class: Cib\Bundle\CustomerBundle\Menu\MenuBuilder
         arguments: ["@knp_menu.factory"]
 
+    cib_data_menu.menu_builder:
+        class: Cib\Bundle\DataBundle\Menu\MenuBuilder
+        arguments: ["@knp_menu.factory"]
+
     cib_core_menu.menu_builder:
         class: Cib\Bundle\CoreBundle\Menu\MenuBuilder
         arguments: ["@knp_menu.factory"]
@@ -138,6 +142,15 @@ services:
         tags:
             - { name: knp_menu.menu, alias: customer } # The alias is what is used to retrieve the menu
 
+    cib_menu.menu.data:
+        class: Knp\Menu\MenuItem # the service definition requires setting the class
+        factory_service: cib_data_menu.menu_builder
+        factory_method: createDataMenu
+        arguments: ["@request"]
+        scope: request # needed as we have the request as a dependency here
+        tags:
+            - { name: knp_menu.menu, alias: results } # The alias is what is used to retrieve the menu
+
     cib_menu.menu.parameters:
         class: Knp\Menu\MenuItem # the service definition requires setting the class
         factory_service: cib_core_menu.menu_builder
@@ -152,3 +165,19 @@ services:
         arguments: [@router]
         tags:
             - { name: kernel.event_subscriber }
+
+    serializer.method:
+        class: Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer
+        tags:
+            - { name: serializer.normalizer }
+    serializer.encoder.json:
+        class: Symfony\Component\Serializer\Encoder\JsonEncoder
+        tags:
+            - { name: serializer.encoder }
+    serializer:
+        class: Symfony\Component\Serializer\Serializer
+        tags:
+        - { name: serializer }
+        arguments:
+            - [@serializer.method]
+            - {json: @serializer.encoder.json }

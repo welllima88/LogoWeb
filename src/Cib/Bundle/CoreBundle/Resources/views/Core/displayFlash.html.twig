@@ -4,3 +4,24 @@
     </div>
 
 {% endfor %}
+
+{% for key in app.session.flashbag.get('ftpSuccess') %}
+    <div class="row alert alert-success">
+        {{ key }}
+    </div>
+
+{% endfor %}
+
+{% for key in app.session.flashbag.get('ftpError') %}
+    <div class="row alert alert-danger">
+        {{ key }}
+    </div>
+
+{% endfor %}
+
+{% for key in app.session.flashbag.get('error') %}
+    <div class="row alert alert-danger">
+        {{ key }}
+    </div>
+
+{% endfor %}

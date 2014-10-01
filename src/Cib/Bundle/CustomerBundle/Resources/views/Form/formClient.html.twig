@@ -1,147 +1,287 @@
-<div class="row">
-    <div class="col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3">
-        {{ form_label(form.clientNumber) }}
+<div class="tab-content">
+{% form_theme form.card 'form_table_layout.html.twig' %}
+{% form_theme form.bankAccount 'form_table_layout.html.twig' %}
+<div class="tab-pane active" id="ec">
+    <div class="row">
+        <div class="col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3">
+            {{ form_label(form.clientNumber) }}
+        </div>
+        <div class="col-xs-3 col-md-3">
+            {{ form_label(form.clientName) }}
+        </div>
+        <div class="col-xs-3 col-md-3">
+            {{ form_label(form.clientFirstName) }}
+        </div>
     </div>
-    <div class="col-xs-3 col-md-3">
-        {{ form_label(form.clientName) }}
+    <div class="row">
+        <div class=" col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3">
+            {{ form_errors(form.clientNumber) }}
+            {{ form_widget(form.clientNumber) }}
+        </div>
+        <div class="col-xs-3 col-md-3">
+            {{ form_errors(form.clientName) }}
+            {{ form_widget(form.clientName) }}
+        </div>
+        <div class="col-xs-3 col-md-3">
+            {{ form_errors(form.clientFirstName) }}
+            {{ form_widget(form.clientFirstName) }}
+        </div>
     </div>
-    <div class="col-xs-3 col-md-3">
-        {{ form_label(form.clientFirstName) }}
+    <div class="row">
+        <div class="col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3">
+            {{ form_label(form.clientGender) }}
+        </div>
+        <div class="col-xs-3 col-md-3">
+            {{ form_label(form.clientBirthDate) }}
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class=" col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3">
-        {{ form_errors(form.clientNumber) }}
-        {{ form_widget(form.clientNumber) }}
+    <div class="row">
+        <div class="col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3">
+            {{ form_errors(form.clientGender) }}
+            {{ form_widget(form.clientGender) }}
+        </div>
+        <div class="col-xs-3 col-md-3">
+            {{ form_errors(form.clientBirthDate) }}
+            {{ form_widget(form.clientBirthDate) }}
+        </div>
     </div>
-    <div class="col-xs-3 col-md-3">
-        {{ form_errors(form.clientName) }}
-        {{ form_widget(form.clientName) }}
-    </div>
-    <div class="col-xs-3 col-md-3">
-        {{ form_errors(form.clientFirstName) }}
-        {{ form_widget(form.clientFirstName) }}
-    </div>
+    <div class="row">
 
-</div>
-<div class="row">
-    <div class="col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3">
-        {{ form_label(form.clientGender) }}
+        <div class="col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3">
+            {{ form_label(form.clientAddress) }}
+        </div>
+        <div class="col-xs-3 col-md-3">
+            {{ form_label(form.clientZipCode) }}
+        </div>
+        <div class="col-xs-3 col-md-3">
+            {{ form_label(form.clientCity) }}
+        </div>
     </div>
-    <div class="col-xs-3 col-md-3">
-        {{ form_label(form.clientBirthDate) }}
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3">
-        {{ form_errors(form.clientGender) }}
-        {{ form_widget(form.clientGender) }}
-    </div>
-    <div class="col-xs-3 col-md-3">
-        {{ form_errors(form.clientBirthDate) }}
-        {{ form_widget(form.clientBirthDate) }}
-    </div>
-</div>
-<div class="row">
+    <div class="row">
 
-    <div class="col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3">
-        {{ form_label(form.clientAddress) }}
+        <div class=" col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3">
+            {{ form_errors(form.clientAddress) }}
+            {{ form_widget(form.clientAddress) }}
+        </div>
+        <div class="col-xs-3 col-md-3">
+            {{ form_errors(form.clientZipCode) }}
+            {{ form_widget(form.clientZipCode) }}
+        </div>
+        <div class="col-xs-3 col-md-3">
+            {{ form_errors(form.clientCity) }}
+            {{ form_widget(form.clientCity) }}
+        </div>
     </div>
-    <div class="col-xs-3 col-md-3">
-        {{ form_label(form.clientZipCode) }}
+    <div class="row">
+        <div class="col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3">
+            {{ form_label(form.homePhone) }}
+        </div>
+        <div class="col-xs-3 col-md-3">
+            {{ form_label(form.cellPhone) }}
+        </div>
+        <div class="col-xs-3 col-md-3">
+            {{ form_label(form.officePhone) }}
+        </div>
     </div>
-    <div class="col-xs-3 col-md-3">
-        {{ form_label(form.clientCity) }}
+    <div class="row">
+        <div class="col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3">
+            {{ form_errors(form.homePhone) }}
+            {{ form_widget(form.homePhone) }}
+        </div>
+        <div class="col-xs-3 col-md-3">
+            {{ form_errors(form.cellPhone) }}
+            {{ form_widget(form.cellPhone) }}
+        </div>
+        <div class="col-xs-3 col-md-3">
+            {{ form_errors(form.officePhone) }}
+            {{ form_widget(form.officePhone) }}
+        </div>
     </div>
-</div>
-<div class="row">
-
-    <div class=" col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3">
-        {{ form_errors(form.clientAddress) }}
-        {{ form_widget(form.clientAddress) }}
+    <div class="row">
+        <div class="col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3">
+            {{ form_label(form.mailAddress) }}
+        </div>
     </div>
-    <div class="col-xs-3 col-md-3">
-        {{ form_errors(form.clientZipCode) }}
-        {{ form_widget(form.clientZipCode) }}
+    <div class="row">
+        <div class="col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3">
+            {{ form_errors(form.mailAddress) }}
+            {{ form_widget(form.mailAddress) }}
+        </div>
     </div>
-    <div class="col-xs-3 col-md-3">
-        {{ form_errors(form.clientCity) }}
-        {{ form_widget(form.clientCity) }}
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3">
-        {{ form_label(form.homePhone) }}
-    </div>
-    <div class="col-xs-3 col-md-3">
-        {{ form_label(form.cellPhone) }}
-    </div>
-    <div class="col-xs-3 col-md-3">
-        {{ form_label(form.officePhone) }}
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3">
-        {{ form_errors(form.homePhone) }}
-        {{ form_widget(form.homePhone) }}
-    </div>
-    <div class="col-xs-3 col-md-3">
-        {{ form_errors(form.cellPhone) }}
-        {{ form_widget(form.cellPhone) }}
-    </div>
-    <div class="col-xs-3 col-md-3">
-        {{ form_errors(form.officePhone) }}
-        {{ form_widget(form.officePhone) }}
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3">
-        {{ form_label(form.mailAddress) }}
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3">
-        {{ form_errors(form.mailAddress) }}
-        {{ form_widget(form.mailAddress) }}
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3">
-        {{ form_label(form.pictureFile) }}
-        {{ form_errors(form.pictureFile) }}
-        {{ form_widget(form.pictureFile) }}
-    </div>
+    <div class="row">
+        <div class="col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3">
+            {{ form_label(form.pictureFile) }}
+            {{ form_errors(form.pictureFile) }}
+            {{ form_widget(form.pictureFile) }}
+        </div>
         {% if client.pictureName %}
             <div class="col-xs-3 col-md-3">
                 <img src="{{ asset(client.getWebPath()) }}" alt="photo identité" style="width:50%;height:50%"/>
             </div>
         {% endif %}
-</div>
-<br>
-<div class="row">
-    <div class="col-xs-offset-5 col-md-offset-5 col-xs-2 col-md-2">
-        <h1><a href="#" id="toggleCard">Cartes</a></h1>
     </div>
-</div>
-<div class="row">
-    <div class="col-xs-offset-2 col-md-offset-2">
-        <div class="toggle well" style="display: none">
-            <ul class="card list-inline" data-prototype="{{ form_widget(form.card.vars.prototype)|e }}">
-                {% for card in form.card %}
-                    <li style="list-style-type: none">
-                        {{ form_widget(card) }}
-                    </li>
-                {% endfor %}
-            </ul>
-            {{ form_rest(form) }}
-
+    <br>
+    <div class="row">
+        <div class="col-xs-offset-5 col-md-offset-5 col-xs-2 col-md-2">
+            <h1><a href="#" id="toggleCard">Cartes</a></h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-offset-2 col-md-offset-2">
+            <div class="toggle well" style="display: none">
+                <ul class="card list-inline" data-prototype="{{ form_widget(form.card.vars.prototype)|e }}">
+                    {% for card in form.card %}
+                        <li style="list-style-type: none">
+                            {{ form_widget(card) }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
     </div>
 </div>
+<div class="tab-pane" id="bank">
+    <div class="row">
+        {% for errors in form_errors(form.bankAccount) %}
+        <div class="alert alert-danger">
+            {{ form_errors(form.bankAccount) }}
+        </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+        <div class="col-xs-6 col-md-6">
+            {{ form_label(form.bankAccount.rum) }}{{ form_widget(form.bankAccount.rum) }}
+        </div>
+        <div class="col-xs-6 col-md-6">
+            {{ form_label(form.bankAccount.creditorCode) }}{{ form_widget(form.bankAccount.creditorCode) }}
+        </div>
+    </div>
+    <div class="container well col-xs-6 col-md-6">
+        <div class="row">
+            <h1>Débiteur</h1>
+        </div>
+        <div class="row">
+            <div class="col-xs-4 col-md-4">
+                {{ form_label(form.bankAccount.debtorName) }}
+            </div>
+            <div class="col-xs-8 col-md-8">
+                {{ form_widget(form.bankAccount.debtorName) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4 col-md-4">
+                {{ form_label(form.bankAccount.debtorAddress) }}
+            </div>
+            <div class="col-xs-8 col-md-8">
+                {{ form_widget(form.bankAccount.debtorAddress) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4 col-md-4">
+                {{ form_label(form.bankAccount.debtorZipCode) }}{{ form_widget(form.bankAccount.debtorZipCode) }}
+            </div>
+            <div class="col-xs-offset-1 col-md-offset-1 col-xs-4 col-md-4">
+                {{ form_label(form.bankAccount.debtorCity) }}{{ form_widget(form.bankAccount.debtorCity) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-12">
+                {{ form_label(form.bankAccount.debtorCountry) }}{{ form_widget(form.bankAccount.debtorCountry) }}
+            </div>
+        </div>
+    </div>
+    <div class="container well col-xs-6 col-md-6">
+        <div class="row">
+            <h1>Créditeur</h1>
+        </div>
+        <div class="row">
+            <div class="col-xs-4 col-md-4">
+                {{ form_label(form.bankAccount.creditorName) }}
+            </div>
+            <div class="col-xs-8 col-md-8">
+                {{ form_widget(form.bankAccount.creditorName) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4 col-md-4">
+                {{ form_label(form.bankAccount.creditorAddress) }}
+            </div>
+            <div class="col-xs-8 col-md-8">
+                {{ form_widget(form.bankAccount.creditorAddress) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4 col-md-4">
+                {{ form_label(form.bankAccount.creditorZipCode) }}{{ form_widget(form.bankAccount.creditorZipCode) }}
+            </div>
+            <div class="col-xs-offset-1 col-md-offset-1 col-xs-4 col-md-4">
+                {{ form_label(form.bankAccount.creditorCity) }}{{ form_widget(form.bankAccount.creditorCity) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-12">
+                {{ form_label(form.bankAccount.creditorCountry) }}{{ form_widget(form.bankAccount.creditorCountry) }}
+            </div>
+        </div>
+    </div>
+    <div class="container well col-xs-12 col-md-12">
+        <div class="row">
+            <div class="col-xs-1 col-md-1">
+                {{ form_label(form.bankAccount.iban) }}
+            </div>
+            <div class="col-xs-4 col-md-4">
+                {{ form_widget(form.bankAccount.iban) }}
+            </div>
+            <div class="col-xs-offset-1 col-md-offset-1 col-xs-1 col-md-1">
+                {{ form_label(form.bankAccount.bic) }}
+            </div>
+            <div class="col-xs-4 col-md-4">
+                {{ form_widget(form.bankAccount.bic) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-1 col-md-1">
+                {{ form_label(form.bankAccount.placeSign) }}
+            </div>
+            <div class="col-xs-4 col-md-4">
+                {{ form_widget(form.bankAccount.placeSign) }}
+            </div>
+            <div class="col-xs-offset-1 col-md-offset-1 col-xs-1 col-md-1">
+                {{ form_label(form.bankAccount.dateSign) }}
+            </div>
+            <div class="col-xs-4 col-md-4">
+                {{ form_widget(form.bankAccount.dateSign) }}
+            </div>
+        </div>
+    </div>
+
+    {{ form_widget(form.bankAccount) }}
+</div>
+<div class="tab-pane" id="club">
+    <div class="row">
+        <div class="col-xs-1 col-md-1">
+            {{ form_label(form.club.clubNumber) }}
+        </div>
+        <div class="col-xs-4 col-md-4">
+            {{ form_widget(form.club.clubNumber) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-1 col-xs-1">
+            {{ form_label(form.club.clubName) }}
+        </div>
+        <div class="col-xs-4 col-md-4">
+            {{ form_widget(form.club.clubName) }}
+        </div>
+    </div>
+</div>
+    {{ form_widget(form) }}
 <br>
 <div class="row">
 
         <button type="submit" value="valider" name="valider" class="btn btn-primary btn-lg" style="margin-left: 44%">Valider</button>
+
+</div>
 
 </div>
 

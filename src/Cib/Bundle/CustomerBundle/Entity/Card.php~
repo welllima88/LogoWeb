@@ -140,6 +140,12 @@ class Card
      */
     private $client;
 
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="Cib\Bundle\DataBundle\Entity\Transaction", mappedBy="card", cascade={"persist","remove"})
+     */
+    private $transaction;
+
 
     private $token;
 

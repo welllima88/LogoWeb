@@ -2,6 +2,7 @@
 
 namespace Cib\Bundle\ActivityBundle\Form;
 
+use Cib\Bundle\ActivityBundle\Entity\tpeParameters;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -11,6 +12,7 @@ class TpeType extends AbstractType
 
     private $store;
 
+    private $tpeParameters;
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -30,6 +32,8 @@ class TpeType extends AbstractType
                 'data' => $this->store,
                 'label' => 'Magasin',
             ))
+//            ->add('cib_bundle_activitybundle_tpeparameters',new tpeParametersType());
+            ->add('tpeParameters',new tpeParametersType($this->tpeParameters) )
         ;
     }
     
@@ -39,7 +43,8 @@ class TpeType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Cib\Bundle\ActivityBundle\Entity\Tpe'
+            'data_class' => 'Cib\Bundle\ActivityBundle\Entity\Tpe',
+            'cascade_validation' => true,
         ));
     }
 
@@ -53,6 +58,10 @@ class TpeType extends AbstractType
 
     public function __construct(array $arrayOtpions = null)
     {
-            $this->store = $arrayOtpions['store'];
+        $this->store = $arrayOtpions['store'];
+        if($arrayOtpions['tpeParameters'])
+            $this->tpeParameters = $arrayOtpions['tpeParameters'];
+        else
+            $this->tpeParameters = new tpeParameters();
     }
 }

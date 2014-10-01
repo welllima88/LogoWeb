@@ -140,6 +140,12 @@ class Card
      */
     private $client;
 
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="Cib\Bundle\DataBundle\Entity\Transaction", mappedBy="card", cascade={"persist","remove"})
+     */
+    private $transaction;
+
 
     private $token;
 
@@ -211,120 +217,120 @@ class Card
         return $this->cardValidity;
     }
 
-    /**
-     * Set Pme1
-     *
-     * @param integer $pme1
-     * @return Card
-     */
-    public function setPme1($pme1)
-    {
-        $this->Pme1 = $pme1;
-
-        return $this;
-    }
-
-    /**
-     * Get Pme1
-     *
-     * @return integer 
-     */
-    public function getPme1()
-    {
-        return $this->Pme1;
-    }
-
-    /**
-     * Set Pme2
-     *
-     * @param integer $pme2
-     * @return Card
-     */
-    public function setPme2($pme2)
-    {
-        $this->Pme2 = $pme2;
-
-        return $this;
-    }
-
-    /**
-     * Get Pme2
-     *
-     * @return integer 
-     */
-    public function getPme2()
-    {
-        return $this->Pme2;
-    }
-
-    /**
-     * Set Pme3
-     *
-     * @param integer $pme3
-     * @return Card
-     */
-    public function setPme3($pme3)
-    {
-        $this->Pme3 = $pme3;
-
-        return $this;
-    }
-
-    /**
-     * Get Pme3
-     *
-     * @return integer 
-     */
-    public function getPme3()
-    {
-        return $this->Pme3;
-    }
-
-    /**
-     * Set Pme4
-     *
-     * @param integer $pme4
-     * @return Card
-     */
-    public function setPme4($pme4)
-    {
-        $this->Pme4 = $pme4;
-
-        return $this;
-    }
-
-    /**
-     * Get Pme4
-     *
-     * @return integer 
-     */
-    public function getPme4()
-    {
-        return $this->Pme4;
-    }
-
-    /**
-     * Set Pme5
-     *
-     * @param integer $pme5
-     * @return Card
-     */
-    public function setPme5($pme5)
-    {
-        $this->Pme5 = $pme5;
-
-        return $this;
-    }
-
-    /**
-     * Get Pme5
-     *
-     * @return integer 
-     */
-    public function getPme5()
-    {
-        return $this->Pme5;
-    }
+//    /**
+//     * Set Pme1
+//     *
+//     * @param integer $pme1
+//     * @return Card
+//     */
+//    public function setPme1($pme1)
+//    {
+//        $this->Pme1 = $pme1;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get Pme1
+//     *
+//     * @return integer
+//     */
+//    public function getPme1()
+//    {
+//        return $this->Pme1;
+//    }
+//
+//    /**
+//     * Set Pme2
+//     *
+//     * @param integer $pme2
+//     * @return Card
+//     */
+//    public function setPme2($pme2)
+//    {
+//        $this->Pme2 = $pme2;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get Pme2
+//     *
+//     * @return integer
+//     */
+//    public function getPme2()
+//    {
+//        return $this->Pme2;
+//    }
+//
+//    /**
+//     * Set Pme3
+//     *
+//     * @param integer $pme3
+//     * @return Card
+//     */
+//    public function setPme3($pme3)
+//    {
+//        $this->Pme3 = $pme3;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get Pme3
+//     *
+//     * @return integer
+//     */
+//    public function getPme3()
+//    {
+//        return $this->Pme3;
+//    }
+//
+//    /**
+//     * Set Pme4
+//     *
+//     * @param integer $pme4
+//     * @return Card
+//     */
+//    public function setPme4($pme4)
+//    {
+//        $this->Pme4 = $pme4;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get Pme4
+//     *
+//     * @return integer
+//     */
+//    public function getPme4()
+//    {
+//        return $this->Pme4;
+//    }
+//
+//    /**
+//     * Set Pme5
+//     *
+//     * @param integer $pme5
+//     * @return Card
+//     */
+//    public function setPme5($pme5)
+//    {
+//        $this->Pme5 = $pme5;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get Pme5
+//     *
+//     * @return integer
+//     */
+//    public function getPme5()
+//    {
+//        return $this->Pme5;
+//    }
 
     /**
      * Set moneyAmount1
@@ -623,5 +629,45 @@ class Card
     public function getClient()
     {
         return $this->client;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->transaction = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add transaction
+     *
+     * @param \Cib\Bundle\DataBundle\Entity\Transaction $transaction
+     * @return Card
+     */
+    public function addTransaction(\Cib\Bundle\DataBundle\Entity\Transaction $transaction)
+    {
+        $this->transaction[] = $transaction;
+
+        return $this;
+    }
+
+    /**
+     * Remove transaction
+     *
+     * @param \Cib\Bundle\DataBundle\Entity\Transaction $transaction
+     */
+    public function removeTransaction(\Cib\Bundle\DataBundle\Entity\Transaction $transaction)
+    {
+        $this->transaction->removeElement($transaction);
+    }
+
+    /**
+     * Get transaction
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTransaction()
+    {
+        return $this->transaction;
     }
 }

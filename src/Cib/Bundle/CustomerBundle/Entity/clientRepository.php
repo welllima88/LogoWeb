@@ -4,6 +4,8 @@ namespace Cib\Bundle\CustomerBundle\Entity;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\HttpFoundation\Response;
+use Cib\Bundle\CustomerBundle\Entity\Client;
 
 /**
  * clientRepository
@@ -21,5 +23,29 @@ class clientRepository extends EntityRepository
         $query->setParameter('search','%'.$search.'%');
 
         return $clients = $query->getResult();
+    }
+
+    public function selectAjaxClientList(EntityManager $em,$search)
+    {
+        $dql = "SELECT c FROM CibCustomerBundle:Client c WHERE (c.clientName LIKE :search OR c.clientFirstName LIKE :search) ";
+        $query = $em->createQuery($dql);
+        $query->setParameter('search','%'.$search.'%');
+
+        $clients = $query->getArrayResult();
+
+        return new Response(json_encode($clients), 200);
+    }
+
+    public function selectAjaxClient(EntityManager $em,$search)
+    {
+        $dql = "SELECT c FROM CibCustomerBundle:Client c WHERE (c.clientName LIKE :search OR c.clientFirstName LIKE :search) ";
+        $query = $em->createQuery($dql);
+        $query->setParameter('search',$search);
+
+//        if($query->getResult())
+//            return ($query->getResult());
+//        else
+//            return new Client();
+        return $query->getOneOrNullResult();
     }
 }

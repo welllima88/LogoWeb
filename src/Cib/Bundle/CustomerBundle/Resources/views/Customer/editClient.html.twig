@@ -6,21 +6,30 @@
     <div class="row">
         <div class="container">
             <div class="pagination">
-                <a href="{{ path('index') }}"> Acceuil</a> > Clients
+                <a href="{{ path('index') }}"> Acceuil</a> > <a href="{{ path('displayClient') }}">Clients</a> > Mofdifier
             </div>
         </div>
     </div>
 
     <div class="row">
         <div class="container">
-            <center><h1 class="title">Détails de {{ form.vars.value.clientName }} {{ form.vars.value.clientFirstName }}</h1></center><br>
+            <center><h1 class="title">Modifier les informations de {{ form.vars.value.clientName }} {{ form.vars.value.clientFirstName }}</h1></center><br>
         </div>
     </div>
 
     <div class="row">
+        <div class="container">
+            <ul class="nav nav-pills" role="tablist" id="clientTab">
+                <li class="active"><a href="#ec" role="tab" data-toggle="tab">Etat Civil</a></li>
+                <li><a href="#bank" role="tab" data-toggle="tab">Bancaire</a></li>
+                <li><a href="#club" role="tab" data-toggle="tab">Club</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
         <div class="container well well-lg">
             <div>
-                <form action="{{ path('editClient',{'id':id}) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
+                <form action="{{ path('editClient',{'id':id}) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate" class="{{ path('getCity') }}">
                     {% include 'CibCustomerBundle:Form:formClient.html.twig' %}
                 </form>
             </div>

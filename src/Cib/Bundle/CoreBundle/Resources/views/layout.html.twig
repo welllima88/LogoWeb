@@ -8,8 +8,13 @@
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('bundles/cibcore/bootstrap/css/bootstrap.css') }}" type="text/css" media="all"/>
         <link rel="stylesheet" href="{{ asset('bundles/cibcore/bootstrap/css/bootstrap-theme.css') }}" type="text/css" media="all"/>
+        <link rel="stylesheet" href="{{ asset('bundles/cibcore/jquery-ui/jquery-ui.css') }}" type="text/css" media="all"/>
     {% endblock %}
+
+
+
     <link href='http://fonts.googleapis.com/css?family=Lato:400,700,900' rel='stylesheet' type='text/css'>
+
 </head>
 <body>
 
@@ -20,14 +25,18 @@
 {% block body %}
 
 {% endblock %}
-
-{% block javascript %}
-    <script src="{{ asset('bundles/cibcore/jquery/jquery.js') }}"></script>
-    <script src="{{ asset('bundles/cibcore/bootstrap/js/bootstrap.js') }}"></script>
-    {% if client is defined%}
+    {% block javascript %}
+        <script src="{{ asset('bundles/cibcore/jquery/jquery.js') }}"></script>
+        <script src="{{ asset('bundles/cibcore/jquery-ui/jquery-ui.js') }}"></script>
+        <script src="{{ asset('bundles/cibcore/bootstrap/js/bootstrap.js') }}"></script>
+        {% if client is defined %}
         <script src="{{ asset('bundles/cibcustomer/formClient.js') }}"></script>
-    {% endif %}
-{% endblock %}
+        {% endif %}
+        {% if results is defined %}
+            <script src="{{ asset('bundles/cibdata/formResults.js') }}"></script>
+        {% endif %}
+    {% endblock %}
+
 </div>
 <div class="row">
     <div class="container">

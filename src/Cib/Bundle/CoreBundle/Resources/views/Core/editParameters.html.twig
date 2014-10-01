@@ -2,7 +2,25 @@
 
 
 {% block body %}
-    <form action="{{ path('editParameters',{'id':param.parameterId}) }}" method="post" novalidate="novalidate">
-        {% include 'CibCoreBundle:Form:formParameters.html.twig' %}
-    </form>
+    <div class="row">
+        <div class="container">
+            <div class="pagination">
+                <a href="{{ path('index') }}">Acceuil</a> > <a href="{{ path('displayParameters') }}">Parameters</a> > Modifier
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <center><h1 class="title">Modifier un paramètre</h1></center><br>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <div class="col-md-offset-2 col-xs-offset-2">
+                <form action="{{ path('editParameters',{'id':param.parameterId}) }}" method="post" novalidate="novalidate">
+                    {% include 'CibCoreBundle:Form:formParameters.html.twig' %}
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock body %}

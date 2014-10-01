@@ -34,4 +34,4 @@ class MenuBuilder
 
         return $menu;
     }
-} 
+}

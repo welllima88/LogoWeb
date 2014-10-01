@@ -2,51 +2,71 @@
 
 
 {% block body %}
+    <div class="row">
+        <div class="container">
+            <div class="pagination">
+                <a href="{{ path('index') }}"> Acceuil</a> > Parametres
+            </div>
+        </div>
+    </div>
+
     {% include 'CibCoreBundle:Core:displayFlash.html.twig' %}
     {% for parameter in parameters %}
-        <table>
-            <thead>
-            <tr>
-                <th>PME1</th>
-                <th>PME2</th>
-                <th>PME3</th>
-                <th>PME4</th>
-                <th>PME5</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td><input type="checkbox" {% if parameter.Pme1 %} checked {% endif %} disabled> </td>
-                <td><input type="checkbox" {% if parameter.Pme2 %} checked {% endif %} disabled> </td>
-                <td><input type="checkbox" {% if parameter.Pme3 %} checked {% endif %} disabled> </td>
-                <td><input type="checkbox" {% if parameter.Pme4 %} checked {% endif %} disabled> </td>
-                <td><input type="checkbox" {% if parameter.Pme5 %} checked {% endif %} disabled> </td>
-            </tr>
-            </tbody>
-        </table>
-        <table>
-            <thead>
-            <tr>
-                <th>url ftp</th>
-                <th>port ftp</th>
-                <th>login ftp</th>
-                <th>mdp ftp</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>{{ parameter.ftpUrl }}</td>
-                <td>{{ parameter.ftpPort }}</td>
-                <td>{{ parameter.ftpUser }}</td>
-                <td>{{ parameter.ftpPassword }}</td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="row" style="margin-top: 5%">
+            <div class="container">
+                <div class="col-xs-offset-3 col-xs-6">
+                {#<table class="table table-bordered table-responsive">#}
+                    {#<thead>#}
+                    {#<tr>#}
+                        {#<th>PME1</th>#}
+                        {#<th>PME2</th>#}
+                        {#<th>PME3</th>#}
+                        {#<th>PME4</th>#}
+                        {#<th>PME5</th>#}
+                    {#</tr>#}
+                    {#</thead>#}
+                    {#<tbody>#}
+                    {#<tr>#}
+                        {#<td><input type="checkbox" {% if parameter.Pme1 %} checked {% endif %} disabled> </td>#}
+                        {#<td><input type="checkbox" {% if parameter.Pme2 %} checked {% endif %} disabled> </td>#}
+                        {#<td><input type="checkbox" {% if parameter.Pme3 %} checked {% endif %} disabled> </td>#}
+                        {#<td><input type="checkbox" {% if parameter.Pme4 %} checked {% endif %} disabled> </td>#}
+                        {#<td><input type="checkbox" {% if parameter.Pme5 %} checked {% endif %} disabled> </td>#}
+                    {#</tr>#}
+                    {#</tbody>#}
+                {#</table>#}
+                <table class="table table-bordered table-responsive">
+                    <thead>
+                    <tr>
+                        <th>url ftp</th>
+                        <th>port ftp</th>
+                        <th>login ftp</th>
+                        <th>mdp ftp</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{ parameter.ftpUrl }}</td>
+                        <td>{{ parameter.ftpPort }}</td>
+                        <td>{{ parameter.ftpUser }}</td>
+                        <td>{{ parameter.ftpPassword }}</td>
+                    </tr>
+                    </tbody>
+                </table>
 
 
+                </div>
+            </div>
+        </div>
 
+        <div class="row">
+            <div class="container">
+                <div class="col-md-offset-5 col-xs-offset-4">
+                    <a href="{{ path('editParameters',{'id':parameter.parameterId}) }}">modifier</a>
+                </div>
+            </div>
+        </div>
 
-        <a href="{{ path('editParameters',{'id':parameter.parameterId}) }}">modifier</a>
         {#<a href="{{ path('deleteStore',{'id':store.storeId,'token':store.token}) }}">supprimer</a>#}
 
     {% else %}

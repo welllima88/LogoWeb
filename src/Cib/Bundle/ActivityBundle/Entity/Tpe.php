@@ -8,6 +8,7 @@
 
 namespace Cib\Bundle\ActivityBundle\Entity;
 
+use Cib\Bundle\FtpBundle\Entity\Ftp;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -15,6 +16,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity
  * @ORM\Table(name="cib_tpe")
+ * @ORM\Entity(repositoryClass="Cib\Bundle\ActivityBundle\Entity\tpeRepository")
  * @UniqueEntity(fields="tpeNumber", message="un tpe portant ce numéro éxiste déjà")
  */
 class Tpe
@@ -37,6 +39,14 @@ class Tpe
      * @Assert\NotBlank()
      */
     private $tpeNumber;
+
+    /**
+     * @var
+     *
+     * @ORM\OneToOne(targetEntity="tpeParameters", cascade="persist")
+     * @ORM\JoinColumn(name="tpeParametersId", referencedColumnName="tpeParametersId")
+     */
+    private $tpeParameters;
 
 //    /**
 //     * @var
@@ -120,5 +130,62 @@ class Tpe
     public function getStore()
     {
         return $this->store;
+    }
+
+    /**
+     * Set tpeParameters
+     *
+     * @param \Cib\Bundle\ActivityBundle\Entity\tpeParameters $tpeParameters
+     * @return Tpe
+     */
+    public function setTpeParameters(\Cib\Bundle\ActivityBundle\Entity\tpeParameters $tpeParameters = null)
+    {
+        $this->tpeParameters = $tpeParameters;
+
+        return $this;
+    }
+
+    /**
+     * Get tpeParameters
+     *
+     * @return \Cib\Bundle\ActivityBundle\Entity\tpeParameters 
+     */
+    public function getTpeParameters()
+    {
+        return $this->tpeParameters;
+    }
+
+    public function uploadParameterFile(Ftp $ftp)
+    {
+        return $ftp->uploadParameterFile($this);
+    }
+
+    public function rmdir_recursive()
+    {
+        $dir = $this->getTpeParameters()->getUploadDir().'/'.$this->getTpeNumber();
+        //Liste le contenu du répertoire dans un tableau
+        $dir_content = @scandir($dir);
+        //Est-ce bien un répertoire?
+        if($dir_content !== FALSE){
+            //Pour chaque entrée du répertoire
+            foreach ($dir_content as $entry)
+            {
+                //Raccourcis symboliques sous Unix, on passe
+                if(!in_array($entry, array('.','..'))){
+                    //On retrouve le chemin par rapport au début
+                    $entry = $dir . '/' . $entry;
+                    //Cette entrée n'est pas un dossier: on l'efface
+                    if(!is_dir($entry)){
+                        unlink($entry);
+                    }
+                    //Cette entrée est un dossier, on recommence sur ce dossier
+                    else{
+                        rmdir_recursive($entry);
+                    }
+                }
+            }
+        }
+        //On a bien effacé toutes les entrées du dossier, on peut à présent l'effacer
+        return @rmdir($dir);
     }
 }

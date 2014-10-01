@@ -9,9 +9,12 @@
 namespace Cib\Bundle\ActivityBundle\Controller;
 
 
+use Cib\Bundle\ActivityBundle\Entity\Tpe;
+use Cib\Bundle\ActivityBundle\Entity\tpeParameters;
 use Cib\Bundle\ActivityBundle\Form\SignboardType;
 use Cib\Bundle\ActivityBundle\Form\StoreType;
 use Cib\Bundle\ActivityBundle\Form\TpeType;
+use Cib\Bundle\FtpBundle\Entity\Ftp;
 use Proxies\__CG__\Cib\Bundle\ActivityBundle\Entity\Store;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -199,22 +202,34 @@ class ActivityController extends Controller
 
     /**
      * @param Request $request
+     * @param $page
      * @return array
-     * @Route("/loggedin/store/display", name="displayStore")
+     * @Route("/loggedin/store/display/{page}", name="displayStore", defaults={"page" = 1})
      *
      * @Template()
      */
-    public function displayStoreAction(Request $request)
+    public function displayStoreAction(Request $request, $page)
     {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('CibActivityBundle:Store');
-        $stores = $repo->findAll();
+        if(!$request->request->get('search'))
+            $stores = $repo->findAll();
+        else
+            $stores = $repo->selectStoreList($em, $request->request->get('txtSearch'));
+
         $csrf = $this->get('form.csrf_provider');
         foreach($stores as $store)
             $store->setToken($csrf->generateCsrfToken($store->getStoreId()));
 
+        $paginator= $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $stores,
+            $page,
+            10
+        );
+
         return[
-            'stores' => $stores,
+            'pagination' => $pagination,
         ];
     }
 
@@ -299,53 +314,84 @@ class ActivityController extends Controller
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return RedirectResponse
      *
-     * @Route("/loggedin/store/delete/{id}/{token}", name="deleteStore")
+     * @Route("/loggedin/store/delete/{id}/{token}", name="deleteStore", defaults={"id" = 0, "token" = 0})
      */
     public function deleteStoreAction(Request $request,$id,$token)
     {
-        if($id == 0)
-            throw $this->createNotFoundException('Ce magasin n\'esxiste pas');
-
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('CibActivityBundle:Store');
-        $store = $repo->find($id);
 
         $csrf = $this->get('form.csrf_provider');
-        $tokenCompare = $csrf->generateCsrfToken($id);
 
-        if($token == $tokenCompare)
+        if($id == 0)
         {
-            $em->remove($store);
-            $em->flush();
-            $this->get('session')->getFlashBag()->all();
-            $this->get('session')->getFlashBag()->add('status','Suppression effectuée');
+            if($request->isMethod('post'))
+            {
+                if($request->get('multiDelete'))
+                {
+                    foreach($request->get('multiDelete') as $storeId)
+                    {
+                        $tempStore = $repo->find($storeId);
+                        $em->remove($tempStore);
+                    }
+                    $em->flush();
+                    $this->get('session')->getFlashBag()->all();
+                    $this->get('session')->getFlashBag()->add('status','Suppression effectuée');
+                }
 
-            return $this->redirect($this->generateUrl('displayStore'));
+                return $this->redirect($this->generateUrl('displayStore'));
+            }
         }
         else
-            throw $this->createNotFoundException('page introuvable');
+        {
+            $store = $repo->find($id);
+            if($token == $csrf->generateCsrfToken($store->getStoreId()))
+            {
+                $em->remove($store);
+                $em->flush();
+                $this->get('session')->getFlashBag()->all();
+                $this->get('session')->getFlashBag()->add('status','Suppression effectuée');
+
+                return $this->redirect($this->generateUrl('displaySignboard'));
+            }
+            else
+                throw $this->createNotFoundException('page introuvable');
+        }
+
 
     }
 
 
     /**
      * @param Request $request
+     * @param $page
      * @return array
-     * @Route("/loggedin/tpe/display", name="displayTpe")
+     * @Route("/loggedin/tpe/display/{page}", name="displayTpe", defaults={"page" = 1})
      *
      * @Template()
      */
-    public function displayTpeAction(Request $request)
+    public function displayTpeAction(Request $request,$page)
     {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('CibActivityBundle:Tpe');
-        $tpe = $repo->findAll();
+
+        if(!$request->request->get('search'))
+            $tpe = $repo->findAll();
+        else
+            $tpe = $repo -> selectTpeList($em, $request->request->get('txtSearch'));
         $csrf = $this->get('form.csrf_provider');
         foreach($tpe as $tp)
             $tp->setToken($csrf->generateCsrfToken($tp->getTpeId()));
 
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $tpe,
+            $page,
+            10
+        );
+
         return[
-            'tpes' => $tpe,
+            'pagination' => $pagination,
         ];
     }
 
@@ -360,14 +406,23 @@ class ActivityController extends Controller
     public function addTpeAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $form = $this->createForm(new TpeType());
+        $tpe = new Tpe();
+        $param = $em->getRepository('CibCoreBundle:Parameters')->find(1);
+        $ftp = new Ftp($param->getFtpUrl(),$param->getFtpUser(),$param->getFtpPassword(),$param->getFtpPort(),false,false);
+        $form = $this->createForm(new TpeType(),$tpe);
         $form->handleRequest($request);
 
         if($form->isValid())
         {
             $tpe = $form->getData();
+            $tpe->getTpeParameters()->createParameterFile($tpe);
+            if($tpe->uploadParameterFile($ftp))
+                $this->get('session')->getFlashBag()->add('ftpSuccess','envoi du fichier de paramétrage réussi');
+            else
+                $this->get('session')->getFlashBag()->add('ftpError','echec de l\'envoi du fichier de paramétrage');
             $em->persist($tpe);
             $em->flush();
+
             $this->get('session')->getFlashBag()->all();
             $this->get('session')->getFlashBag()->add('status','Ajout effectué');
 
@@ -395,20 +450,28 @@ class ActivityController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('CibActivityBundle:Tpe');
+        $param = $em->getRepository('CibCoreBundle:Parameters')->find(1);
+        $ftp = new Ftp($param->getFtpUrl(),$param->getFtpUser(),$param->getFtpPassword(),$param->getFtpPort(),false,false);
         $tpe = $repo->find($id);
 
-        $form = $this->createForm(new TpeType(array('store' => $tpe->getStore())),$tpe);
+        $form = $this->createForm(new TpeType(array('store' => $tpe->getStore(),'tpeParameters' => $tpe->getTpeParameters())),$tpe);
         $form->handleRequest($request);
 
         if($form->isValid())
         {
             if($request->request->get('valider'))
             {
+                $this->get('session')->getFlashBag()->all();
                 $tpe = $form->getData();
+                $tpe->getTpeParameters()->createParameterFile($tpe);
+                if($tpe->uploadParameterFile($ftp))
+                    $this->get('session')->getFlashBag()->add('ftpSuccess','envoi du fichier de paramétrage réussi');
+                else
+                    $this->get('session')->getFlashBag()->add('ftpError','echec de l\'envoi du fichier de paramétrage');
                 $em->persist($tpe);
                 $em->flush();
 
-                $this->get('session')->getFlashBag()->all();
+
                 $this->get('session')->getFlashBag()->add('status','Modification(s) effectuée(s)');
 
                 return $this->redirect($this->generateUrl('displayTpe'));
@@ -432,29 +495,52 @@ class ActivityController extends Controller
      * @param $token
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @Route("/loggedin/tpe/delete/{id}/{token}", name="deleteTpe")
+     * @Route("/loggedin/tpe/delete/{id}/{token}", name="deleteTpe", defaults={"id" = 0, "token" = 0})
      */
     public function deleteTpeAction(Request $request, $id, $token)
     {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('CibActivityBundle:Tpe');
-        $tpe = $repo->find($id);
-
         $csrf = $this->get('form.csrf_provider');
-        $tokenTest = $csrf->generateCsrfToken($id);
-        if($token == $tokenTest)
+        if($id == 0)
         {
-            $em->remove($tpe);
-            $em->flush();
-            $this->get('session')->getFlashBag()->all();
-            $this->get('session')->getFlashBag()->add('status','Suppression effectuée');
+            if($request->isMethod('post'))
+            {
+                if($request->get('multiDelete'))
+                {
+                    $this->get('session')->getFlashBag()->all();
+                    foreach($request->get('multiDelete') as $tpeId)
+                    {
+                        $tempTpe = $repo->find($tpeId);
+                        if(!$tempTpe->rmdir_recursive())
+                            $this->get('session')->getFlashBag()->add('error','Echec suppression du fichier de paramétrage');
+                        $em->remove($tempTpe);
+                    }
+                    $em->flush();
 
-            return $this->redirect($this->generateUrl('displayTpe'));
+                    $this->get('session')->getFlashBag()->add('status','Suppression effectuée');
+                }
+
+                return $this->redirect($this->generateUrl('displayStore'));
+            }
         }
         else
-            throw $this->createNotFoundException('page introuvable');
+        {
+            $tpe = $repo->find($id);
+            if($token == $csrf->generateCsrfToken($tpe->getTpeId()))
+            {
+                $tpe->rmdir_recursive();
+                $em->remove($tpe);
+                $em->flush();
+                $this->get('session')->getFlashBag()->all();
+                $this->get('session')->getFlashBag()->add('status','Suppression effectuée');
 
-
-
+                return $this->redirect($this->generateUrl('displayTpe'));
+            }
+            else
+                throw $this->createNotFoundException('page introuvable');
+        }
     }
+
+
 } 

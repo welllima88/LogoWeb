@@ -11,11 +11,16 @@ namespace Cib\Bundle\ActivityBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="cib_store")
+ * @ORM\Entity(repositoryClass="Cib\Bundle\ActivityBundle\Entity\storeRepository")
  * @UniqueEntity(fields="storeName", message="une magasin portant ce nom existe déjà")
+ *
+ * @ExclusionPolicy("all")
  */
 class Store
 {
@@ -74,8 +79,20 @@ class Store
      */
     private $signboard;
 
+//    /**
+//     * @var
+//     *
+//     * @ORM\OneToMany(targetEntity="Cib\Bundle\CustomerBundle\Entity\bankAccount", mappedBy="ics", cascade={"persist","remove"})
+//     */
+//    private $bankAccount;
 
     private $token;
+    /**
+     * @var
+     *
+     * @ORM\OneToMany(targetEntity="Tpe",mappedBy="store", cascade={"persist"})
+     */
+    private $tpe;
 
 
     public function setToken($token)
@@ -236,5 +253,92 @@ class Store
     public function getSignboard()
     {
         return $this->signboard;
+    }
+
+    /**
+     * Set tpe
+     *
+     * @param string $tpe
+     * @return Store
+     */
+    public function setTpe($tpe)
+    {
+        $this->tpe = $tpe;
+
+        return $this;
+    }
+
+    /**
+     * Get tpe
+     *
+     * @return string 
+     */
+    public function getTpe()
+    {
+        return $this->tpe;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->bankAccount = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tpe = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+//    /**
+//     * Add bankAccount
+//     *
+//     * @param \Cib\Bundle\CustomerBundle\Entity\bankAccount $bankAccount
+//     * @return Store
+//     */
+//    public function addBankAccount(\Cib\Bundle\CustomerBundle\Entity\bankAccount $bankAccount)
+//    {
+//        $this->bankAccount[] = $bankAccount;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Remove bankAccount
+//     *
+//     * @param \Cib\Bundle\CustomerBundle\Entity\bankAccount $bankAccount
+//     */
+//    public function removeBankAccount(\Cib\Bundle\CustomerBundle\Entity\bankAccount $bankAccount)
+//    {
+//        $this->bankAccount->removeElement($bankAccount);
+//    }
+//
+//    /**
+//     * Get bankAccount
+//     *
+//     * @return \Doctrine\Common\Collections\Collection
+//     */
+//    public function getBankAccount()
+//    {
+//        return $this->bankAccount;
+//    }
+
+    /**
+     * Add tpe
+     *
+     * @param \Cib\Bundle\ActivityBundle\Entity\Tpe $tpe
+     * @return Store
+     */
+    public function addTpe(\Cib\Bundle\ActivityBundle\Entity\Tpe $tpe)
+    {
+        $this->tpe[] = $tpe;
+
+        return $this;
+    }
+
+    /**
+     * Remove tpe
+     *
+     * @param \Cib\Bundle\ActivityBundle\Entity\Tpe $tpe
+     */
+    public function removeTpe(\Cib\Bundle\ActivityBundle\Entity\Tpe $tpe)
+    {
+        $this->tpe->removeElement($tpe);
     }
 }
