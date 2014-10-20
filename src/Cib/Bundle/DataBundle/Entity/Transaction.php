@@ -8,6 +8,7 @@
 
 namespace Cib\Bundle\DataBundle\Entity;
 
+use Cib\Bundle\CustomerBundle\Entity\Card;
 use Cib\Bundle\FtpBundle\Entity\Ftp;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
@@ -111,15 +112,29 @@ class Transaction {
      */
     private $store;
 
-    public function __construct($dateTransaction,$typeTransaction,$pmeTransaction,$amountTransaction,$primeTransaction,$cardNumber,$tpeNumber,$isVipTransaction,$entityManager)
+    public function __construct($dateTransaction,$typeTransaction,$pmeTransaction,$amountTransaction,$primeTransaction,$cardNumber,$beforeTransaction,$afterTransaction,$tpeNumber,$isVipTransaction,$entityManager)
     {
         $this->dateTransaction = new \DateTime($dateTransaction);
         $this->typeTransaction = $typeTransaction;
         $this->pmeTransaction = $pmeTransaction;
-        $this->amountTransaction = $amountTransaction;
-        $this->primeTransaction = $primeTransaction;
+        $this->amountTransaction = $amountTransaction/100;
+        $this->primeTransaction = $primeTransaction/100;
         $this->isVipTransaction = $isVipTransaction;
         $this->card = $entityManager->getRepository('CibCustomerBundle:Card')->findOneBy(array('cardNumber' => $cardNumber));
+        if(!$this->card)
+        {
+            $time = new \DateTime('+1 year');
+            $this->card = new Card();
+            $this->card->setCardNumber($cardNumber);
+            $this->card->setCardValidity($time);
+            $this->card->setIsActive(true);
+
+        }
+
+        if($typeTransaction == 'D')
+            $this->card->setMoneyAmount1($this->card->getMoneyAmount1() - ($amountTransaction/100));
+        else
+            $this->card->setMoneyAmount1($this->card->getMoneyAmount1() + ($amountTransaction/100));
         $this->tpe = $entityManager->getRepository('CibActivityBundle:Tpe')->findOneBy(array('tpeNumber' => $tpeNumber));
         $this->client = $this->card->getClient();
         $this->store = $this->tpe->getStore();

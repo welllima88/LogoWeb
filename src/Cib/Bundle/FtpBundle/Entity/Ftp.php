@@ -321,25 +321,35 @@ class Ftp {
 
     public function downloadDataFile($localDir)
     {
-
+        ini_set('max_execution_time', 300);
 
         if($this->connect() === true)
         {
             $content = ftp_nlist($this->ftpHandle,$origin = ftp_pwd($this->ftpHandle));
             foreach($content as $dir)
             {
-                if(!file_exists($localDir.'/'.$dir))
-                    mkdir($localDir.'/'.$dir,0777,true);
-
-                $this->changeDirectory($dir);
-                $contentFile = ftp_nlist($this->ftpHandle,ftp_pwd($this->ftpHandle));
-                foreach($contentFile as $dataFile)
+                if($dir != 'done')
                 {
-                    $extension = strrchr($dataFile,'.');
-                    if($extension != '.PAR')
-                        $this->downloadFile($localDir.'/'.$dataFile,$dataFile,FTP_ASCII);
+                    if(!file_exists($localDir.'/'.$dir))
+                        mkdir($localDir.'/'.$dir,0777,true);
+
+                    $this->changeDirectory($dir);
+                    $contentFile = ftp_nlist($this->ftpHandle,ftp_pwd($this->ftpHandle));
+                    foreach($contentFile as $dataFile)
+                    {
+                        $extension = strrchr($dataFile,'.');
+                        if($extension == '.CIB')
+                        {
+                            $this->downloadFile($localDir.'/'.$dataFile,$dataFile,FTP_ASCII);
+                            $this->makeDirectory($origin.'/done');
+                            $this->makeDirectory($origin.'/done/'.$dir);
+                            $this->renameFile($dataFile,$origin.'done'.$dataFile);
+                            $this->deleteFile($dataFile);
+                        }
+                    }
+                    $this->changeDirectory($origin);
                 }
-                $this->changeDirectory($origin);
+
             }
 
             return true;

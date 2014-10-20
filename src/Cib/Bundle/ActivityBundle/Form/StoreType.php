@@ -20,13 +20,13 @@ class StoreType extends AbstractType
     {
         $builder
             ->add('storeName','text',array(
-                'label' => 'Nom Magasin',
+                'label' => 'Nom',
                 'attr' => array(
                     'maxlength' => 50,
                 ),
             ))
             ->add('storeAddress','text',array(
-                'label' => 'Adresse du magasin',
+                'label' => 'Adresse',
                 'attr' => array(
                     'maxlength' => 50,
                 )
@@ -54,6 +54,12 @@ class StoreType extends AbstractType
                 'class' => 'CibActivityBundle:Signboard',
                 'property' => 'signboardName',
                 'data' => $this->signboard,
+            ))
+            ->add('weekPrice','money',array(
+                'label' => 'prix semaine',
+            ))
+            ->add('weekEndPrice','money',array(
+                'label' => 'prix week-end'
             ))
 
         ;

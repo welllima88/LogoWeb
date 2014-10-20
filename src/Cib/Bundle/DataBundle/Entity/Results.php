@@ -21,6 +21,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity
  * @ORM\Table(name="cib_results")
  * @ORM\Entity(repositoryClass="Cib\Bundle\DataBundle\Entity\resultsRepository")
+ * @UniqueEntity(fields="name", message="un enregistrment portant ce nom existe déjà")
  *
  */
 class Results {
@@ -45,14 +46,14 @@ class Results {
     /**
      * @var
      *
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateStart;
 
     /**
      * @var
      *
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime",nullable=true)
      */
     private $dateStop;
 
@@ -79,6 +80,13 @@ class Results {
      * @ORM\JoinColumn(name="storeId", referencedColumnName="storeId")
      */
     private $store;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="text")
+     */
+    private $name;
 
     /**
      * Get resultId
@@ -226,5 +234,28 @@ class Results {
     public function getStore()
     {
         return $this->store;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Results
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }

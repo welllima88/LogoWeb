@@ -16,10 +16,20 @@
     <div class="row" style="margin-top: 5%">
         <div class="container">
             <div class="">
-                <form action="{{ path('displayResults') }}" method="post" novalidate="novalidate">
+                {#<form action="{{ path('displayResults') }}" method="post" novalidate="novalidate">#}
                     {% include 'CibDataBundle:Form:formResults.html.twig' %}
-                </form>
+                {#</form>#}
+                <button class="btn btn-primary" id="saveResultChoice">Enregistrer la séléction</button>
+                <button class="btn btn-primary" id="resetResultChoice">RESET</button>
+                <div id="inputResult">
 
+                </div>
+                <div id="resultList">
+
+                </div>
+                <div id="resultModal">
+
+                </div>
             </div>
         </div>
     </div>
@@ -27,6 +37,9 @@
     {% if pagination %}
         <div id="divResult" class="{{ asset('bundles/cibcore/pictures/ajax-loader.gif') }}">
             {#<img src="" id="img-loader">#}
+        </div>
+        <div id="divTotal">
+
         </div>
         {#<div class="row" style="margin-top: 5%">#}
             {#<div class="container">#}

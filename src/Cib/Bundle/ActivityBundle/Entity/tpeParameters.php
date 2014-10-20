@@ -303,6 +303,13 @@ class tpeParameters {
     /**
      * @var
      *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $minPurchase;
+
+    /**
+     * @var
+     *
      * @ORM\Column(type="text", nullable=true)
      */
     private $header1;
@@ -390,6 +397,14 @@ class tpeParameters {
      * @ORM\Column(type="string", nullable=true)
      */
     private $fileName;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $typeConnexion;
+
     /**
      * Get tpeParametersId
      *
@@ -1318,46 +1333,46 @@ class tpeParameters {
             unlink($this->getUploadDir().'/'.$tpe->getTpeNumber().'/PARAM_'.$tpe->getTpeNumber().'.PAR');
 
         $parameterFile = fopen($this->getUploadDir().'/'.$tpe->getTpeNumber().'/PARAM_'.$tpe->getTpeNumber().'.PAR','a+');
-        fwrite($parameterFile,"F;".$this->getFtpHost().";".$this->getFtpPort().";".$this->getFtpLogin().";".$this->getFtpPassword().";".$this->getFtpMode()."\n");
+        fwrite($parameterFile,"F;".$this->getFtpHost().";".$this->getFtpPort().";".$this->getFtpLogin().";".$this->getFtpPassword().";".$this->getFtpMode().";".$this->getTypeConnexion()."\n");
         fwrite($parameterFile,"G;".$this->getApnGprs().";".$this->getLoginGprs().";".$this->getPasswordGprs()."\n");
 
         if($this->getIsPme1())
         {
-            fwrite($parameterFile,"1;".$this->getIsPme1Unit());
+            fwrite($parameterFile,"1;".$this->getIsPme1Unit().";".($this->getMinPurchase()*100));
             if($this->getIsPrime1())
-                fwrite($parameterFile,";1;".$this->getLevelPrime1().";".$this->getTypePrime1().";".$this->getAmountPrime1()."\n");
+                fwrite($parameterFile,";1;".($this->getLevelPrime1()*100).";".$this->getTypePrime1().";".($this->getAmountPrime1()*100)."\r\n");
             else
                 fwrite($parameterFile,";0\n");
         }
         if($this->getIsPme2())
         {
-            fwrite($parameterFile,"2;".$this->getIsPme2Unit());
+            fwrite($parameterFile,"2;".$this->getIsPme2Unit().";".($this->getMinPurchase()*100));
             if($this->getIsPrime2())
-                fwrite($parameterFile,";1;".$this->getLevelPrime2().";".$this->getTypePrime2().";".$this->getAmountPrime2()."\n");
+                fwrite($parameterFile,";1;".($this->getLevelPrime2()*100).";".$this->getTypePrime2().";".($this->getAmountPrime2()*100)."\n");
             else
                 fwrite($parameterFile,";0\n");
         }
         if($this->getIsPme3())
         {
-            fwrite($parameterFile,"3;".$this->getIsPme3Unit());
+            fwrite($parameterFile,"3;".$this->getIsPme3Unit().";".($this->getMinPurchase()*100));
             if($this->getIsPrime3())
-                fwrite($parameterFile,";1;".$this->getLevelPrime3().";".$this->getTypePrime3().";".$this->getAmountPrime3()."\n");
+                fwrite($parameterFile,";1;".($this->getLevelPrime3()*100).";".$this->getTypePrime3().";".($this->getAmountPrime3()*100)."\n");
             else
                 fwrite($parameterFile,";0\n");
         }
         if($this->getIsPme4())
         {
-            fwrite($parameterFile,"4;".$this->getIsPme4Unit());
+            fwrite($parameterFile,"4;".$this->getIsPme4Unit().";".($this->getMinPurchase()*100));
             if($this->getIsPrime4())
-                fwrite($parameterFile,";1;".$this->getLevelPrime4().";".$this->getTypePrime4().";".$this->getAmountPrime4()."\n");
+                fwrite($parameterFile,";1;".($this->getLevelPrime4()*100).";".$this->getTypePrime4().";".($this->getAmountPrime4()*100)."\n");
             else
                 fwrite($parameterFile,";0\n");
         }
         if($this->getIsPme5())
         {
-            fwrite($parameterFile,"5;".$this->getIsPme5Unit());
+            fwrite($parameterFile,"5;".$this->getIsPme5Unit().";".($this->getMinPurchase()*100));
             if($this->getIsPrime5())
-                fwrite($parameterFile,";1;".$this->getLevelPrime5().";".$this->getTypePrime5().";".$this->getAmountPrime5()."\n");
+                fwrite($parameterFile,";1;".($this->getLevelPrime5()*100).";".$this->getTypePrime5().";".($this->getAmountPrime5()*100)."\n");
             else
                 fwrite($parameterFile,";0\n");
         }
@@ -1645,5 +1660,51 @@ class tpeParameters {
     public function getFooter5()
     {
         return $this->footer5;
+    }
+
+    /**
+     * Set minPurchase
+     *
+     * @param integer $minPurchase
+     * @return tpeParameters
+     */
+    public function setMinPurchase($minPurchase)
+    {
+        $this->minPurchase = $minPurchase;
+
+        return $this;
+    }
+
+    /**
+     * Get minPurchase
+     *
+     * @return integer 
+     */
+    public function getMinPurchase()
+    {
+        return $this->minPurchase;
+    }
+
+    /**
+     * Set typeConnexion
+     *
+     * @param string $typeConnexion
+     * @return tpeParameters
+     */
+    public function setTypeConnexion($typeConnexion)
+    {
+        $this->typeConnexion = $typeConnexion;
+
+        return $this;
+    }
+
+    /**
+     * Get typeConnexion
+     *
+     * @return string 
+     */
+    public function getTypeConnexion()
+    {
+        return $this->typeConnexion;
     }
 }

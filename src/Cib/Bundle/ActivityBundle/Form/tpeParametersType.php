@@ -40,6 +40,18 @@ class tpeParametersType extends AbstractType
                     'P',
                 ),
             ))
+            ->add('typeConnexion','choice',array(
+                'label' => 'type de connexion',
+                'choices' => array(
+                    'I' => 'Ip/Ethernet',
+                    'G' => 'GPRS',
+                ),
+                'expanded' => true,
+                'multiple' => false,
+                'preferred_choices' => array(
+                    'I',
+                )
+            ))
             ->add('apnGprs','text',array(
                 'label' => 'APN Gprs'
             ))
@@ -255,6 +267,9 @@ class tpeParametersType extends AbstractType
                     'maxlength' => 25
                 )
             ))
+        ->add('minPurchase','money',array(
+            'label' => 'Montant minimum de chargement',
+        ))
         ;
     }
     

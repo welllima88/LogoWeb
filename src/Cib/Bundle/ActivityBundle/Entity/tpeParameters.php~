@@ -11,12 +11,16 @@ namespace Cib\Bundle\ActivityBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="cib_tpeParam")
  * @ORM\Entity(repositoryClass="Cib\Bundle\ActivityBundle\Entity\tpeParametersRepository")
+ *
+ * @ExclusionPolicy("all")
  */
 class tpeParameters {
 
@@ -299,6 +303,13 @@ class tpeParameters {
     /**
      * @var
      *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $minPurchase;
+
+    /**
+     * @var
+     *
      * @ORM\Column(type="text", nullable=true)
      */
     private $header1;
@@ -386,6 +397,14 @@ class tpeParameters {
      * @ORM\Column(type="string", nullable=true)
      */
     private $fileName;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $typeConnexion;
+
     /**
      * Get tpeParametersId
      *
@@ -1319,44 +1338,46 @@ class tpeParameters {
 
         if($this->getIsPme1())
         {
-            fwrite($parameterFile,"1;".$this->getIsPme1Unit());
+            fwrite($parameterFile,"1;".$this->getIsPme1Unit().";".($this->getMinPurchase()*100));
             if($this->getIsPrime1())
-                fwrite($parameterFile,";1;".$this->getLevelPrime1().";".$this->getTypePrime1().";".$this->getAmountPrime1()."\n");
+                fwrite($parameterFile,";1;".($this->getLevelPrime1()*100).";".$this->getTypePrime1().";".($this->getAmountPrime1()*100)."\r\n");
             else
                 fwrite($parameterFile,";0\n");
         }
         if($this->getIsPme2())
         {
-            fwrite($parameterFile,"2;".$this->getIsPme2Unit());
+            fwrite($parameterFile,"2;".$this->getIsPme2Unit().";".($this->getMinPurchase()*100));
             if($this->getIsPrime2())
-                fwrite($parameterFile,";1;".$this->getLevelPrime2().";".$this->getTypePrime2().";".$this->getAmountPrime2()."\n");
+                fwrite($parameterFile,";1;".($this->getLevelPrime2()*100).";".$this->getTypePrime2().";".($this->getAmountPrime2()*100)."\n");
             else
                 fwrite($parameterFile,";0\n");
         }
         if($this->getIsPme3())
         {
-            fwrite($parameterFile,"3;".$this->getIsPme3Unit());
+            fwrite($parameterFile,"3;".$this->getIsPme3Unit().";".($this->getMinPurchase()*100));
             if($this->getIsPrime3())
-                fwrite($parameterFile,";1;".$this->getLevelPrime3().";".$this->getTypePrime3().";".$this->getAmountPrime3()."\n");
+                fwrite($parameterFile,";1;".($this->getLevelPrime3()*100).";".$this->getTypePrime3().";".($this->getAmountPrime3()*100)."\n");
             else
                 fwrite($parameterFile,";0\n");
         }
         if($this->getIsPme4())
         {
-            fwrite($parameterFile,"4;".$this->getIsPme4Unit());
+            fwrite($parameterFile,"4;".$this->getIsPme4Unit().";".($this->getMinPurchase()*100));
             if($this->getIsPrime4())
-                fwrite($parameterFile,";1;".$this->getLevelPrime4().";".$this->getTypePrime4().";".$this->getAmountPrime4()."\n");
+                fwrite($parameterFile,";1;".($this->getLevelPrime4()*100).";".$this->getTypePrime4().";".($this->getAmountPrime4()*100)."\n");
             else
                 fwrite($parameterFile,";0\n");
         }
         if($this->getIsPme5())
         {
-            fwrite($parameterFile,"5;".$this->getIsPme5Unit());
+            fwrite($parameterFile,"5;".$this->getIsPme5Unit().";".($this->getMinPurchase()*100));
             if($this->getIsPrime5())
-                fwrite($parameterFile,";1;".$this->getLevelPrime5().";".$this->getTypePrime5().";".$this->getAmountPrime5()."\n");
+                fwrite($parameterFile,";1;".($this->getLevelPrime5()*100).";".$this->getTypePrime5().";".($this->getAmountPrime5()*100)."\n");
             else
                 fwrite($parameterFile,";0\n");
         }
+        fwrite($parameterFile,"E;".$this->getHeader1().";".$this->getHeader2().";".$this->getHeader3().";".$this->getHeader4().";".$this->getHeader5()."\n");
+        fwrite($parameterFile,"P;".$this->getFooter1().";".$this->getFooter2().";".$this->getFooter3().";".$this->getFooter4().";".$this->getFooter5()."\n");
         fwrite($parameterFile,"S;".$this->getUrlSoap().";".$this->getPortSoap()."\n");
         fclose($parameterFile);
 
@@ -1410,4 +1431,257 @@ class tpeParameters {
     }
 
 
+
+    /**
+     * Set header1
+     *
+     * @param string $header1
+     * @return tpeParameters
+     */
+    public function setHeader1($header1)
+    {
+        $this->header1 = $header1;
+
+        return $this;
+    }
+
+    /**
+     * Get header1
+     *
+     * @return string 
+     */
+    public function getHeader1()
+    {
+        return $this->header1;
+    }
+
+    /**
+     * Set header2
+     *
+     * @param string $header2
+     * @return tpeParameters
+     */
+    public function setHeader2($header2)
+    {
+        $this->header2 = $header2;
+
+        return $this;
+    }
+
+    /**
+     * Get header2
+     *
+     * @return string 
+     */
+    public function getHeader2()
+    {
+        return $this->header2;
+    }
+
+    /**
+     * Set header3
+     *
+     * @param string $header3
+     * @return tpeParameters
+     */
+    public function setHeader3($header3)
+    {
+        $this->header3 = $header3;
+
+        return $this;
+    }
+
+    /**
+     * Get header3
+     *
+     * @return string 
+     */
+    public function getHeader3()
+    {
+        return $this->header3;
+    }
+
+    /**
+     * Set header4
+     *
+     * @param string $header4
+     * @return tpeParameters
+     */
+    public function setHeader4($header4)
+    {
+        $this->header4 = $header4;
+
+        return $this;
+    }
+
+    /**
+     * Get header4
+     *
+     * @return string 
+     */
+    public function getHeader4()
+    {
+        return $this->header4;
+    }
+
+    /**
+     * Set header5
+     *
+     * @param string $header5
+     * @return tpeParameters
+     */
+    public function setHeader5($header5)
+    {
+        $this->header5 = $header5;
+
+        return $this;
+    }
+
+    /**
+     * Get header5
+     *
+     * @return string 
+     */
+    public function getHeader5()
+    {
+        return $this->header5;
+    }
+
+    /**
+     * Set footer1
+     *
+     * @param string $footer1
+     * @return tpeParameters
+     */
+    public function setFooter1($footer1)
+    {
+        $this->footer1 = $footer1;
+
+        return $this;
+    }
+
+    /**
+     * Get footer1
+     *
+     * @return string 
+     */
+    public function getFooter1()
+    {
+        return $this->footer1;
+    }
+
+    /**
+     * Set footer2
+     *
+     * @param string $footer2
+     * @return tpeParameters
+     */
+    public function setFooter2($footer2)
+    {
+        $this->footer2 = $footer2;
+
+        return $this;
+    }
+
+    /**
+     * Get footer2
+     *
+     * @return string 
+     */
+    public function getFooter2()
+    {
+        return $this->footer2;
+    }
+
+    /**
+     * Set footer3
+     *
+     * @param string $footer3
+     * @return tpeParameters
+     */
+    public function setFooter3($footer3)
+    {
+        $this->footer3 = $footer3;
+
+        return $this;
+    }
+
+    /**
+     * Get footer3
+     *
+     * @return string 
+     */
+    public function getFooter3()
+    {
+        return $this->footer3;
+    }
+
+    /**
+     * Set footer4
+     *
+     * @param string $footer4
+     * @return tpeParameters
+     */
+    public function setFooter4($footer4)
+    {
+        $this->footer4 = $footer4;
+
+        return $this;
+    }
+
+    /**
+     * Get footer4
+     *
+     * @return string 
+     */
+    public function getFooter4()
+    {
+        return $this->footer4;
+    }
+
+    /**
+     * Set footer5
+     *
+     * @param string $footer5
+     * @return tpeParameters
+     */
+    public function setFooter5($footer5)
+    {
+        $this->footer5 = $footer5;
+
+        return $this;
+    }
+
+    /**
+     * Get footer5
+     *
+     * @return string 
+     */
+    public function getFooter5()
+    {
+        return $this->footer5;
+    }
+
+    /**
+     * Set minPurchase
+     *
+     * @param integer $minPurchase
+     * @return tpeParameters
+     */
+    public function setMinPurchase($minPurchase)
+    {
+        $this->minPurchase = $minPurchase;
+
+        return $this;
+    }
+
+    /**
+     * Get minPurchase
+     *
+     * @return integer 
+     */
+    public function getMinPurchase()
+    {
+        return $this->minPurchase;
+    }
 }

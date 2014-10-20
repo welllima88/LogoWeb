@@ -30,6 +30,10 @@ class Treatment {
         return 'data';
     }
 
+    public function getTreatedDoneFile()
+    {
+        return 'done';
+    }
 
     public function downloadDataFile(Ftp $ftp)
     {
@@ -56,17 +60,26 @@ class Treatment {
                         $raws = explode("\n",$content);
                         foreach($raws as $raw)
                         {
-                            $field = explode(';',$raw);
-                            $transaction = new Transaction($field[0],$field[1],$field[2],$field[3],$field[4],$field[5],$field[6],$field[7],$this->em);
-                            $transactions->add($transaction);
+                            if($raw != '')
+                            {
+                                $field = explode(';',$raw);
+                                $transaction = new Transaction($field[0],$field[1],$field[2],$field[3],$field[4],$field[5],$field[6],$field[7],$field[8],$field[9],$this->em);
+                                $this->em->persist($transaction);
+                                $this->em->flush();
+                            }
                         }
+                        fclose($handle);
+                        @mkdir($this->getTreatedDoneFile().'/'.$dir,0777,true);
+                        copy($this->getUploadDir().'/'.$dir.'/'.$file,$this->getTreatedDoneFile().'/'.$dir.'/'.$file);
+                        unlink($this->getUploadDir().'/'.$dir.'/'.$file);
                     }
                 }
             }
         }
-//        var_dump()
-        return $transactions;
+        return true;
 
     }
+
+
 
 } 

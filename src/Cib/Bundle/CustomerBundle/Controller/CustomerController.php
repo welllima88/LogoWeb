@@ -275,14 +275,18 @@ class CustomerController extends Controller
         $card = $repo->find($id);
 
         $form = $this->createForm(new CardType(),$card);
-//        $form->handleRequest($request);
+        $form->handleRequest($request);
 
         if($request->isMethod('POST'))
         {
-            $form->bind($request);
+//            $form->bind($request);
 
             if($form->isValid())
             {
+                $card = $form->getData();
+                $transactions = $em->getRepository('CibDataBundle:Transaction')->findBy(array('card' => $card));
+                foreach($transactions as $transaction)
+                    $transaction->setClient($card->getClient());
                 $em->persist($card);
                 $em->flush();
                 $this->get('session')->getFlashBag()->all();

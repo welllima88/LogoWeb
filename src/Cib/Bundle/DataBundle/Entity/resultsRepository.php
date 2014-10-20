@@ -3,6 +3,7 @@
 namespace Cib\Bundle\DataBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * resultsRepository
@@ -13,8 +14,35 @@ use Doctrine\ORM\EntityRepository;
 class resultsRepository extends EntityRepository
 {
 
-//    public function getAjaxResults($month,$dateStart,)
-//    {
-//
-//    }
+    public function saveResultChoices($month,$dateStart,$dateStop,$card,$client,$store,$name,$em)
+    {
+        if($dateStart == '')
+            $dateStart = null;
+        if($dateStop == '')
+            $dateStop = null;
+        $result = new Results();
+        $result->setCard($card);
+        $result->setClient($client);
+        $result->setStore($store);
+        $result->setMonth($month);
+        $result->setDateStart($dateStart);
+        $result->setDateStop($dateStop);
+        $result->setName($name);
+
+        $em->persist($result);
+        $em->flush();
+
+        return new Response(json_encode(array('status' => 'Enregistrment effectué')));
+
+    }
+
+    public function deleteResultAjax($id,$em)
+    {
+        var_dump($id);
+        $result = $this->find($id);
+        $em->remove($result);
+        $em->flush();
+
+        return new Response(json_encode(array('status' => 'Suppression effectué')));
+    }
 }

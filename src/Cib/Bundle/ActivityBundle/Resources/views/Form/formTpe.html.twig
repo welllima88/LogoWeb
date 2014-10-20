@@ -79,6 +79,11 @@
                                         {{ form_errors(form.tpeParameters.ftpMode) }}
                                         {{ form_widget(form.tpeParameters.ftpMode) }}
                                     </div>
+                                    <div class="row">
+                                        {{ form_label(form.tpeParameters.typeConnexion) }}
+                                        {{ form_errors(form.tpeParameters.typeConnexion) }}
+                                        {{ form_widget(form.tpeParameters.typeConnexion) }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -157,6 +162,16 @@
                                             {{ form_widget(form.tpeParameters.isPme5Unit) }}
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <br>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-offset-1">
+                                    {{ form_label(form.tpeParameters.minPurchase) }}
+                                    {{ form_errors(form.tpeParameters.minPurchase) }}
+                                    {{ form_widget(form.tpeParameters.minPurchase) }}
                                 </div>
                             </div>
                         </div>

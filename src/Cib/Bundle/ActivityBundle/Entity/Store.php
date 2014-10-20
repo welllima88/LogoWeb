@@ -86,6 +86,21 @@ class Store
 //     */
 //    private $bankAccount;
 
+    /**
+     * @var
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $weekPrice;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $weekEndPrice;
+
+
     private $token;
     /**
      * @var
@@ -340,5 +355,51 @@ class Store
     public function removeTpe(\Cib\Bundle\ActivityBundle\Entity\Tpe $tpe)
     {
         $this->tpe->removeElement($tpe);
+    }
+
+    /**
+     * Set weekPrice
+     *
+     * @param integer $weekPrice
+     * @return Store
+     */
+    public function setWeekPrice($weekPrice)
+    {
+        $this->weekPrice = $weekPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get weekPrice
+     *
+     * @return integer 
+     */
+    public function getWeekPrice()
+    {
+        return $this->weekPrice;
+    }
+
+    /**
+     * Set weekEndPrice
+     *
+     * @param integer $weekEndPrice
+     * @return Store
+     */
+    public function setWeekEndPrice($weekEndPrice)
+    {
+        $this->weekEndPrice = $weekEndPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get weekEndPrice
+     *
+     * @return integer 
+     */
+    public function getWeekEndPrice()
+    {
+        return $this->weekEndPrice;
     }
 }

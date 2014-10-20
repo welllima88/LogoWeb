@@ -48,17 +48,10 @@ class Tpe
      */
     private $tpeParameters;
 
-//    /**
-//     * @var
-//     *
-//     * @ORM\Column()
-//     */
-//    private $parameter;
-
     /**
      * @var
      *
-     * @ORM\ManyToOne(targetEntity="Store", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Store", cascade={"persist"}, inversedBy="tpe")
      * @ORM\JoinColumn(name="storeId", referencedColumnName="storeId", onDelete="SET NULL")
      */
     private $store;

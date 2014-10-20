@@ -6,6 +6,7 @@
     <h1>Détails de la carte {{ card.cardNumber }}</h1>
 
     {% for parameter in param %}
+
     <table>
         <thead>
         <tr>
@@ -17,12 +18,19 @@
         </tr>
         </thead>
         <tbody>
+        {% if card.client is not null %}
         <tr>
             <td><a href="{{ path('editClient',{'id' : card.client.clientId}) }}">{{ card.client.clientName }}</a></td>
             <td><a href="{{ path('editClient',{'id' : card.client.clientId}) }}">{{ card.client.clientFirstName }}</a></td>
         </tr>
+        {% else %}
+        <tr>
+            <td colspan="2">Aucun client associé</td>
+        </tr>
+        {% endif %}
         </tbody>
     </table>
+
     <table>
         <thead>
         <tr>
@@ -35,41 +43,41 @@
         </tr>
         </thead>
         <tbody>
-        {% if parameter.Pme1 %}
+        {#{% if parameter.Pme1 %}#}
             <tr>
                 <td>PME1</td>
                 <td>{{ card.moneyAmount1|number_format(2, ',',' ') }} €</td>
                 <td>{{ card.unitAmount1|number_format(0, ',',' ') }}</td>
             </tr>
-        {% endif %}
-        {% if parameter.Pme2 %}
+        {#{% endif %}#}
+        {#{% if parameter.Pme2 %}#}
             <tr>
                 <td>PME2</td>
                 <td>{{ card.moneyAmount2|number_format(2, ',',' ') }} €</td>
                 <td>{{ card.unitAmount2|number_format(0, ',',' ') }}</td>
             </tr>
-        {% endif %}
-        {% if parameter.Pme3 %}
+        {#{% endif %}#}
+        {#{% if parameter.Pme3 %}#}
             <tr>
                 <td>PME3</td>
                 <td>{{ card.moneyAmount3|number_format(2, ',',' ') }} €</td>
                 <td>{{ card.unitAmount3|number_format(0, ',',' ') }}</td>
             </tr>
-        {% endif %}
-        {% if parameter.Pme4 %}
+        {#{% endif %}#}
+        {#{% if parameter.Pme4 %}#}
             <tr>
                 <td>PME4</td>
                 <td>{{ card.moneyAmount4|number_format(2, ',',' ') }} €</td>
                 <td>{{ card.unitAmount4|number_format(0, ',',' ') }}</td>
             </tr>
-        {% endif %}
-        {% if parameter.Pme5 %}
+        {#{% endif %}#}
+        {#{% if parameter.Pme5 %}#}
             <tr>
                 <td>PME5</td>
                 <td>{{ card.moneyAmount5|number_format(2, ',',' ') }} €</td>
                 <td>{{ card.unitAmount5|number_format(0, ',',' ') }}</td>
             </tr>
-        {% endif %}
+        {#{% endif %}#}
         </tbody>
     </table>
     <table>
@@ -81,10 +89,12 @@
             <td>date de validité</td>
             <td>{{ card.cardValidity|date('d/m/Y', "Europe/Paris") }}</td>
         </tr>
+        {% if card.signboard is not null %}
         <tr>
             <td>enseigne</td>
             <td>{{ card.signboard.signboardName }}</td>
         </tr>
+        {% endif %}
         <tr>
             <td>active</td>
             <td><input type="checkbox" {% if card.isActive %} checked {% endif %} disabled></td>
