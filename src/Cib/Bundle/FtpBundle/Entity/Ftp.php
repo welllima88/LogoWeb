@@ -307,8 +307,8 @@ class Ftp {
             {
                 if($this->changeDirectory($tpe->getTpeNumber()) === true)
                 {
-                    $this->uploadFile($tpe->getTpeParameters()->getFileName(),'PARAM.PAR',FTP_ASCII);
-                    return true;
+                    return $this->uploadFile($tpe->getTpeParameters()->getFileName(),'PARAM.PAR',FTP_ASCII);
+//                    return true;
                 }
                 return false;
             }
