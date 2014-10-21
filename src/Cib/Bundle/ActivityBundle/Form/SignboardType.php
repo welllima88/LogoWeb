@@ -20,6 +20,9 @@ class SignboardType extends AbstractType
             ))
             ->add('signboardNumber','text',array(
                 'label' => 'numéro enseigne',
+                'attr' => array(
+                    'maxlength' => 4,
+                )
             ))
         ;
     }
