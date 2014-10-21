@@ -27,7 +27,7 @@ class MenuBuilder
         $menu = $this->factory->createItem('login');
         $menu->setChildrenAttribute('class', 'nav navbar-nav navbar-right');
         $menu->addChild('Connexion',array('route' => 'fos_user_security_login'));
-        $menu->addChild('S\'enregistrer',array('route' => 'fos_user_registration_register'));
+
 
         return $menu;
     }
@@ -38,6 +38,7 @@ class MenuBuilder
         $menu->setChildrenAttribute('class', 'nav navbar-nav navbar-right');
         $menu->addChild('Deconnexion',array('route' => 'fos_user_security_logout'));
         $menu->addChild($securityContext->getToken()->getUser(),array('route' => 'fos_user_profile_show'));
+        $menu->addChild('S\'enregistrer',array('route' => 'fos_user_registration_register'));
 
         return $menu;
     }
