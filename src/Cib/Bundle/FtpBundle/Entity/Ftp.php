@@ -132,7 +132,7 @@ class Ftp {
             {
                 if(@ftp_login($this->ftpHandle,$this->ftpLogin,$this->ftpPassword) != false)
                 {
-                    ftp_pasv($this->ftpHandle,true);
+//                    ftp_pasv($this->ftpHandle,true);
                     return true;
                 }
                 else
