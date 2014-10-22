@@ -1,0 +1,80 @@
+{% extends 'CibCoreBundle::layout.html.twig' %}
+
+
+{% block body %}
+
+    <div class="row">
+        <div class="container">
+            <div class="pagination">
+                <a href="{{ path('index') }}"> Accueil</a> > <a href="{{ path('listActivity') }}">Activité</a> > <a href="{{ path('displayStore') }}"> Magasins</a> > {{ store.storeName }}
+            </div>
+        </div>
+    </div>
+
+    {% include 'CibCoreBundle:Core:displayFlash.html.twig' %}
+
+    <div class="row">
+        <div class="container">
+            <div class="col-md-offset-3 col-xs-offset-3">
+                <h1>Details du magasin {{ store.storeName }}</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="container">
+            <div class="col-xs-offset-3 col-md-offset-3 col-md-4 col-xs-4">
+                <table class="table">
+                    <tr>
+                        <td>Nom</td>
+                        <td>{{ store.storeName }}</td>
+                    </tr>
+                    <tr>
+                        <td>Adresse</td>
+                        <td>{{ store.storeAddress }}</td>
+                    </tr>
+                    <tr>
+                        <td>Code Postal</td>
+                        <td>{{ store.storeZipCode }}</td>
+                    </tr>
+                    <tr>
+                        <td>Ville</td>
+                        <td>{{ store.storeCity }}</td>
+                    </tr>
+                    <tr>
+                        <td>Tel :</td>
+                        <td>{{ store.storePhone }}</td>
+                    </tr>
+                    <tr>
+                        <td>Enseigne</td>
+                        <td>{{ store.signboard.signboardName }}</td>
+                    </tr>
+                    <tr>
+                        <td>Prix semaine</td>
+                        <td>{{ store.weekPrice }}</td>
+                    </tr>
+                    <tr>
+                        <td>Prix week-end</td>
+                        <td>{{ store.weekEndPrice }}</td>
+                    </tr>
+                </table>
+
+                <h2>TPE</h2>
+                <table class="table">
+                {% for tpe in store.tpe %}
+                    <tr>
+                        <td>Numéro</td>
+                        <td><a href="{{ path('editTpe',{'id':tpe.tpeId}) }}">{{ tpe.tpeNumber }}</a></td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="2">Aucun TPE associé</td>
+                    </tr>
+                {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock body %}
