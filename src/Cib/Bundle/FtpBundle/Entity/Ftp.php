@@ -131,11 +131,7 @@ class Ftp {
             if(($this->ftpHandle = ftp_connect($this->ftpHost, $this->ftpPort)) != false)
             {
                 if(@ftp_login($this->ftpHandle,$this->ftpLogin,$this->ftpPassword) != false)
-                {
-
-//                    ftp_pasv($this->ftpHandle,true);
                     return true;
-                }
                 else
                 {
                     $this->ftpError = 'authentication failed';

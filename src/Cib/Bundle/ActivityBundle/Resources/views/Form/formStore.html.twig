@@ -2,10 +2,65 @@
 <br>
 
 <div class="row">
+    {{ form_errors(form) }}
+</div>
+<div class="row">
     <div class="container">
-        <div class="col-md-offset-4 col-xs-offset-4">
-            {{ form_widget(form) }}
-            <button type="submit" value="valider" name="valider" class="btn btn-primary">Valider</button>
+        <div class="col-md-offset-3 col-xs-offset-3 col-md-4 col-xs-4">
+            <table class="table">
+                <tr>
+                    <td>{{ form_label(form.storeName) }}</td>
+                    <td>{{ form_widget(form.storeName) }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(form.storeAddress) }}</td>
+                    <td>{{ form_widget(form.storeAddress) }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(form.storeZipCode) }}</td>
+                    <td>{{ form_widget(form.storeZipCode) }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(form.storeCity) }}</td>
+                    <td>{{ form_widget(form.storeCity) }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(form.storePhone) }}</td>
+                    <td>{{ form_widget(form.storePhone) }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(form.signboard) }}</td>
+                    <td>{{ form_widget(form.signboard) }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(form.weekPrice) }}</td>
+                    <td>{{ form_widget(form.weekPrice) }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(form.weekEndPrice) }}</td>
+                    <td>{{ form_widget(form.weekEndPrice) }}</td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-md-offset-5 col-xs-offset-5">
+        <h1><a href="#" id="toggleTpe">TPE</a></h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-offset-3 col-xs-offset-3 col-md-5 col-xs-5">
+        <div class="toggle well" style="display: none">
+            <ul class="tpe list-inline" data-prototype="{{ form_widget(form.tpe.vars.prototype.tpeNumber)|e }}">
+                {% for tpe in form.tpe %}
+                    <li style="list-style-type: none">
+                        {{ form_widget(tpe.tpeNumber) }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{{ form_widget(form._token) }}
+<button type="submit" value="valider" name="valider" class="btn btn-primary">Valider</button>

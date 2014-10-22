@@ -27,21 +27,6 @@ class CardType extends AbstractType
                 'data' => new \DateTime('+1 year'),
 
             ))
-//            ->add('Pme1')
-//            ->add('Pme2')
-//            ->add('Pme3')
-//            ->add('Pme4')
-//            ->add('Pme5')
-//            ->add('moneyAmount1')
-//            ->add('unitAmount1')
-//            ->add('moneyAmount2')
-//            ->add('unitAmount2')
-//            ->add('moneyAmount3')
-//            ->add('unitAmount3')
-//            ->add('moneyAmount4')
-//            ->add('unitAmount4')
-//            ->add('moneyAmount5')
-//            ->add('unitAmount5')
             ->add('isActive','checkbox',array(
                 'label' => 'carte active',
                 'required' => false,

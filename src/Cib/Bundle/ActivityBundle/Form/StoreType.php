@@ -61,6 +61,14 @@ class StoreType extends AbstractType
             ->add('weekEndPrice','money',array(
                 'label' => 'prix week-end'
             ))
+            ->add('tpe','collection',array(
+                'type' => new TpeType(),
+                'allow_add' => true,
+                'allow_delete' => true,
+                'prototype' => true,
+                'by_reference' => false,
+                'label' => false,
+            ))
 
         ;
     }
@@ -72,7 +80,8 @@ class StoreType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Cib\Bundle\ActivityBundle\Entity\Store',
-            'empty_value' => new Store($this->signboard)
+            'cascade_validation' => true,
+            'empty_value' => new Store($this->signboard),
         ));
     }
 
@@ -91,8 +100,5 @@ class StoreType extends AbstractType
             $this->signboard = $arrayOtpions['signboard'];
         else
             $this->signboard = '';
-
-
-
     }
 }

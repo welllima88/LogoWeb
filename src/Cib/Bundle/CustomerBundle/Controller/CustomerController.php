@@ -160,7 +160,6 @@ class CustomerController extends Controller
                 }
                 else
                     throw $this->createNotFoundException('page introuvable');
-
             }
         }
 

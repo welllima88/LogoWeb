@@ -343,6 +343,7 @@ class Store
     public function addTpe(\Cib\Bundle\ActivityBundle\Entity\Tpe $tpe)
     {
         $this->tpe[] = $tpe;
+        $tpe->setStore($this);
 
         return $this;
     }

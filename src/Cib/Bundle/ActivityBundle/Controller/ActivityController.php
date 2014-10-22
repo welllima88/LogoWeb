@@ -15,6 +15,7 @@ use Cib\Bundle\ActivityBundle\Form\SignboardType;
 use Cib\Bundle\ActivityBundle\Form\StoreType;
 use Cib\Bundle\ActivityBundle\Form\TpeType;
 use Cib\Bundle\FtpBundle\Entity\Ftp;
+use Doctrine\Common\Collections\ArrayCollection;
 use Proxies\__CG__\Cib\Bundle\ActivityBundle\Entity\Store;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -242,23 +243,35 @@ class ActivityController extends Controller
      */
     public function addStoreAction(Request $request)
     {
-        $form = $this->createForm(new StoreType());
+        $store = new \Cib\Bundle\ActivityBundle\Entity\Store();
+        $form = $this->createForm(new StoreType(),$store);
         $form->handleRequest($request);
+        $originalTpe = new ArrayCollection();
 
-        if($form->isValid())
+        if($request->isMethod('POST'))
         {
-            $store = $form->getData();
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($store);
-            $em->flush();
-            $this->get('session')->getFlashBag()->all();
-            $this->get('session')->getFlashBag()->add('status','Ajout effectué');
+            if($form->isValid())
+            {
+                $store = $form->getData();
+                $em = $this->getDoctrine()->getManager();
+                foreach ($originalTpe as $tpe) {
+                    if ($store->getTpe()->contains($tpe) == false) {
+                        $tpe->setStore(null);
+                        $em->remove($tpe);
+                    }
+                }
+                $em->persist($store);
+                $em->flush();
+                $this->get('session')->getFlashBag()->all();
+                $this->get('session')->getFlashBag()->add('status','Ajout effectué');
 
-            return $this->redirect($this->generateUrl('displayStore'));
+                return $this->redirect($this->generateUrl('displayStore'));
+            }
         }
 
         return[
             'form' => $form->createView(),
+            'store' => 'store',
         ];
     }
 
@@ -279,6 +292,11 @@ class ActivityController extends Controller
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('CibActivityBundle:Store');
         $store = $repo->find($id);
+        $originalTpe = new ArrayCollection();
+
+        foreach($store->getTpe() as $tpe){
+            $originalTpe->add($tpe);
+        }
 
         $form = $this->createForm(new StoreType(array('signboard' => $store->getSignboard())),$store);
         $form->handleRequest($request);
@@ -288,6 +306,12 @@ class ActivityController extends Controller
             if($request->request->get('valider'))
             {
                 $store = $form->getData();
+                foreach ($originalTpe as $tpe) {
+                    if ($store->getTpe()->contains($tpe) == false) {
+                        $tpe->setStore(null);
+                        $em->remove($tpe);
+                    }
+                }
                 $em->persist($store);
                 $em->flush();
                 $this->get('session')->getFlashBag()->all();
@@ -304,6 +328,7 @@ class ActivityController extends Controller
         return[
             'form' => $form->createView(),
             'id' => $id,
+            'store' => 'store',
         ];
     }
 

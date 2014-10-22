@@ -23,7 +23,8 @@ class TpeType extends AbstractType
             ->add('tpeNumber','text',array(
                 'label' => 'numéro de tpe',
                 'attr' => array(
-                    'maxlength' => 8
+                    'maxlength' => 8,
+                    'placeholder' => 'numéro de TPE',
                 )
             ))
             ->add('store','entity',array(
@@ -33,7 +34,10 @@ class TpeType extends AbstractType
                 'label' => 'Magasin',
             ))
 //            ->add('cib_bundle_activitybundle_tpeparameters',new tpeParametersType());
-            ->add('tpeParameters',new tpeParametersType($this->tpeParameters) )
+            ->add('tpeParameters',new tpeParametersType($this->tpeParameters),array(
+                'required' => false,
+                )
+            )
         ;
     }
     
