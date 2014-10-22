@@ -57,9 +57,11 @@ class StoreType extends AbstractType
             ))
             ->add('weekPrice','money',array(
                 'label' => 'prix semaine',
+                'required' => false,
             ))
             ->add('weekEndPrice','money',array(
-                'label' => 'prix week-end'
+                'label' => 'prix week-end',
+                'required' => false,
             ))
             ->add('tpe','collection',array(
                 'type' => new TpeType(),
