@@ -43,7 +43,7 @@
                                 <tbody>
                                 <tr>
                                     <td><input type="checkbox" name="multiDelete[]" value="{{ store.storeId }}"></td>
-                                    <td>{{ store.storeName }}</td>
+                                    <td><a href="{{ path('displayDetailStore',{'id' : store.storeId , 'token' : store.token }) }}">{{ store.storeName }}</a></td>
                                     {#<td>{{ signboard.signboardNumber }}</td>#}
                                     <td><a href="{{ path('editStore',{'id' : store.storeId }) }}" class="glyphicon glyphicon-edit" style="color:darkorange"></a></td>
                                     <td><a href="{{ path('deleteStore',{'id' : store.storeId , 'token' : store.token }) }}" class="glyphicon glyphicon-remove" style="color:orangered"></a></td>

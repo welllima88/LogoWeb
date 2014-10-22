@@ -236,6 +236,37 @@ class ActivityController extends Controller
 
     /**
      * @param Request $request
+     *
+     * @Route("/loggedin/store/display/detail/{id}/{token}", name="displayDetailStore")
+     *
+     * @Template()
+     */
+    public function displayDetailStoreAction(Request $request, $id, $token)
+    {
+        if($id != 0)
+        {
+
+            $em = $this->getDoctrine()->getManager();
+            $repoStore = $em->getRepository('CibActivityBundle:Store');
+            $store = $repoStore->find($id);
+            $csrf = $this->get('form.csrf_provider');
+
+            if($token == $csrf->generateCsrfToken($store->getStoreId()))
+            {
+//                var_dump($store);die;
+                return[
+                    'store' => $store
+                ];
+            }
+            else
+                throw $this->createNotFoundException("Page introuvable");
+        }
+        else
+            throw $this->createNotFoundException("Page introuvable");
+    }
+
+    /**
+     * @param Request $request
      * @return array|RedirectResponse
      * @Route("/loggedin/store/add", name="addStore")
      *
