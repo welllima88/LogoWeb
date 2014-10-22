@@ -10,6 +10,8 @@ var formCityDebtorContainer = $("#cib_bundle_customerbundle_client_bankAccount_d
 var formCityCreditorContainer = $("#cib_bundle_customerbundle_client_bankAccount_creditorCity");
 var formZipCodeDebtorContainer = $("#cib_bundle_customerbundle_client_bankAccount_debtorZipCode");
 var formZipCodeCreditorContainer = $("#cib_bundle_customerbundle_client_bankAccount_creditorZipCode");
+var formCityClient = $("#cib_bundle_customerbundle_client_clientCity");
+var formZipCodeClient = $("#cib_bundle_customerbundle_client_clientZipCode");
 
 jQuery(document).ready(function() {
     // ajoute l'ancre « ajouter un tag » et li à la balise ul
@@ -63,77 +65,13 @@ function addTagFormDeleteLink($tagFormLi) {
 }
 
 formZipCodeDebtorContainer.keyup(function(){
-    var suggestions = [];
-    if(this.value.length > 2)
-    {
-        var data = this.value;
-        var debtorCountry = $("#cib_bundle_customerbundle_client_bankAccount_debtorCountry").val();
-
-        if(data.length < 5)
-        {
-            for(var i = data.length;i < 5;i++)
-            {
-                data = data+"0";
-            }
-        }
-
-        $.ajax({
-            url: "http://api.zippopotam.us/"+debtorCountry+"/" + data,
-            cache: false,
-            dataType: "json",
-            type: "GET",
-            success: function(result, success) {
-                while(suggestions.length > 0){
-                    suggestions.pop();
-                }
-                for ( ii in result['places']){
-                    suggestions.push(result['places'][ii]['place name']);
-                }
-                formCityDebtorContainer.autocomplete({
-                    source: suggestions,
-                    minLength: 0
-                }).on('focus', function() { $(this).keydown(); });;
-
-            }
-        });
-    }
-
+    $.getCityFromZipCode(this,formCityDebtorContainer);
 });
 
 formZipCodeCreditorContainer.keyup(function(){
-    var suggestions = [];
-    if(this.value.length > 2)
-    {
-        var data = this.value;
-        var creditorCountry = $("#cib_bundle_customerbundle_client_bankAccount_creditorCountry").val();
+    $.getCityFromZipCode(this,formCityCreditorContainer);
+});
 
-        if(data.length < 5)
-        {
-            for(var i = data.length;i < 5;i++)
-            {
-                data = data+"0";
-            }
-        }
-
-        $.ajax({
-            url: "http://api.zippopotam.us/"+creditorCountry+"/" + data,
-            cache: false,
-            dataType: "json",
-            type: "GET",
-            success: function(result, success) {
-                while(suggestions.length > 0){
-                    suggestions.pop();
-                }
-                for ( ii in result['places']){
-                    suggestions.push(result['places'][ii]['place name']);
-                }
-                formCityCreditorContainer.autocomplete({
-                    source: suggestions,
-                    minLength: 0
-                }).on('focus', function() { $(this).keydown(); });;
-
-            }
-        });
-    }
-
+formZipCodeClient.keyup(function(){
+    $.getCityFromZipCode(this,formCityClient);
 });
