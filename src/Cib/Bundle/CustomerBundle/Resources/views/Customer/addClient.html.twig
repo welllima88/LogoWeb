@@ -17,10 +17,21 @@
         </div>
     </div>
     <div class="row">
+        <div class="container">
+            <ul class="nav nav-pills" role="tablist" id="clientTab">
+                <li class="active"><a href="#ec" role="tab" data-toggle="tab">Etat Civil</a></li>
+                <li><a href="#bank" role="tab" data-toggle="tab">Bancaire</a></li>
+                <li><a href="#club" role="tab" data-toggle="tab">Club</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
         {#<div class="col-xs-offset-2 col-md-offset-2">#}
+        <div class="container well well-lg">
             <form action="{{ path('addClient') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
                 {% include 'CibCustomerBundle:Form:formClient.html.twig' %}
             </form>
+        </div>
         {#</div>#}
     </div>
     {#</div>#}
