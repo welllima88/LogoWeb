@@ -15,7 +15,7 @@ class SoapController extends Controller
      */
     public function helloAction()
     {
-        $webPath = $this->get('kernel')->getRootDir().'/../web/cibsoap/soapServer.wsdl';
+        $webPath = $this->get('kernel')->getRootDir().'/../web/bundles/cibsoap/soapServer.wsdl';
         var_dump($webPath);
         $server = new \SoapServer($webPath);
 
