@@ -1,3 +1,8 @@
+cib_soap:
+    resource: "@CibSoapBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 cib_data:
     resource: "@CibDataBundle/Controller/"
     type:     annotation

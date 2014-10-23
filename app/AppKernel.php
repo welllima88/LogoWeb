@@ -24,7 +24,8 @@ class AppKernel extends Kernel
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Cib\Bundle\FtpBundle\CibFtpBundle(),
-            new Cib\Bundle\DataBundle\CibDataBundle()
+            new Cib\Bundle\DataBundle\CibDataBundle(),
+            new Cib\Bundle\SoapBundle\CibSoapBundle(),
         ];
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
