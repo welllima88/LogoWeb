@@ -408,7 +408,7 @@ class ActivityController extends Controller
                 $this->get('session')->getFlashBag()->all();
                 $this->get('session')->getFlashBag()->add('status','Suppression effectuée');
 
-                return $this->redirect($this->generateUrl('displaySignboard'));
+                return $this->redirect($this->generateUrl('displayStore'));
             }
             else
                 throw $this->createNotFoundException('page introuvable');
