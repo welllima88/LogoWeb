@@ -1,0 +1,38 @@
+.titleTable{
+    font-size: large;
+    background-color: #102028;
+    color: #d5d5d5;
+}
+
+.titleTableLarge{
+    font-size: xx-large;
+    background-color: #102028;
+    color: #d5d5d5;
+}
+
+.row0{
+    background-color: #d5d5d5;
+}
+
+.row1{
+    background-color: #737373;
+    color: #ffffff;
+}
+
+.rowLink0{
+    background-color: #d5d5d5;
+
+}
+.rowLink1{
+    background-color: #737373;
+    color: #ffffff;
+}
+
+.rowLink1 a{
+    color: #ffffff;
+}
+
+.rowPme td{
+    font-weight:bold;
+    font-size: large;
+}

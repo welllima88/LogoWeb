@@ -14,10 +14,15 @@
 
     <div class="row" style="margin-top: 5%">
         <div class="container">
-            <div class="col-xs-offset-4 col-xs-6">
+            <div class="col-xs-offset-3 col-xs-6">
                 <form action="{{ path('displayStore',{'page' : 1}) }}" method="post">
-                    <input type="text" name="txtSearch" placeholder="entrer le nom du magasin" />
-                    <button type="submit" name="search" value="search">Rechercher</button>
+                    <div class="row">
+                        <input type="text" name="txtSearch" placeholder="entrer le nom du magasin" style="width: 100%"/>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <center><button type="submit" name="search" value="search" class="btn btn-primary">Rechercher</button></center>
+                    </div>
                 </form>
             </div>
         </div>
@@ -28,20 +33,20 @@
             <div class="container">
                 <div class="col-xs-offset-3 col-xs-6">
                     <form action="{{ path('deleteStore') }}" method="post">
-                        <table class="table table-bordered table-responsive">
+                        <table class="table table-responsive">
                             <thead>
-                            <tr>
+                            <tr class="titleTable">
                                 <th></th>
-                                <th>magasin</th>
+                                <th>MAGASIN</th>
                                 {#<th>Numéro</th>#}
                                 <th></th>
                                 <th></th>
                             </tr>
                             </thead>
-
+                            {% set count = 0 %}
                             {% for store in pagination.items %}
                                 <tbody>
-                                <tr>
+                                <tr class="rowLink{{ count }}">
                                     <td><input type="checkbox" name="multiDelete[]" value="{{ store.storeId }}"></td>
                                     <td><a href="{{ path('displayDetailStore',{'id' : store.storeId , 'token' : store.token }) }}">{{ store.storeName }}</a></td>
                                     {#<td>{{ signboard.signboardNumber }}</td>#}
@@ -49,6 +54,11 @@
                                     <td><a href="{{ path('deleteStore',{'id' : store.storeId , 'token' : store.token }) }}" class="glyphicon glyphicon-remove" style="color:orangered"></a></td>
                                 </tr>
                                 </tbody>
+                                {% if count == 1 %}
+                                    {% set count = 0 %}
+                                {% else %}
+                                    {% set count = count + 1 %}
+                                {% endif %}
                             {% endfor %}
                         </table>
                         <button type="submit" name="delete" value="delete" class="btn btn-link glyphicon glyphicon-remove">supprimer<span style="font-style: italic"> (la séléction)</span></button>

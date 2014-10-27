@@ -83,7 +83,7 @@ class Transaction {
     /**
      * @var
      *
-     * @ORM\ManyToOne(targetEntity="Cib\Bundle\CustomerBundle\Entity\Card", inversedBy="transaction", cascade={"persist", "remove", "merge"})
+     * @ORM\ManyToOne(targetEntity="Cib\Bundle\CustomerBundle\Entity\Card", inversedBy="transaction", cascade={"persist", "merge"})
      * @ORM\JoinColumn(name="cardId", referencedColumnName="cardId")
      */
     private $card;
@@ -91,7 +91,7 @@ class Transaction {
     /**
      * @var
      *
-     * @ORM\ManyToOne(targetEntity="Cib\Bundle\CustomerBundle\Entity\Client", inversedBy="transaction", cascade={"persist", "remove", "merge"})
+     * @ORM\ManyToOne(targetEntity="Cib\Bundle\CustomerBundle\Entity\Client", inversedBy="transaction", cascade={"persist", "merge"})
      * @ORM\JoinColumn(name="clientId", referencedColumnName="clientId")
      */
     private $client;
@@ -99,7 +99,7 @@ class Transaction {
     /**
      * @var
      *
-     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\Tpe",  cascade={"persist", "remove", "merge"})
+     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\Tpe",  cascade={"persist", "merge"})
      * @ORM\JoinColumn(name="tpeId", referencedColumnName="tpeId")
      */
     private $tpe;
@@ -107,7 +107,7 @@ class Transaction {
     /**
      * @var
      *
-     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\Store",cascade={"persist", "remove", "merge"})
+     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\Store",cascade={"persist", "merge"})
      * @ORM\JoinColumn(name="storeId", referencedColumnName="storeId")
      */
     private $store;

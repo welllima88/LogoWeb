@@ -13,64 +13,79 @@
 
     {% include 'CibCoreBundle:Core:displayFlash.html.twig' %}
 
-    <div class="row">
-        <div class="container">
-            <div class="col-md-offset-3 col-xs-offset-3">
-                <h1>Details du magasin {{ store.storeName }}</h1>
-            </div>
-        </div>
-    </div>
+    {#<div class="row">#}
+        {#<div class="container">#}
+            {#<div class="col-md-offset-3 col-xs-offset-3 col-md-6 col-xs-3">#}
+                {#<h1 class="titleTableLarge"></h1>#}
+            {#</div>#}
+        {#</div>#}
+    {#</div>#}
 
     <div class="row">
         <div class="container">
-            <div class="col-xs-offset-3 col-md-offset-3 col-md-4 col-xs-4">
-                <table class="table">
-                    <tr>
+            <div class="col-xs-offset-3 col-md-offset-3 col-md-5 col-xs-5">
+                <table class="table table-responsive">
+                    <tr class="titleTableLarge">
+                        <td colspan="2">DETAILS DU MAGASIN</td>
+                    </tr>
+                    <tr class="titleTable">
                         <td>Nom</td>
                         <td>{{ store.storeName }}</td>
                     </tr>
-                    <tr>
+                    <tr class="row0">
                         <td>Adresse</td>
                         <td>{{ store.storeAddress }}</td>
                     </tr>
-                    <tr>
+                    <tr class="row1">
                         <td>Code Postal</td>
                         <td>{{ store.storeZipCode }}</td>
                     </tr>
-                    <tr>
+                    <tr class="row0">
                         <td>Ville</td>
                         <td>{{ store.storeCity }}</td>
                     </tr>
-                    <tr>
+                    <tr class="row1">
                         <td>Tel :</td>
                         <td>{{ store.storePhone }}</td>
                     </tr>
-                    <tr>
+                    <tr class="row0">
                         <td>Enseigne</td>
-                        <td>{{ store.signboard.signboardName }}</td>
+                        {% if store.signboard is not null %}
+                            <td>{{ store.signboard.signboardName }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
                     </tr>
-                    <tr>
+                    <tr class="row1">
                         <td>Prix semaine</td>
                         <td>{{ store.weekPrice }}</td>
                     </tr>
-                    <tr>
+                    <tr class="row0">
                         <td>Prix week-end</td>
                         <td>{{ store.weekEndPrice }}</td>
                     </tr>
                 </table>
 
-                <h2>TPE</h2>
                 <table class="table">
-                {% for tpe in store.tpe %}
-                    <tr>
-                        <td>Numéro</td>
-                        <td><a href="{{ path('editTpe',{'id':tpe.tpeId}) }}">{{ tpe.tpeNumber }}</a></td>
+                    <tr class="titleTable">
+                        <td colspan="2">TPE</td>
                     </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="2">Aucun TPE associé</td>
-                    </tr>
-                {% endfor %}
+                    {% set count = 0 %}
+                    {% for tpe in store.tpe %}
+                        <tr class="rowLink{{ count }}">
+                            <td>Numéro</td>
+                            <td><a href="{{ path('editTpe',{'id':tpe.tpeId}) }}">{{ tpe.tpeNumber }}</a></td>
+                        </tr>
+                        {% if count == 1 %}
+                            {% set count = 0 %}
+                        {% else %}
+                            {% set count = count + 1 %}
+                        {% endif %}
+                    {% else %}
+                        <tr>
+                            <td colspan="2">Aucun TPE associé</td>
+                        </tr>
+                    {% endfor %}
                 </table>
             </div>
         </div>

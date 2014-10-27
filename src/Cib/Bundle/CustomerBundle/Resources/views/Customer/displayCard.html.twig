@@ -29,25 +29,30 @@
             <div class="container">
                 <div class="col-xs-offset-3 col-xs-6">
                     <form action="{{ path('deleteCard') }}" method="post">
-                        <table class="table table-bordered table-responsive">
-                            <thead>
-                            <tr>
+                        <table class="table table-responsive">
+                            {#<thead>#}
+                            <tr class="titleTable">
                                 <th></th>
                                 <th>numéro de carte</th>
                                 <th></th>
                                 <th></th>
                             </tr>
-                            </thead>
-
+                            {#</thead>#}
+                            {% set count = 0 %}
                             {% for card in pagination.items %}
                                 <tbody>
-                                <tr>
+                                <tr class="rowLink{{ count }}">
                                     <td><input type="checkbox" name="multiDelete[]" value="{{ card.cardId }}"></td>
                                     <td><a href="{{ path('displayDetailCard',{'id' : card.cardId}) }}"> {{ card.cardNumber }} </a></td>
                                     <td><a href="{{ path('editCard',{'id' : card.cardId}) }}" class="glyphicon glyphicon-edit" style="color:darkorange"></a></td>
                                     <td><a href="{{ path('deleteCard',{'id' : card.cardId, 'token' : card.token }) }}" class="glyphicon glyphicon-remove" style="color:orangered"></a></td>
                                 </tr>
                                 </tbody>
+                                {% if count == 1 %}
+                                    {% set count = 0 %}
+                                {% else %}
+                                    {% set count = count + 1 %}
+                                {% endif %}
                             {% endfor %}
                         </table>
                         <button type="submit" name="delete" value="delete" class="btn btn-link glyphicon glyphicon-remove">supprimer<span style="font-style: italic"> (la séléction)</span></button>

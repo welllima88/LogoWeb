@@ -1,8 +1,26 @@
 {% form_theme form 'form_table_layout.html.twig' %}
 <br>
-<div class="row">
-    <div class="container">
-        <div class="col-md-offset-4 col-xs-offset-4">
+<div class="container">
+    <div class="row">
+        <div class="col-md-offset-3 col-xs-offset-3 col-xs-5 col-md-5">
+            <table class="table table-responsive">
+                <tr>
+                    <td>Numéro de carte</td>
+                    <td>{{ form_widget(form.cardNumber) }}</td>
+                </tr>
+                <tr>
+                    <td>Date de validité</td>
+                    <td>{{ form_widget(form.cardValidity) }}</td>
+                </tr>
+                <tr>
+                    <td>Carte active</td>
+                    <td>{{ form_widget(form.isActive) }}</td>
+                </tr>
+                <tr>
+                    <td>Client</td>
+                    <td>{{ form_widget(form.client) }}</td>
+                </tr>
+            </table>
             {{ form_widget(form) }}
             <button type="submit" name="valider" class="btn btn-primary">Valider</button>
         </div>

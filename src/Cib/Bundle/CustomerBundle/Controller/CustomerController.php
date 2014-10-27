@@ -14,6 +14,7 @@ use Cib\Bundle\CustomerBundle\Entity\Client;
 use Cib\Bundle\CustomerBundle\Form\CardType;
 use Cib\Bundle\CustomerBundle\Form\ClientType;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\DBAL\DBALException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -196,7 +197,16 @@ class CustomerController extends Controller
                     foreach($request->get('multiDelete') as $clientId)
                     {
                         $tempClient = $repo->find($clientId);
-                        $em->remove($tempClient);
+                        try{
+                            $em->remove($tempClient);
+                        }
+                        catch(DBALException $e)
+                        {
+                            $this->get('session')->getFlashBag()->all();
+                            $this->get('session')->getFlashBag()->add('status','Impossible de supprimer la carte');
+                            return $this->redirect($this->generateUrl('displayClient'));
+                        }
+
                     }
                     $em->flush();
                     $this->get('session')->getFlashBag()->all();
@@ -380,7 +390,14 @@ class CustomerController extends Controller
             if($csrf->generateCsrfToken($card->getCardId()) == $token)
             {
                 $em->remove($card);
-                $em->flush();
+                try{
+                    $em->flush();
+                }
+                catch(DBALException $e){
+                    $this->get('session')->getFlashBag()->all();
+                    $this->get('session')->getFlashBag()->add('error','Impossible de supprimer la carte : des transactions lui sont affectées');
+                    return $this->redirect($this->generateUrl('displayCard'));
+                }
                 $this->get('session')->getFlashBag()->all();
                 $this->get('session')->getFlashBag()->add('status','Suppression effectuée');
 

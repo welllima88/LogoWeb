@@ -12,26 +12,36 @@
     </div>
 
     {% include 'CibCoreBundle:Core:displayFlash.html.twig' %}
-
-    <div class="row" style="margin-top: 5%">
-        <div class="container">
-            <div class="">
-                {#<form action="{{ path('displayResults') }}" method="post" novalidate="novalidate">#}
-                    {% include 'CibDataBundle:Form:formResults.html.twig' %}
-                {#</form>#}
+    <div class="container">
+        <div class="row" style="margin-top: 5%">
+            {% include 'CibDataBundle:Form:formResults.html.twig' %}
+            <div class="col-xs-2 col-md-2">
                 <button class="btn btn-primary" id="saveResultChoice">Enregistrer la séléction</button>
-                <button class="btn btn-primary" id="resetResultChoice">RESET</button>
-                <div id="inputResult">
-
-                </div>
+            </div>
+            <div class="col-xs-3 col-md-3">
+                <button class="btn btn-primary" id="resetResultChoice">Remise a zéro des filtres</button>
+            </div>
+            <div class="col-xs-2 col-md-2">
                 <div id="resultList">
 
                 </div>
-                <div id="resultModal">
-
-                </div>
             </div>
+
+
+            <br>
+            <br>
+
+
         </div>
+    </div>
+    <div class="row">
+        <div id="inputResult">
+
+        </div>
+    </div>
+
+    <div id="resultModal">
+
     </div>
 
     {% if pagination %}
@@ -41,89 +51,7 @@
         <div id="divTotal">
 
         </div>
-        {#<div class="row" style="margin-top: 5%">#}
-            {#<div class="container">#}
-                {#<div class="col-xs-offset-3 col-xs-6">#}
-                    {#<form action="{{ path('deleteSignboard') }}" method="post">#}
-                        {#<table class="table table-bordered table-responsive">#}
-                            {#<thead>#}
-                            {#<tr>#}
-                                {#<th></th>#}
-                                {#<th>Enseigne</th>#}
-                                {#<th>Numéro</th>#}
-                                {#<th></th>#}
-                                {#<th></th>#}
-                            {#</tr>#}
-                            {#</thead>#}
-
-                            {#{% for signboard in pagination.items %}#}
-                                {#<tbody>#}
-                                {#<tr>#}
-                                    {#<td><input type="checkbox" name="multiDelete[]" value="{{ signboard.signboardId }}"></td>#}
-                                    {#<td>{{ signboard.signboardName }}</td>#}
-                                    {#<td>{{ signboard.signboardNumber }}</td>#}
-                                    {#<td><a href="{{ path('editSignboard',{'id' : signboard.signboardId }) }}" class="glyphicon glyphicon-edit" style="color:darkorange"></a></td>#}
-                                    {#<td><a href="{{ path('deleteSignboard',{'id' : signboard.signboardId , 'token' : signboard.token }) }}" class="glyphicon glyphicon-remove" style="color:orangered"></a></td>#}
-                                {#</tr>#}
-                                {#</tbody>#}
-                            {#{% endfor %}#}
-                        {#</table>#}
-                        {#<button type="submit" name="delete" value="delete" class="btn btn-link glyphicon glyphicon-remove">supprimer<span style="font-style: italic"> (la séléction)</span></button>#}
-                        {#<a href="{{ path('addSignboard') }}" class="btn btn-link glyphicon glyphicon-floppy-save">Ajouter enseigne</a>#}
-                    {#</form>#}
-                {#</div>#}
-            {#</div>#}
-        {#</div>#}
-
     {% endif %}
-
-{#<script>#}
-    {#$(document).ready(function() {#}
-        {#$('#cib_bundle_databundle_results_dateStart').datepicker();#}
-        {#$('#cib_bundle_databundle_results_dateStop').datepicker();#}
-    {#});#}
-
-    {#$('#cib_bundle_databundle_results_month').on('change',function(){#}
-        {#getMonth();#}
-    {#});#}
-
-    {#$('#cib_bundle_databundle_results_card').keyup(function(){#}
-        {#alert('alfred');#}
-        {#if(this.value.length >= 4)#}
-        {#{#}
-            {#alert(this.value.length);#}
-            {#autoLoadCard(this.value);#}
-        {#}#}
-
-    {#});#}
-
-    {#function getMonth(){#}
-        {#$.post('{{ path('displayResults') }}',#}
-                {#{data1: 'mydata1', data2:'mydata2'},#}
-                {#function(response){#}
-                    {#if(response.code == 100 && response.success){//dummy check#}
-                        {#//do something#}
-                        {#alert('toto!!!');#}
-                    {#}#}
-
-                {#}, "json");#}
-    {#}#}
-
-    {#function autoLoadCard(val){#}
-        {#$.ajax({#}
-            {#url: {{ path('displayResults') }},#}
-            {#type: 'post',#}
-            {#data: val,#}
-            {#success: function(data) {#}
-                {#alert(data.);#}
-                {#$('#expediteur_liste').replaceWith(data.expediteurHTML);#}
-            {#},#}
-            {#error: function() {#}
-                {#alert('erreur ajax');#}
-            {#}#}
-        {#});#}
-    {#}#}
-{#</script>#}
 
 {% endblock body %}
 

@@ -15,10 +15,16 @@
 
     <div class="row" style="margin-top: 5%">
         <div class="container">
-            <div class="col-xs-offset-4 col-xs-6">
+            <div class="col-xs-offset-3 col-xs-6">
                 <form action="{{ path('displaySignboard',{'page' : 1}) }}" method="post">
-                    <input type="text" name="txtSearch" placeholder="entrer le numéro ou nom de l'enseigne" />
-                    <button type="submit" name="search" value="search">Rechercher</button>
+                    <div class="row">
+                        <input type="text" name="txtSearch" placeholder="entrer le numéro ou nom de l'enseigne" style="width: 100%"/>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <center><button type="submit" name="search" value="search" class="btn btn-primary">Rechercher</button></center>
+                    </div>
+
                 </form>
             </div>
         </div>
@@ -29,20 +35,21 @@
             <div class="container">
                 <div class="col-xs-offset-3 col-xs-6">
                     <form action="{{ path('deleteSignboard') }}" method="post">
-                        <table class="table table-bordered table-responsive">
+                        <table class="table table-responsive">
                             <thead>
-                            <tr>
+                            <tr class="titleTable">
                                 <th></th>
-                                <th>Enseigne</th>
-                                <th>Numéro</th>
+                                <th>ENSEIGNE</th>
+                                <th>NUMERO</th>
                                 <th></th>
                                 <th></th>
                             </tr>
                             </thead>
 
+                            {% set count = 0 %}
                             {% for signboard in pagination.items %}
                                 <tbody>
-                                <tr>
+                                <tr class="row{{ count }}">
                                     <td><input type="checkbox" name="multiDelete[]" value="{{ signboard.signboardId }}"></td>
                                     <td>{{ signboard.signboardName }}</td>
                                     <td>{{ signboard.signboardNumber }}</td>
@@ -50,6 +57,11 @@
                                     <td><a href="{{ path('deleteSignboard',{'id' : signboard.signboardId , 'token' : signboard.token }) }}" class="glyphicon glyphicon-remove" style="color:orangered"></a></td>
                                 </tr>
                                 </tbody>
+                                {% if count == 1 %}
+                                    {% set count = 0 %}
+                                {% else %}
+                                    {% set count = count + 1 %}
+                                {% endif %}
                             {% endfor %}
                         </table>
                         <button type="submit" name="delete" value="delete" class="btn btn-link glyphicon glyphicon-remove">supprimer<span style="font-style: italic"> (la séléction)</span></button>

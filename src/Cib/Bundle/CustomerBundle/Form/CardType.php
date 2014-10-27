@@ -31,11 +31,11 @@ class CardType extends AbstractType
                 'label' => 'carte active',
                 'required' => false,
             ))
-            ->add('signboard','entity',array(
-                'class' => 'CibActivityBundle:Signboard',
-                'property' => 'signboardName',
-                'label' => 'enseigne',
-            ))
+//            ->add('signboard','entity',array(
+//                'class' => 'CibActivityBundle:Signboard',
+//                'property' => 'signboardName',
+//                'label' => 'enseigne',
+//            ))
             ->add('client','entity',array(
                 'class' => 'CibCustomerBundle:Client',
                 'property' => 'clientName',

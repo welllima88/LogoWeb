@@ -166,7 +166,7 @@ class Client
 
     /**
      * @var
-     * @ORM\OneToMany(targetEntity="Cib\Bundle\DataBundle\Entity\Transaction", mappedBy="client", cascade={"persist","remove"})
+     * @ORM\OneToMany(targetEntity="Cib\Bundle\DataBundle\Entity\Transaction", mappedBy="client", cascade={"persist"})
      */
     private $transaction;
 
@@ -180,7 +180,7 @@ class Client
     /**
      * @var
      *
-     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\Club", inversedBy="client", cascade={"persist","remove"})
+     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\Club", inversedBy="client", cascade={"persist"})
      * @ORM\JoinColumn(name="clubId", referencedColumnName="clubId", onDelete="SET NULL" )
      */
     private $club;

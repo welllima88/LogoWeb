@@ -28,9 +28,9 @@
             <div class="container">
                 <div class="col-xs-offset-3 col-xs-6">
                     <form action="{{ path('deleteTpe') }}" method="post">
-                        <table class="table table-bordered table-responsive">
+                        <table class="table table-responsive">
                             <thead>
-                            <tr>
+                            <tr class="titleTable">
                                 <th></th>
                                 <th>TPE</th>
                                 {#<th>Numéro</th>#}
@@ -38,10 +38,10 @@
                                 <th></th>
                             </tr>
                             </thead>
-
+                            {% set count = 0 %}
                             {% for tpe in pagination.items %}
                                 <tbody>
-                                <tr>
+                                <tr class="row{{ count }}">
                                     <td><input type="checkbox" name="multiDelete[]" value="{{ tpe.tpeId }}"></td>
                                     <td>{{ tpe.tpeNumber }}</td>
                                     {#<td>{{ signboard.signboardNumber }}</td>#}
@@ -49,6 +49,11 @@
                                     <td><a href="{{ path('deleteTpe',{'id' : tpe.tpeId , 'token' : tpe.token }) }}" class="glyphicon glyphicon-remove" style="color:orangered"></a></td>
                                 </tr>
                                 </tbody>
+                                {% if count == 1 %}
+                                    {% set count = 0 %}
+                                {% else %}
+                                    {% set count = count + 1 %}
+                                {% endif %}
                             {% endfor %}
                         </table>
                         <button type="submit" name="delete" value="delete" class="btn btn-link glyphicon glyphicon-remove">supprimer<span style="font-style: italic"> (la séléction)</span></button>

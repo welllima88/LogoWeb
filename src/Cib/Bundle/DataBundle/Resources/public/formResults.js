@@ -36,6 +36,7 @@ $(document).ready(function() {
 
     buttonReset.on('click',function(){
         selectResults(undefined,undefined,undefined,undefined,undefined,undefined,url);
+        monthContainer.value = "";
     });
     cardContainer.keyup(function(){
         if(this.value.length >= 4)
@@ -73,7 +74,7 @@ $(document).ready(function() {
     });
 
     resultContainer.on('click',function(){
-        $('#inputResult').append('<div class="row"><input type="text" name="nameResult" placeholder="Entrez le nom de votre enregistrment" id="nameResult"><span><button class="btn btn-success" id="nameValid">Valider</button></span><span><button class="btn btn-danger" id="nameCancel">Annuler</button> </span></div> ');
+        $('#inputResult').append('<input type="text" name="nameResult" placeholder="Entrez le nom de votre enregistrment" id="nameResult" style="width: 23%"><div class="row"><div class="col-xs-1 col-md-1"><button class="btn btn-success" id="nameValid">Valider</button></div><div class="col-xs-1 col-md-1"><button class="btn btn-danger" id="nameCancel">Annuler</button></div>');
         resultContainer.attr("disabled", "disabled");
         var buttonResultContainer = $('#nameValid');
         var buttonCancel = $('#nameCancel');
@@ -181,22 +182,33 @@ function selectResults(month,dateStart,dateStop,card,client,store,url){
             $("#tabTotal").remove();
             //$('#tabResultCredit').remove();
 
-            tabResultContainer.append('<table id="tabResultDebit" class="table table-bordered table-responsive"><tr><td colspan="6"><bold>Transactions</bold></td></tr><tr><td>Date transaction</td><td>Numéro de carte</td><td>VIP</td><td>Prime</td><td>Débit</td><td>Crédit</td></tr></table>');
+            tabResultContainer.append('<table id="tabResultDebit" class="table table-responsive"><tr class="titleTableLarge"><td colspan="7"><bold>TRANSACTIONS</bold></td></tr><tr class="titleTable"><td class="col-xs-1 col-md-1">DATE</td><td class="col-xs-1 col-md-1">NUMERO DE CARTE</td><td class="col-xs-1 col-md-1">VIP</td><td class="col-xs-1 col-md-1">PRIME</td><td class="col-xs-1 col-md-1">DEBIT</td><td class="col-xs-1 col-md-1">CREDIT</td><td class="col-xs-1 col-md-1"></td></tr></table>');
+            var k = 0;
             $.each(JSON.parse(data), function(i, item) {
+                //alert(i);
             var date = new Date(item.date_transaction);
                 if(item.type_transaction == 'D')
                 {
                     totalDebit = totalDebit + item.amount_transaction;
-                    var test = '<td class="col-md-1 col-xs-1">'+item.amount_transaction+'</td><td class="col-md-1 col-xs-1"></td></tr>';
+                    var test = '<td class="col-md-1 col-xs-1">'+item.amount_transaction.toFixed(2)+' €</td><td class="col-md-1 col-xs-1"></td><td class="col-xs-1 col-md-1"></td></tr>';
                 }
                 else
                 {
                     totalCredit = totalCredit + item.amount_transaction;
                     totalPrime = totalPrime + item.prime_transaction;
-                    var test = '<td class="col-md-1 col-xs-1"></td><td class="col-md-1 col-xs-1">'+item.amount_transaction+'</td></tr>';
+                    var test = '<td class="col-md-1 col-xs-1"></td><td class="col-md-1 col-xs-1">'+item.amount_transaction.toFixed(2)+' €</td><td class="col-xs-1 col-md-1"></td></tr>';
                 }
+                if(item.is_vip_transaction == false)
+                    item.is_vip_transaction = 'NON';
+                else
+                    item.is_vip_transaction = 'OUI';
 
-                $('#tabResultDebit').append('<tr><td class="col-md-1 col-xs-1">'+date.getDate()+'/'+(date.getMonth() + 1) +'/'+date.getFullYear()+'</td><td class="col-md-1 col-xs-1">'+item.card.card_number+'</td><td class="col-md-1 col-xs-1">'+item.is_vip_transaction+'</td><td class="col-md-1 col-xs-1">'+item.prime_transaction+'</td>'+test);});
+                $('#tabResultDebit').append('<tr class="row'+k+'"><td class="col-md-1 col-xs-1">'+date.getDate()+'/'+(date.getMonth() + 1) +'/'+date.getFullYear()+'</td><td class="col-md-1 col-xs-1">'+item.card.card_number+'</td><td class="col-md-1 col-xs-1">'+item.is_vip_transaction+'</td><td class="col-md-1 col-xs-1">'+item.prime_transaction.toFixed(2)+' €</td>'+test);
+                if(k == 1)
+                 k =0;
+                else
+                 k = k +1;
+            });
             $.selectTotal(totalDebit,totalCredit,totalPrime);
                 $('#loaderOn').remove();
             },
@@ -351,8 +363,8 @@ function refreshResult()
 }
 
 $.selectTotal = function(debit,credit,prime){
-    $("#divTotal").append('<table id="tabTotal" class="table table-bordered table-responsive"><tr><td class="col-md-1 col-xs-1">Total</td><td class="col-md-1 col-xs-1"></td><td class="col-md-1 col-xs-1"></td><td class="col-md-1 col-xs-1">Prime</td><td class="col-md-1 col-xs-1">Débit</td><td class="col-md-1 col-xs-1">Crédit</td><td>Solde</td></tr></table>');
-    $("#tabTotal").append('<tr><td class="col-md-1 col-xs-1"></td><td class="col-md-1 col-xs-1"></td><td class="col-md-1 col-xs-1"></td><td class="col-md-1 col-xs-1">'+prime+'</td><td class="col-md-1 col-xs-1">'+debit+'</td><td class="col-md-1 col-xs-1">'+credit+'</td><td class="col-md-1 col-xs-1">'+(credit - debit)+'</td></tr>');
+    $("#divTotal").append('<table id="tabTotal" class="table table-responsive"><tr class="titleTable"><td class="col-md-1 col-xs-1">TOTAL</td><td class="col-md-1 col-xs-1"></td><td class="col-md-1 col-xs-1"></td><td class="col-md-1 col-xs-1">PRIME</td><td class="col-md-1 col-xs-1">DEBIT</td><td class="col-md-1 col-xs-1">CREDIT</td><td class="col-xs-1 col-md-1">SOLDE</td></tr>');
+    $("#tabTotal").append('<tr class="row0"><td class="col-md-1 col-xs-1"></td><td class="col-md-1 col-xs-1"></td><td class="col-md-1 col-xs-1"></td><td class="col-md-1 col-xs-1">'+prime.toFixed(2)+' €</td><td class="col-md-1 col-xs-1">'+debit.toFixed(2)+' €</td><td class="col-md-1 col-xs-1">'+credit.toFixed(2)+' €</td><td class="col-md-1 col-xs-1">'+(credit - debit).toFixed(2)+' €</td></tr></table>');
 };
 
 function deleteResult(){

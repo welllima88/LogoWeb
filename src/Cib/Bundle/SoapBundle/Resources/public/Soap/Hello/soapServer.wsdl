@@ -1,50 +1,33 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
-             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
-             xmlns:tns="urn:arnleadservicewsdl"
-             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-             xmlns="http://schemas.xmlsoap.org/wsdl/"
-             targetNamespace="urn:helloservicewsdl">
-
-    <portType name="hellowsdlPortType">
+<definitions name="hello" targetNamespace="http://voisin.cib-ingenierie.fr/Soap/Hello" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://voisin.cib-ingenierie.fr/Soap/Hello" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap-enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+    <portType name="helloPortType">
         <operation name="hello">
-            <documentation>Hello World</documentation>
             <input message="tns:helloRequest"/>
             <output message="tns:helloResponse"/>
         </operation>
     </portType>
     <types>
-        <xsd:schema targetNamespace="urn:hellowsdl">
-            <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
-            <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" />
-        </xsd:schema>
+        <xsd:schema targetNamespace="http://voisin.cib-ingenierie.fr/Soap/Hello"/>
     </types>
-
     <message name="helloRequest">
-        <part name="name" type="xsd:string" />
+        <part name="name" type="xsd:string"/>
     </message>
     <message name="helloResponse">
-        <part name="return" type="xsd:string" />
+        <part name="return" type="xsd:string"/>
     </message>
-    <service name="hellowsdl">
-        <port name="hellowsdlPort" binding="tns:hellowsdlBinding">
-            <soap:address location="voisin.cib-ingenierie/Soap/Hello" />
+    <service name="helloService">
+        <port name="helloPort" binding="tns:helloBinding">
+            <soap:address location="http://voisin.cib-ingenierie.fr/Soap/Hello"/>
         </port>
     </service>
-    <binding name="hellowsdlBinding" type="tns:hellowsdlPortType">
-        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <binding name="helloBinding" type="tns:helloPortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc"/>
         <operation name="hello">
-            <soap:operation soapAction="urn:arnleadservicewsdl#hello" style="rpc"/>
+            <soap:operation soapAction="http://voisin.cib-ingenierie.fr/Soap/Hello"/>
             <input>
-                <soap:body use="encoded" namespace="urn:hellowsdl"
-                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="literal" namespace="http://voisin.cib-ingenierie.fr/Soap/Hello" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </input>
             <output>
-                <soap:body use="encoded" namespace="urn:hellowsdl"
-                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="literal" namespace="http://voisin.cib-ingenierie.fr/Soap/Hello" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </output>
         </operation>
     </binding>

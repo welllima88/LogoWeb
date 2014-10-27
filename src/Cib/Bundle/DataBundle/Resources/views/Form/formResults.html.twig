@@ -1,10 +1,25 @@
 {% form_theme form 'form_table_layout.html.twig' %}
 {#<br>#}
-{#<div class="row">#}
-    {#<div class="container">#}
-        {#<div class="col-md-offset-4 col-xs-offset-4">#}
-            {{ form_widget(form) }}
-            {#<button type="submit" value="valider" name="valider" class="btn btn-primary">Valider</button>#}
-        {#</div>#}
-    {#</div>#}
-{#</div>#}
+<div class="row">
+    <div class="container">
+        <table class="table table-responsive">
+            <tr>
+                <td>MOIS</td>
+                <td>DATE DEBUT</td>
+                <td>DATE FIN</td>
+                <td>NUM CARTE</td>
+                <td>CLIENT</td>
+                <td>MAGASIN</td>
+            </tr>
+            <tr>
+                <td>{{ form_widget(form.month) }}</td>
+                <td>{{ form_widget(form.dateStart) }}</td>
+                <td>{{ form_widget(form.dateStop) }}</td>
+                <td>{{ form_widget(form.card) }}</td>
+                <td>{{ form_widget(form.client) }}</td>
+                <td>{{ form_widget(form.store) }}</td>
+            </tr>
+        </table>
+        {{ form_widget(form) }}
+    </div>
+</div>

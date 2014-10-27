@@ -126,12 +126,6 @@ class Card
     private $isActive;
 
 
-    /**
-     * @var
-     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\Signboard")
-     * @ORM\JoinColumn(name="signboardId", referencedColumnName="signboardId", onDelete="SET NULL" )
-     */
-    private $signboard;
 
     /**
      * @var
@@ -142,7 +136,7 @@ class Card
 
     /**
      * @var
-     * @ORM\OneToMany(targetEntity="Cib\Bundle\DataBundle\Entity\Transaction", mappedBy="card", cascade={"persist","remove"})
+     * @ORM\OneToMany(targetEntity="Cib\Bundle\DataBundle\Entity\Transaction", mappedBy="card", cascade={"persist"})
      */
     private $transaction;
 
