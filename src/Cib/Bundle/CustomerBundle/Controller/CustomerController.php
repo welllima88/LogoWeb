@@ -63,8 +63,26 @@ class CustomerController extends Controller
 
 
     /**
+     * @param Request $request
+     * @param $id
+     * @return array
+     * @Route("/loggedin/display/detail/client/{id}", name="displayDetailClient")
+     * @Template()
+     */
+    public function displayDetailClientAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repoClient = $em->getRepository('CibCustomerBundle:Client');
+        $client = $repoClient->find($id);
+
+        return[
+            'client' => $client,
+        ];
+    }
+
+    /**
      *
-     * @Route("/loggedin/client/edit/{id}", name="editClient")
+     * @Route("/loggedin/admin/client/edit/{id}", name="editClient")
      *
      * @Template()
      * @param Request $request
@@ -122,7 +140,7 @@ class CustomerController extends Controller
 
     /**
      *
-     * @Route("/loggedin/client/add/", name="addClient")
+     * @Route("/loggedin/admin/client/add/", name="addClient")
      *
      * @Template()
      */
@@ -180,7 +198,7 @@ class CustomerController extends Controller
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @internal param $ $
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @Route("/loggedin/client/delete/{id}/{token}", name="deleteClient", defaults={"id" = 0, "token" = 0})
+     * @Route("/loggedin/admin/client/delete/{id}/{token}", name="deleteClient", defaults={"id" = 0, "token" = 0})
      */
     public function deleteClientAction(Request $request,$id,$token)
     {
@@ -271,7 +289,7 @@ class CustomerController extends Controller
     /**
      * @param Request $request
      *
-     * @Route("/loggedin/card/edit/{id}", name="editCard")
+     * @Route("/loggedin/admin/card/edit/{id}", name="editCard")
      * @Template()
      * @param $id
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
@@ -320,7 +338,7 @@ class CustomerController extends Controller
      * @param Request $request
      *
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
-     * @Route("/loggedin/card/add", name="addCard")
+     * @Route("/loggedin/admin/card/add", name="addCard")
      *
      * @Template()
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
@@ -359,7 +377,7 @@ class CustomerController extends Controller
      * @param $token
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @Route("/loggedin/delete/card/{id}/{token}", name="deleteCard", defaults={"id" = 0, "token" = 0})
+     * @Route("/loggedin/admin/delete/card/{id}/{token}", name="deleteCard", defaults={"id" = 0, "token" = 0})
      */
     public function deleteCardAction(Request $request,$id,$token)
     {

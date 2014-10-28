@@ -6,7 +6,7 @@
     <div class="row">
         <div class="container">
             <div class="pagination">
-                <a href="{{ path('index') }}"> Acceuil</a> > Cartes
+                <a href="{{ path('index') }}"> Accueil</a> > Cartes
             </div>
         </div>
     </div>
@@ -37,8 +37,8 @@
                         <tbody>
                         {% if card.client is not null %}
                             <tr class="rowLink0">
-                                <td><a href="{{ path('editClient',{'id' : card.client.clientId}) }}">{{ card.client.clientName }}</a></td>
-                                <td><a href="{{ path('editClient',{'id' : card.client.clientId}) }}">{{ card.client.clientFirstName }}</a></td>
+                                <td><a href="{{ path('displayDetailClient',{'id' : card.client.clientId}) }}">{{ card.client.clientName }}</a></td>
+                                <td><a href="{{ path('displayDetailClient',{'id' : card.client.clientId}) }}">{{ card.client.clientFirstName }}</a></td>
                             </tr>
                         {% else %}
                             <tr>

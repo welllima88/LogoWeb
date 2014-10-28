@@ -6,7 +6,7 @@
     <div class="row">
         <div class="container">
             <div class="pagination">
-                <a href="{{ path('index') }}"> Acceuil</a> > <a href="{{ path('listActivity') }}">Activité</a> > Enseignes
+                <a href="{{ path('index') }}"> Accueil</a> > <a href="{{ path('listActivity') }}">Activité</a> > Enseignes
             </div>
         </div>
     </div>
@@ -50,11 +50,11 @@
                             {% for signboard in pagination.items %}
                                 <tbody>
                                 <tr class="row{{ count }}">
-                                    <td><input type="checkbox" name="multiDelete[]" value="{{ signboard.signboardId }}"></td>
+                                    <td>{% if app.user is not null and is_granted('ROLE_ADMIN') %}<input type="checkbox" name="multiDelete[]" value="{{ signboard.signboardId }}">{% endif %}</td>
                                     <td>{{ signboard.signboardName }}</td>
                                     <td>{{ signboard.signboardNumber }}</td>
-                                    <td><a href="{{ path('editSignboard',{'id' : signboard.signboardId }) }}" class="glyphicon glyphicon-edit" style="color:darkorange"></a></td>
-                                    <td><a href="{{ path('deleteSignboard',{'id' : signboard.signboardId , 'token' : signboard.token }) }}" class="glyphicon glyphicon-remove" style="color:orangered"></a></td>
+                                    <td>{% if app.user is not null and is_granted('ROLE_ADMIN') %}<a href="{{ path('editSignboard',{'id' : signboard.signboardId }) }}" class="glyphicon glyphicon-edit" style="color:darkorange"></a>{% endif %}</td>
+                                    <td>{% if app.user is not null and is_granted('ROLE_ADMIN') %}<a href="{{ path('deleteSignboard',{'id' : signboard.signboardId , 'token' : signboard.token }) }}" class="glyphicon glyphicon-remove" style="color:orangered"></a>{% endif %}</td>
                                 </tr>
                                 </tbody>
                                 {% if count == 1 %}
@@ -64,8 +64,10 @@
                                 {% endif %}
                             {% endfor %}
                         </table>
+                        {% if app.user is not null and is_granted('ROLE_ADMIN') %}
                         <button type="submit" name="delete" value="delete" class="btn btn-link glyphicon glyphicon-remove">supprimer<span style="font-style: italic"> (la séléction)</span></button>
                         <a href="{{ path('addSignboard') }}" class="btn btn-link glyphicon glyphicon-floppy-save">Ajouter enseigne</a>
+                        {% endif %}
                     </form>
                 </div>
             </div>

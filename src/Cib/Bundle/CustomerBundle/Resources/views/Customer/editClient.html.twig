@@ -6,7 +6,7 @@
     <div class="row">
         <div class="container">
             <div class="pagination">
-                <a href="{{ path('index') }}"> Acceuil</a> > <a href="{{ path('displayClient') }}">Clients</a> > Mofdifier
+                <a href="{{ path('index') }}"> Accueil</a> > <a href="{{ path('displayClient') }}">Clients</a> > Mofdifier
             </div>
         </div>
     </div>
@@ -28,7 +28,7 @@
     </div>
     <div class="row">
         <div class="container well well-lg">
-            <div>
+            <div id="is_form" class="form">
                 <form action="{{ path('editClient',{'id':id}) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate" class="{{ path('getCity') }}">
                     {% include 'CibCustomerBundle:Form:formClient.html.twig' %}
                 </form>

@@ -13,14 +13,6 @@
 
     {% include 'CibCoreBundle:Core:displayFlash.html.twig' %}
 
-    {#<div class="row">#}
-        {#<div class="container">#}
-            {#<div class="col-md-offset-3 col-xs-offset-3 col-md-6 col-xs-3">#}
-                {#<h1 class="titleTableLarge"></h1>#}
-            {#</div>#}
-        {#</div>#}
-    {#</div>#}
-
     <div class="row">
         <div class="container">
             <div class="col-xs-offset-3 col-md-offset-3 col-md-5 col-xs-5">
@@ -74,7 +66,11 @@
                     {% for tpe in store.tpe %}
                         <tr class="rowLink{{ count }}">
                             <td>Numéro</td>
-                            <td><a href="{{ path('editTpe',{'id':tpe.tpeId}) }}">{{ tpe.tpeNumber }}</a></td>
+                            {% if app.user is not null and is_granted('ROLE_ADMIN') %}
+                                <td><a href="{{ path('editTpe',{'id':tpe.tpeId}) }}">{{ tpe.tpeNumber }}</a></td>
+                            {% else %}
+                                <td>{{ tpe.tpeNumber }}</td>
+                            {% endif %}
                         </tr>
                         {% if count == 1 %}
                             {% set count = 0 %}

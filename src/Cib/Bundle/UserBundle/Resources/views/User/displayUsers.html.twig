@@ -1,0 +1,48 @@
+{% extends 'CibCoreBundle::layout.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <div class="pagination">
+                <a href="{{ path('index') }}"> Accueil</a> > Utilisateurs
+            </div>
+        </div>
+    </div>
+
+    {% include 'CibCoreBundle:Core:displayFlash.html.twig' %}
+
+    {% if pagination %}
+    <div class="container">
+        <div class="row">
+            <table class="table table-responsive">
+                <tr>
+                    <td>Nom</td>
+                    <td>Role</td>
+                </tr>
+                {% set count = 0 %}
+                {% for user in pagination.items %}
+                <tr>
+                    <td>{{ user.userName }}</td>
+                    {% for role in user.roles %}
+                        {% if role == 'ROLE_ADMIN' %}
+                            <td>Admin</td>
+                        {% elseif role == 'ROLE_USER'%}
+                            <td>Utilisateur</td>
+                        {% endif %}
+                    {% endfor %}
+                    <td><a href="{{ path('editUser',{'id':user.id , 'token':user.token}) }}">Modifier</a> </td>
+                </tr>
+                {% if count == 1 %}
+                    {% set count = 0 %}
+                {% else %}
+                    {% set count = count + 1 %}
+                {% endif %}
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    {% endif %}
+
+{% endblock body %}

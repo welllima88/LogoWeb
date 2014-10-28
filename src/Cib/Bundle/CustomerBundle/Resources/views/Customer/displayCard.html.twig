@@ -6,7 +6,7 @@
     <div class="row">
         <div class="container">
             <div class="pagination">
-                <a href="{{ path('index') }}"> Acceuil</a> > Cartes
+                <a href="{{ path('index') }}"> Accueil</a> > Cartes
             </div>
         </div>
     </div>
@@ -44,8 +44,8 @@
                                 <tr class="rowLink{{ count }}">
                                     <td><input type="checkbox" name="multiDelete[]" value="{{ card.cardId }}"></td>
                                     <td><a href="{{ path('displayDetailCard',{'id' : card.cardId}) }}"> {{ card.cardNumber }} </a></td>
-                                    <td><a href="{{ path('editCard',{'id' : card.cardId}) }}" class="glyphicon glyphicon-edit" style="color:darkorange"></a></td>
-                                    <td><a href="{{ path('deleteCard',{'id' : card.cardId, 'token' : card.token }) }}" class="glyphicon glyphicon-remove" style="color:orangered"></a></td>
+                                    <td>{% if app.user is not null and is_granted('ROLE_ADMIN')%}<a href="{{ path('editCard',{'id' : card.cardId}) }}" class="glyphicon glyphicon-edit" style="color:darkorange"></a>{% endif %}</td>
+                                    <td>{% if app.user is not null and is_granted('ROLE_ADMIN')%}<a href="{{ path('deleteCard',{'id' : card.cardId, 'token' : card.token }) }}" class="glyphicon glyphicon-remove" style="color:orangered"></a>{% endif %}</td>
                                 </tr>
                                 </tbody>
                                 {% if count == 1 %}
@@ -55,8 +55,10 @@
                                 {% endif %}
                             {% endfor %}
                         </table>
-                        <button type="submit" name="delete" value="delete" class="btn btn-link glyphicon glyphicon-remove">supprimer<span style="font-style: italic"> (la séléction)</span></button>
-                        <a href="{{ path('addCard') }}" class="btn btn-link glyphicon glyphicon-floppy-save">Ajouter carte</a>
+                        {% if app.user is not null and is_granted('ROLE_ADMIN')%}
+                            <button type="submit" name="delete" value="delete" class="btn btn-link glyphicon glyphicon-remove">supprimer<span style="font-style: italic"> (la séléction)</span></button>
+                            <a href="{{ path('addCard') }}" class="btn btn-link glyphicon glyphicon-floppy-save">Ajouter carte</a>
+                        {% endif %}
                     </form>
                 </div>
             </div>

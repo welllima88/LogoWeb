@@ -12,12 +12,16 @@ var formZipCodeDebtorContainer = $("#cib_bundle_customerbundle_client_bankAccoun
 var formZipCodeCreditorContainer = $("#cib_bundle_customerbundle_client_bankAccount_creditorZipCode");
 var formCityClient = $("#cib_bundle_customerbundle_client_clientCity");
 var formZipCodeClient = $("#cib_bundle_customerbundle_client_clientZipCode");
+var isForm = $("#is_form");
 
 jQuery(document).ready(function() {
     // ajoute l'ancre « ajouter un tag » et li à la balise ul
-    collectionHolder.append($newLinkLi);
+    //alert(isAdmin.attr('class'));
+    if(isForm.attr('class') == 'form')
+        collectionHolder.append($newLinkLi);
     collectionHolder.find('li').each(function() {
-        addTagFormDeleteLink($(this));
+        if(isForm.attr('class') == 'form')
+            addTagFormDeleteLink($(this));
     });
 
     $addCardLink.on('click', function(e) {

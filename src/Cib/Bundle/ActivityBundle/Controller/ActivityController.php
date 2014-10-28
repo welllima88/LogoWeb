@@ -75,7 +75,7 @@ class ActivityController extends Controller
      * @param Request $request
      * @internal param \Symfony\Component\HttpFoundation\Session\Session $session
      * @return array|RedirectResponse
-     * @Route("/loggedin/signboard/add", name="addSignboard")
+     * @Route("/loggedin/admin/signboard/add", name="addSignboard")
      *
      * @Template()
      */
@@ -106,7 +106,7 @@ class ActivityController extends Controller
      * @param $id
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return array|RedirectResponse
-     * @Route("/loggedin/signboard/edit/{id}", name="editSignboard", defaults={"id" = "0"})
+     * @Route("/loggedin/admin/signboard/edit/{id}", name="editSignboard", defaults={"id" = "0"})
      *
      * @Template()
      */
@@ -150,7 +150,7 @@ class ActivityController extends Controller
      * @param $token
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return array|RedirectResponse
-     * @Route("/loggedin/signboard/delete/{id}/{token}", name="deleteSignboard", defaults={"id" = 0,"token" = 0})
+     * @Route("/loggedin/admin/signboard/delete/{id}/{token}", name="deleteSignboard", defaults={"id" = 0,"token" = 0})
      *
      *
      */
@@ -268,7 +268,7 @@ class ActivityController extends Controller
     /**
      * @param Request $request
      * @return array|RedirectResponse
-     * @Route("/loggedin/store/add", name="addStore")
+     * @Route("/loggedin/admin/store/add", name="addStore")
      *
      * @Template()
      */
@@ -311,7 +311,7 @@ class ActivityController extends Controller
      * @param $id
      * @return array|RedirectResponse
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     * @Route("/loggedin/store/edit/{id}", name="editStore", defaults={"id" = "0"})
+     * @Route("/loggedin/admin/store/edit/{id}", name="editStore", defaults={"id" = "0"})
      *
      * @Template()
      */
@@ -370,7 +370,7 @@ class ActivityController extends Controller
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return RedirectResponse
      *
-     * @Route("/loggedin/store/delete/{id}/{token}", name="deleteStore", defaults={"id" = 0, "token" = 0})
+     * @Route("/loggedin/admin/store/delete/{id}/{token}", name="deleteStore", defaults={"id" = 0, "token" = 0})
      */
     public function deleteStoreAction(Request $request,$id,$token)
     {
@@ -456,7 +456,7 @@ class ActivityController extends Controller
      * @param Request $request
      * @return array|RedirectResponse
      *
-     * @Route("/loggedin/tpe/add", name="addTpe")
+     * @Route("/loggedin/admin/tpe/add", name="addTpe")
      * @Template()
      */
     public function addTpeAction(Request $request)
@@ -494,7 +494,7 @@ class ActivityController extends Controller
      * @param Request $request
      * @param $id
      *
-     * @Route("/loggedin/tpe/edit/{id}", name="editTpe", defaults={"id" = "0"})
+     * @Route("/loggedin/admin/tpe/edit/{id}", name="editTpe", defaults={"id" = "0"})
      * @Template()
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
@@ -551,7 +551,7 @@ class ActivityController extends Controller
      * @param $token
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @Route("/loggedin/tpe/delete/{id}/{token}", name="deleteTpe", defaults={"id" = 0, "token" = 0})
+     * @Route("/loggedin/admin/tpe/delete/{id}/{token}", name="deleteTpe", defaults={"id" = 0, "token" = 0})
      */
     public function deleteTpeAction(Request $request, $id, $token)
     {

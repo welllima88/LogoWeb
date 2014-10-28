@@ -33,7 +33,7 @@ class CoreController extends Controller
      * @param Request $request
      *
      * @return array
-     * @Route("/loggedin/display/parameters", name="displayParameters")
+     * @Route("/loggedin/admin/display/parameters", name="displayParameters")
      *
      * @Template()
      */
@@ -55,7 +55,7 @@ class CoreController extends Controller
      * @param Request $request
      *
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
-     * @Route("/loggedin/add/parameters", name="addParameters")
+     * @Route("/loggedin/admin/add/parameters", name="addParameters")
      *
      * @Template()
      */
@@ -90,7 +90,7 @@ class CoreController extends Controller
      * @param $id
      *
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
-     * @Route("/loggedin/edit/parameters/{id}", name="editParameters", defaults={"id" = 0})
+     * @Route("/loggedin/admin/edit/parameters/{id}", name="editParameters", defaults={"id" = 0})
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      *
      * @Template()

@@ -1,0 +1,25 @@
+{% extends 'CibCoreBundle::layout.html.twig' %}
+
+
+{% block body %}
+    <div class="row">
+        <div class="container">
+            <div class="pagination">
+                <a href="{{ path('index') }}"> Accueil</a> > <a href="{{ path('displayUsers') }}">Utilisateurs</a> > Modifier
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <center><h1 class="title">Modifier un Utilisateur</h1></center><br>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <form action="{{ path('editUser',{'id':id}) }}" method="post" novalidate="novalidate">
+                {% include 'CibUserBundle:Form:formUser.html.twig' %}
+                {#{{ form_widget(form) }}#}
+            </form>
+        </div>
+    </div>
+{% endblock body %}

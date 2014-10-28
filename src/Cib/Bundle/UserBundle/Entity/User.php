@@ -27,6 +27,8 @@ class User extends BaseUser
      */
     protected $id;
 
+    private $token;
+
     public function __construct()
     {
         parent::__construct();
@@ -41,5 +43,15 @@ class User extends BaseUser
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setToken($token)
+    {
+        $this->token = $token;
+    }
+
+    public function getToken()
+    {
+        return $this->token;
     }
 }

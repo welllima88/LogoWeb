@@ -39,6 +39,7 @@ class MenuBuilder
         $menu->addChild('Deconnexion',array('route' => 'fos_user_security_logout'));
         $menu->addChild($securityContext->getToken()->getUser(),array('route' => 'fos_user_profile_show'));
         $menu->addChild('S\'enregistrer',array('route' => 'fos_user_registration_register'));
+        $menu->addChild('Utilisateurs',array('route' => 'displayUsers'));
 
         return $menu;
     }

@@ -1,0 +1,262 @@
+{% extends 'CibCoreBundle::layout.html.twig' %}
+
+
+{% block body %}
+
+    <div class="row">
+        <div class="container">
+            <div class="pagination">
+                <a href="{{ path('index') }}"> Accueil</a> > <a href="{{ path('displayClient') }}">Clients</a> > Consulter
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="container">
+            <center><h1 class="title">Consulter les informations de {{ client.clientName }} {{ client.clientFirstName }}</h1></center><br>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="container">
+            <ul class="nav nav-pills" role="tablist" id="clientTab">
+                <li class="active"><a href="#ec" role="tab" data-toggle="tab" style="border:solid grey 1px">Etat Civil</a></li>
+                <li><a href="#bank" role="tab" data-toggle="tab" style="border:solid grey 1px">Bancaire</a></li>
+                <li><a href="#club" role="tab" data-toggle="tab" style="border:solid grey 1px">Club</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container well well-lg">
+        <div class="tab-content">
+        <div class="tab-pane active" id="ec">
+            <div class="row">
+                <div class="col-xs-1 col-md-1">
+                    {% if app.user is not null and is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('editClient',{'id':client.clientId}) }}" class="btn btn-warning" style="padding-top: 50px;padding-bottom: 50px">Modifier</a>
+                    {% endif %}
+                </div>
+                <div class="col-xs-offset-1 col-md-offset-1 col-xs-8 col-md-8">
+                    <table class="table table-responsive">
+                        <tr class="titleTable">
+                            <td>NUMERO DE CLIENT</td>
+                            <td>NOM CLIENT</td>
+                            <td>PRENOM CLIENT</td>
+                        </tr>
+                        <tr class="row0">
+                            <td>{{ client.clientNumber }}</td>
+                            <td>{{ client.clientName }}</td>
+                            <td>{{ client.clientFirstName }}</td>
+                        </tr>
+                        <tr class="titleTable">
+                            <td>SEXE</td>
+                            <td>DATE DE NAISSANCE</td>
+                            <td></td>
+                        </tr>
+                        <tr class="row0">
+                            <td>{{ client.clientGender }}</td>
+                            <td>{{ client.clientBirthDate|date('D M Y') }}</td>
+                            <td></td>
+                        </tr>
+                        <tr class="titleTable">
+                            <td>ADRESSE</td>
+                            <td>CODE POSTAL</td>
+                            <td>VILLE</td>
+                        </tr>
+                        <tr class="row0">
+                            <td>{{ client.clientAddress }}</td>
+                            <td>{{ client.clientZipCode }}</td>
+                            <td>{{ client.clientCity }}</td>
+                        </tr>
+                        <tr class="titleTable">
+                            <td>TEL (DOMICILE)</td>
+                            <td>TEL (MOBILE)</td>
+                            <td>TEL (PROFESSIONNEL)</td>
+                        </tr>
+                        <tr class="row0">
+                            <td>{{ client.homePhone }}</td>
+                            <td>{{ client.cellPhone }}</td>
+                            <td>{{ client.officePhone }}</td>
+                        </tr>
+                        <tr class="titleTable">
+                            <td></td>
+                            <td>E-MAIL</td>
+                            <td></td>
+                        </tr>
+                        <tr class="row0">
+                            <td></td>
+                            <td>{{ client.mailAddress }}</td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3">
+                    {{ client.pictureFile }}
+                </div>
+                {% if client.pictureName %}
+                    <div class="col-xs-3 col-md-3">
+                        <img src="{{ asset(client.getWebPath()) }}" alt="photo identité" style="width:50%;height:50%"/>
+                    </div>
+                {% endif %}
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-xs-offset-5 col-md-offset-5 col-xs-2 col-md-2">
+                    <h1><a href="#" id="toggleCard">Cartes</a></h1>
+                </div>
+            </div>
+            <div class="row">
+                {#{% if app.user is not null and is_granted('ROLE_ADMIN') %}#}
+                    <div id="is_form" class="display"></div>
+                {#{% else %}#}
+                    {#<div id="is_admin" class="user"></div>#}
+                {#{% endif %}#}
+                <div class="col-xs-offset-2 col-md-offset-2">
+                    <div class="toggle well" style="display: none">
+                        <ul class="card list-inline" {#data-prototype="{{ form_widget(form.card.vars.prototype)|e }}"#}>
+                            {% for card in client.card %}
+                                <li style="list-style-type: none">
+                                    {#{{ form_widget(card) }}#}
+                                    <a href="{{ path('displayCard',{'id':card.cardId}) }}"> {{ card.cardNumber }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="bank">
+            <div class="row">
+                <div class="col-xs-6 col-md-6">
+                    RUM {{ client.bankAccount.rum }}
+                </div>
+                <div class="col-xs-6 col-md-6">
+                    CODE CREDITEUR {{ client.bankAccount.creditorCode }}
+                </div>
+            </div>
+            <div class="container well col-xs-6 col-md-6">
+                <div class="row">
+                    <h1>DEBITEUR</h1>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 col-md-4">
+                        NOM
+                    </div>
+                    <div class="col-xs-8 col-md-8">
+                        {{ client.bankAccount.debtorName }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 col-md-4">
+                        ADRESSE
+                    </div>
+                    <div class="col-xs-8 col-md-8">
+                        {{ client.bankAccount.debtorAddress }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 col-md-4">
+                        CODE POSTAL {{ client.bankAccount.debtorZipCode }}
+                    </div>
+                    <div class="col-xs-offset-1 col-md-offset-1 col-xs-4 col-md-4">
+                        VILLE {{ client.bankAccount.debtorCity }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        PAYS {{ client.bankAccount.debtorCountry }}
+                    </div>
+                </div>
+            </div>
+            <div class="container well col-xs-6 col-md-6">
+                <div class="row">
+                    <h1>CREDITEUR</h1>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 col-md-4">
+                        NOM
+                    </div>
+                    <div class="col-xs-8 col-md-8">
+                        {{ client.bankAccount.creditorName }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 col-md-4">
+                        ADRESSE
+                    </div>
+                    <div class="col-xs-8 col-md-8">
+                        {{ client.bankAccount.creditorAddress }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 col-md-4">
+                        CODE POSTAL {{ client.bankAccount.creditorZipCode }}
+                    </div>
+                    <div class="col-xs-offset-1 col-md-offset-1 col-xs-4 col-md-4">
+                        VILLE {{ client.bankAccount.creditorCity }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        PAYS {{ client.bankAccount.creditorCountry }}
+                    </div>
+                </div>
+            </div>
+            <div class="container well col-xs-12 col-md-12">
+                <div class="row">
+                    <div class="col-xs-1 col-md-1">
+                        IBAN
+                    </div>
+                    <div class="col-xs-4 col-md-4">
+                        {{ client.bankAccount.iban }}
+                    </div>
+                    <div class="col-xs-offset-1 col-md-offset-1 col-xs-1 col-md-1">
+                        BIC
+                    </div>
+                    <div class="col-xs-4 col-md-4">
+                        {{ client.bankAccount.bic }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-1 col-md-1">
+                        LIEU DE SIGNATURE
+                    </div>
+                    <div class="col-xs-4 col-md-4">
+                        {{ client.bankAccount.placeSign }}
+                    </div>
+                    <div class="col-xs-offset-1 col-md-offset-1 col-xs-1 col-md-1">
+                        DATE DE SIGNATURE
+                    </div>
+                    <div class="col-xs-4 col-md-4">
+                        {{ client.bankAccount.dateSign|date('D M Y') }}
+                    </div>
+                </div>
+            </div>
+
+            {#{{ form_widget(form.bankAccount) }}#}
+        </div>
+        <div class="tab-pane" id="club">
+            <div class="row">
+                <div class="col-xs-offset-2 col-md-offset-2 col-xs-8 col-md-8">
+                    <table class="table table-responsive">
+                        <tr class="titleTable">
+                            <td>NUMERO CLUB</td>
+                            <td>NOM CLUB</td>
+                        </tr>
+                        <tr class="row0">
+                            <td>{{ client.club.clubNumber }}</td>
+                            <td>{{ client.club.clubName }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        </div>
+        </div>
+    </div>
+
+{% endblock body %}

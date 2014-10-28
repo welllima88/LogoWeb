@@ -5,7 +5,7 @@
     <div class="row">
         <div class="container">
             <div class="pagination">
-                <a href="{{ path('index') }}"> Acceuil</a> > <a href="{{ path('listActivity') }}">Activité</a> > Magasins
+                <a href="{{ path('index') }}"> Accueil</a> > <a href="{{ path('listActivity') }}">Activité</a> > Magasins
             </div>
         </div>
     </div>
@@ -47,11 +47,10 @@
                             {% for store in pagination.items %}
                                 <tbody>
                                 <tr class="rowLink{{ count }}">
-                                    <td><input type="checkbox" name="multiDelete[]" value="{{ store.storeId }}"></td>
+                                    <td>{% if app.user is not null and is_granted('ROLE_ADMIN') %}<input type="checkbox" name="multiDelete[]" value="{{ store.storeId }}">{% endif %}</td>
                                     <td><a href="{{ path('displayDetailStore',{'id' : store.storeId , 'token' : store.token }) }}">{{ store.storeName }}</a></td>
-                                    {#<td>{{ signboard.signboardNumber }}</td>#}
-                                    <td><a href="{{ path('editStore',{'id' : store.storeId }) }}" class="glyphicon glyphicon-edit" style="color:darkorange"></a></td>
-                                    <td><a href="{{ path('deleteStore',{'id' : store.storeId , 'token' : store.token }) }}" class="glyphicon glyphicon-remove" style="color:orangered"></a></td>
+                                    <td>{% if app.user is not null and is_granted('ROLE_ADMIN')%}<a href="{{ path('editStore',{'id' : store.storeId }) }}" class="glyphicon glyphicon-edit" style="color:darkorange"></a>{% endif %}</td>
+                                    <td>{% if app.user is not null and is_granted('ROLE_ADMIN')%}<a href="{{ path('deleteStore',{'id' : store.storeId , 'token' : store.token }) }}" class="glyphicon glyphicon-remove" style="color:orangered"></a>{% endif %}</td>
                                 </tr>
                                 </tbody>
                                 {% if count == 1 %}
@@ -61,8 +60,10 @@
                                 {% endif %}
                             {% endfor %}
                         </table>
-                        <button type="submit" name="delete" value="delete" class="btn btn-link glyphicon glyphicon-remove">supprimer<span style="font-style: italic"> (la séléction)</span></button>
-                        <a href="{{ path('addStore') }}" class="btn btn-link glyphicon glyphicon-floppy-save">Ajouter magasin</a>
+                        {% if app.user is not null and is_granted('ROLE_ADMIN')%}
+                            <button type="submit" name="delete" value="delete" class="btn btn-link glyphicon glyphicon-remove">supprimer<span style="font-style: italic"> (la séléction)</span></button>
+                            <a href="{{ path('addStore') }}" class="btn btn-link glyphicon glyphicon-floppy-save">Ajouter magasin</a>
+                        {% endif %}
                     </form>
                 </div>
             </div>
