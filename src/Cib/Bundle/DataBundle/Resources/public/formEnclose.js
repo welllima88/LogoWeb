@@ -90,53 +90,53 @@ $.selectResults = function(){
 
                 if(test.amount_warning_debit != undefined)
                 {
-                    warningDebit = parseInt(test.amount_warning_debit);
+                    warningDebit = parseFloat(test.amount_warning_debit);
                     isWarning = 1;
                 }
 
                 if(test.amount_warning_credit != undefined)
                 {
-                    warningCredit = test.amount_warning_credit;
+                    warningCredit = parseFloat(test.amount_warning_credit);
                     isWarning = 1;
                 }
 
                 if(test.amount_warning_vip != undefined)
                 {
-                    warningVip = parseInt(test.amount_warning_vip);
+                    warningVip = parseFloat(test.amount_warning_vip);
                     isWarning = 1;
                 }
 
                 if(test.amount_warning_prime != undefined)
                 {
-                    warningPrime = test.amount_warning_prime;
+                    warningPrime = parseFloat(test.amount_warning_prime);
                     isWarning = 1;
                 }
 
                 if(test.amount_warning_balance != undefined)
                 {
-                    warningBalance = test.amount_warning_balance;
+                    warningBalance = parseFloat(test.amount_warning_balance);
                     isWarning = 1;
                 }
 
                 //alert(test.last_enclose);
                 if(test.total_debit != undefined)
-                    debit = parseInt(test.total_debit);
+                    debit = parseFloat(test.total_debit);
 
                 if(test.total_credit != undefined)
-                    credit = test.total_credit;
+                    credit = parseFloat(test.total_credit);
 
                 if(test.total_vip != undefined)
-                    vip = parseInt(test.total_vip);
+                    vip = parseFloat(test.total_vip);
 
                 if(test.total_prime != undefined)
-                    prime = test.total_prime;
+                    prime = parseFloat(test.total_prime);
 
                 if(test.total_balance != undefined)
-                    balance = test.total_balance;
+                    balance = parseFloat(test.total_balance);
 
                 if(test.last_enclose != undefined)
                 {
-                    lastEnclose = test.last_enclose.total_balance;
+                    lastEnclose = parseFloat(test.last_enclose.total_balance);
                     idLastEnclose = test.last_enclose.enclose_id;
                 }
 
