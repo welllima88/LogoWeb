@@ -28,7 +28,9 @@ class MenuBuilder {
     {
         $menu = $this->factory->createItem('results');
         $menu->setChildrenAttribute('class','nav navbar-nav');
-        $menu->addChild('Resultats',array('route' => 'displayResults'));
+        $menu->addChild('Resultats')->setAttribute('dropdown',true);
+        $menu['Resultats']->addChild('Transactions',array('route' => 'displayResults'))->setAttribute('divider_append',true);
+        $menu['Resultats']->addChild('Compensation',array('route' => 'displayCompensation'))->setAttribute('divider_append',true);
 
         return $menu;
     }

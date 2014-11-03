@@ -8,19 +8,19 @@
 
 namespace Cib\Bundle\ActivityBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
-
+use Cib\Bundle\DataBundle\Entity\Enclose;
 /**
  * @ORM\Entity
  * @ORM\Table(name="cib_store")
  * @ORM\Entity(repositoryClass="Cib\Bundle\ActivityBundle\Entity\storeRepository")
  * @UniqueEntity(fields="storeName", message="une magasin portant ce nom existe déjà")
  *
- * @ExclusionPolicy("all")
  */
 class Store
 {
@@ -100,6 +100,13 @@ class Store
      */
     private $weekEndPrice;
 
+
+    /**
+     * @var
+     *
+     * @ORM\OneToMany(targetEntity="Cib\Bundle\DataBundle\Entity\Enclose",mappedBy="store", cascade={"persist"})
+     */
+    private $enclose;
 
     private $token;
     /**
@@ -292,13 +299,15 @@ class Store
     {
         return $this->tpe;
     }
+
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->bankAccount = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->tpe = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->bankAccount = new ArrayCollection();
+        $this->tpe = new ArrayCollection();
+        $this->enclose = new  ArrayCollection();
     }
 
 //    /**
@@ -402,5 +411,40 @@ class Store
     public function getWeekEndPrice()
     {
         return $this->weekEndPrice;
+    }
+
+
+
+    /**
+     * Add enclose
+     *
+     * @param \Cib\Bundle\DataBundle\Entity\Enclose $enclose
+     * @return Store
+     */
+    public function addEnclose(\Cib\Bundle\DataBundle\Entity\Enclose $enclose)
+    {
+        $this->enclose[] = $enclose;
+
+        return $this;
+    }
+
+    /**
+     * Remove enclose
+     *
+     * @param \Cib\Bundle\DataBundle\Entity\Enclose $enclose
+     */
+    public function removeEnclose(\Cib\Bundle\DataBundle\Entity\Enclose $enclose)
+    {
+        $this->enclose->removeElement($enclose);
+    }
+
+    /**
+     * Get enclose
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getEnclose()
+    {
+        return $this->enclose;
     }
 }

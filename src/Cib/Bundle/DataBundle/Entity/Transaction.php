@@ -24,6 +24,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity
  * @ORM\Table(name="cib_transaction")
  * @ORM\Entity(repositoryClass="Cib\Bundle\DataBundle\Entity\transactionRepository")
+ * @UniqueEntity(fields = {"dateTransaction","typeTransaction","amountTransaction","card","tpe"})
  *
  */
 class Transaction {
@@ -83,6 +84,13 @@ class Transaction {
     /**
      * @var
      *
+     * @ORM\Column(type="boolean")
+     */
+    private $isEnclosed = false;
+
+    /**
+     * @var
+     *
      * @ORM\ManyToOne(targetEntity="Cib\Bundle\CustomerBundle\Entity\Card", inversedBy="transaction", cascade={"persist", "merge"})
      * @ORM\JoinColumn(name="cardId", referencedColumnName="cardId")
      */
@@ -111,6 +119,14 @@ class Transaction {
      * @ORM\JoinColumn(name="storeId", referencedColumnName="storeId")
      */
     private $store;
+
+    /**
+     * @var
+     *
+     * @ORM\ManyToOne(targetEntity="Cib\Bundle\DataBundle\Entity\Enclose", inversedBy="transaction" ,cascade={"persist", "merge"})
+     * @ORM\JoinColumn(name="encloseId", referencedColumnName="encloseId", nullable=true)
+     */
+    private $enclose;
 
     public function __construct($dateTransaction,$typeTransaction,$pmeTransaction,$amountTransaction,$primeTransaction,$cardNumber,$beforeTransaction,$afterTransaction,$tpeNumber,$isVipTransaction,$entityManager)
     {
@@ -385,5 +401,38 @@ class Transaction {
     public function getStore()
     {
         return $this->store;
+    }
+
+    public function setIsEnclosed($isEnclosed)
+    {
+        $this->isEnclosed = $isEnclosed;
+    }
+
+    public function getIsEnclosed()
+    {
+        return $this->isEnclosed;
+    }
+
+    /**
+     * Set enclose
+     *
+     * @param \Cib\Bundle\DataBundle\Entity\Enclose $enclose
+     * @return Transaction
+     */
+    public function setEnclose(\Cib\Bundle\DataBundle\Entity\Enclose $enclose = null)
+    {
+        $this->enclose = $enclose;
+
+        return $this;
+    }
+
+    /**
+     * Get enclose
+     *
+     * @return \Cib\Bundle\DataBundle\Entity\Enclose 
+     */
+    public function getEnclose()
+    {
+        return $this->enclose;
     }
 }

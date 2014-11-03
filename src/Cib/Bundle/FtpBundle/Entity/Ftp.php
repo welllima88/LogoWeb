@@ -300,6 +300,7 @@ class Ftp {
     {
         if($this->connect() === true)
         {
+//            ftp_pasv($this->ftpHandle,true);
             if($this->makeDirectory($tpe->getTpeNumber()) === true)
             {
                 if($this->changeDirectory($tpe->getTpeNumber()) === true)

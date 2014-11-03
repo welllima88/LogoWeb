@@ -3,6 +3,7 @@
 namespace Cib\Bundle\DataBundle\Controller;
 
 use Cib\Bundle\DataBundle\Entity\Transaction;
+use Cib\Bundle\DataBundle\Form\EncloseType;
 use Cib\Bundle\DataBundle\Form\ResultsType;
 use Cib\Bundle\DataBundle\Treatment\Treatment;
 use Cib\Bundle\FtpBundle\Entity\Ftp;
@@ -83,7 +84,7 @@ class DataController extends Controller
      * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @Route("loggedin/results/treat/files", name="treatFiles")
+     * @Route("results/treat/files", name="treatFiles")
      */
     public function treatResultsAction(Request $request)
     {
@@ -100,5 +101,67 @@ class DataController extends Controller
 //            $em->flush();
 //        }
         return $this->redirect($this->generateUrl('displayResults'));
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return array
+     * @Route("/loggedin/display/result/compensation", name="displayCompensation")
+     * @Template()
+     */
+    public function displayCompensationAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repoTransactions = $em->getRepository('CibDataBundle:Transaction');
+        $repoStore = $em->getRepository('CibActivityBundle:Store');
+        $repoEnclose = $em->getRepository('CibDataBundle:Enclose');
+
+        $formEnclose = $this->createForm(new EncloseType($this->getStores($repoStore->findAll())));
+        $serializer = new SerializerBuilder();
+        if($request->isXmlHttpRequest())
+        {
+            if($request->request->get('arrayStore'))
+            {
+                $arrayStore = $request->request->get('arrayStore');
+                $result = $repoTransactions->getAjaxEnclose($em,$arrayStore,$request->request->get('date'));
+                return new Response($serializer->create()->build()->serialize($result,'json'));
+            }
+            if($request->request->get('enclose'))
+            {
+                if($request->request->get('enclose') == 'singleEnclose')
+                {
+                    $result = $repoTransactions->encloseOneStore($em,$request->request->get('store'),$request->request->get('debit'),$request->request->get('credit'),$request->request->get('vip'),$request->request->get('prime'),$request->request->get('balance'),$request->request->get('historic'),$request->request->get('real'),$request->request->get('dateStart'),$request->request->get('dateStop'));
+                    if($result == true)
+                        return new Response('success',200);
+                    else
+                        return new Response('error',500);
+                }
+            }
+
+        }
+
+
+        return[
+            'compensation' => 'compensation',
+            'form' => $formEnclose->createView(),
+        ];
+    }
+
+
+    protected function getStores(array $stores) {
+        $storeArray = array();
+
+        foreach ($stores as $test) {
+            $storeArray[$test->getStoreId()] = $test->getStoreName();
+
+//            foreach ($rolesHierarchy as $role) {
+//                if (!isset($roles[$role])) {
+//                    $roles[$role] = $role;
+//                }
+//            }
+        }
+//        var_dump($storeArray);die;
+        return $storeArray;
     }
 }

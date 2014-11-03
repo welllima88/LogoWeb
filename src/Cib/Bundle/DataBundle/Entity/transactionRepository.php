@@ -79,4 +79,128 @@ class transactionRepository extends EntityRepository
         $query = $em->createQuery($dql);
         return $query->getResult();
     }
+
+    public function getAjaxEnclose(EntityManager $em,$stores,$date = null)
+    {
+        $arrayEnclose = new ArrayCollection();
+        if($date)
+            $dateEnclose = new \DateTime($date);
+        else
+            $dateEnclose = new \DateTime();
+
+
+        if($stores)
+        {
+            foreach($stores as $store)
+            {
+                $tempStore = $em->getRepository('CibActivityBundle:Store')->find($store);
+                $enclose = new Enclose();
+                $enclose->setStore($tempStore);
+
+                $dql = "SELECT t.dateTransaction FROM CibDataBundle:Transaction t WHERE t.store = ".$tempStore->getStoreId()." AND t.isEnclosed = false AND t.dateTransaction <= '".$dateEnclose->format('Y-m-d')."' order by t.dateTransaction ASC";
+
+                $query = $em->createQuery($dql);
+                $result = $query->getArrayResult();
+                foreach($result as $test)
+                {
+                    $dateStart = new \DateTime($test['dateTransaction']->format('Y-m-d'));
+                    $enclose->setDateStartEnclose($dateStart);
+                    break;
+                }
+
+                $dql = "SELECT SUM(t.amountTransaction) FROM CibDataBundle:Transaction t WHERE t.store = ".$tempStore->getStoreId()." AND t.typeTransaction = 'D' AND t.isVipTransaction = false AND t.isEnclosed = false AND t.dateTransaction <= '".$dateEnclose->format('Y-m-d')."'";
+                $query = $em->createQuery($dql);
+                $enclose->setTotalDebit($query->getSingleScalarResult());
+
+                $dql = "SELECT SUM(t.amountTransaction) as sumCredit ,SUM(t.primeTransaction) as sumPrime FROM CibDataBundle:Transaction t WHERE t.store = ".$tempStore->getStoreId()." AND t.typeTransaction = 'C' AND t.isVipTransaction = false AND t.isEnclosed = false AND t.dateTransaction <= '".$dateEnclose->format('Y-m-d')."'";
+                $query = $em->createQuery($dql);
+                $result = $query->getSingleResult();
+                $enclose->setTotalCredit($result['sumCredit']);
+                $enclose->setTotalPrime($result['sumPrime']);
+
+                $dql = "SELECT SUM(t.amountTransaction) as sumVip, SUM(t.primeTransaction) as sumPrime FROM CibDataBundle:Transaction t WHERE t.store = ".$tempStore->getStoreId()." AND t.typeTransaction = 'C' AND t.isVipTransaction = true AND t.isEnclosed = false AND t.dateTransaction <= '".$dateEnclose->format('Y-m-d')."'";
+                $query = $em->createQuery($dql);
+                $result = $query->getSingleResult();
+                $enclose->setTotalVip($result['sumVip']);
+                $enclose->setTotalPrime($enclose->getTotalPrime()+$result['sumPrime']);
+                $enclose->setTotalBalance($enclose->getTotalCredit()-$enclose->getTotalDebit());
+                $enclose->setDateStopEnclose($dateEnclose->format('Y-m-d'));
+
+                $historyEnclose = $em->getRepository('CibActivityBundle:Store')->find($enclose->getStore()->getStoreId());
+
+
+                if($historyEnclose->getEnclose()->last())
+                {
+                    $enclose->setLastEnclose($historyEnclose->getEnclose()->last());
+                    if($enclose->getDateStartEnclose() && ($enclose->getDateStartEnclose()->format('Y-m-d') <= ($enclose->getLastEnclose()->getDateStopEnclose()->format('Y-m-d'))))
+                    {
+                        $dql = "SELECT SUM(t.amountTransaction) FROM CibDataBundle:Transaction t WHERE t.store = ".$tempStore->getStoreId()." AND t.typeTransaction = 'D' AND t.isVipTransaction = false AND t.isEnclosed = false AND t.dateTransaction <= '".$enclose->getLastEnclose()->getDateStopEnclose()->format('Y-m-d')."'";
+                        $query = $em->createQuery($dql);
+                        $enclose->setAmountWarningDebit($query->getSingleScalarResult());
+
+                        $dql = "SELECT SUM(t.amountTransaction) as sumCredit ,SUM(t.primeTransaction) as sumPrime FROM CibDataBundle:Transaction t WHERE t.store = ".$tempStore->getStoreId()." AND t.typeTransaction = 'C' AND t.isVipTransaction = false AND t.isEnclosed = false AND t.dateTransaction <= '".$enclose->getLastEnclose()->getDateStopEnclose()->format('Y-m-d')."'";
+                        $query = $em->createQuery($dql);
+                        $result = $query->getSingleResult();
+                        $enclose->setAmountWarningCredit($result['sumCredit']);
+                        $enclose->setAmountWarningPrime($result['sumPrime']);
+
+                        $dql = "SELECT SUM(t.amountTransaction) as sumVip, SUM(t.primeTransaction) as sumPrime FROM CibDataBundle:Transaction t WHERE t.store = ".$tempStore->getStoreId()." AND t.typeTransaction = 'C' AND t.isVipTransaction = true AND t.isEnclosed = false AND t.dateTransaction <= '".$enclose->getLastEnclose()->getDateStopEnclose()->format('Y-m-d')."'";
+                        $query = $em->createQuery($dql);
+                        $result = $query->getSingleResult();
+                        $enclose->setAmountWarningVip($result['sumVip']);
+                        $enclose->setAmountWarningPrime($enclose->getAmountWarningPrime()+$result['sumPrime']);
+                        $enclose->setAmountWarningBalance($enclose->getAmountWarningCredit()-$enclose->getAmountWarningDebit());
+                    }
+                }
+
+                $arrayEnclose->add($enclose);
+
+            }
+        }
+        return $arrayEnclose;
+
+
+
+    }
+
+    public function encloseOneStore(EntityManager $em,$storeId,$debit,$credit,$vip,$prime,$balance,$historic,$real,$dateStart,$dateStop)
+    {
+        $store = $em->getRepository('CibActivityBundle:Store')->find($storeId);
+        $repoData = $em->getRepository('CibDataBundle:Enclose');
+        $lastEnclose = $repoData->find($historic);
+        $enclose = new Enclose();
+        $dateStopEnclose = new \DateTime($dateStop);
+        $dateStartEnclose = new \DateTime($dateStart);
+        $enclose->setDateStopEnclose($dateStopEnclose);
+        $enclose->setDateStartEnclose($dateStartEnclose);
+        $enclose->setStore($store);
+        $enclose->setLastEnclose($lastEnclose);
+        $enclose->setTotalCredit($credit);
+        $enclose->setTotalVip($vip);
+        $enclose->setTotalDebit($debit);
+        $enclose->setTotalPrime($prime);
+        $enclose->setTotalBalance($balance);
+
+        $dql = "SELECT t FROM CibDataBundle:Transaction t WHERE t.store = ".$store->getStoreId()." AND t.isEnclosed = false AND t.dateTransaction <= '".$dateStopEnclose->format('Y-m-d')."'";
+        $query = $em->createQuery($dql);
+        $transactions = $query->getResult();
+        foreach($transactions as $transaction)
+        {
+            $enclose->addTransaction($transaction);
+            $em->persist($transaction);
+        }
+
+        $em->persist($enclose);
+        try
+        {
+            $em->flush();
+            return true;
+        }
+        catch(\Doctrine\DBAL\DBALException $e)
+        {
+            return false;
+        }
+
+
+    }
 }

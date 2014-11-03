@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
-
+use Cib\Bundle\DataBundle\Entity\Enclose;
 /**
  * @ORM\Entity
  * @ORM\Table(name="cib_store")
@@ -100,6 +100,13 @@ class Store
      */
     private $weekEndPrice;
 
+
+    /**
+     * @var
+     *
+     * @ORM\OneToMany(targetEntity="Cib\Bundle\DataBundle\Entity\Enclose",mappedBy="store", cascade={"persist"})
+     */
+    private $enclose;
 
     private $token;
     /**
@@ -343,6 +350,7 @@ class Store
     public function addTpe(\Cib\Bundle\ActivityBundle\Entity\Tpe $tpe)
     {
         $this->tpe[] = $tpe;
+        $tpe->setStore($this);
 
         return $this;
     }
@@ -356,4 +364,52 @@ class Store
     {
         $this->tpe->removeElement($tpe);
     }
+
+    /**
+     * Set weekPrice
+     *
+     * @param integer $weekPrice
+     * @return Store
+     */
+    public function setWeekPrice($weekPrice)
+    {
+        $this->weekPrice = $weekPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get weekPrice
+     *
+     * @return integer 
+     */
+    public function getWeekPrice()
+    {
+        return $this->weekPrice;
+    }
+
+    /**
+     * Set weekEndPrice
+     *
+     * @param integer $weekEndPrice
+     * @return Store
+     */
+    public function setWeekEndPrice($weekEndPrice)
+    {
+        $this->weekEndPrice = $weekEndPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get weekEndPrice
+     *
+     * @return integer 
+     */
+    public function getWeekEndPrice()
+    {
+        return $this->weekEndPrice;
+    }
+
+
 }

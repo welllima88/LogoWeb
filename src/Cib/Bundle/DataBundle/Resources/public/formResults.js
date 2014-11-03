@@ -149,24 +149,11 @@ function autoLoadClient(val,url){
 
 function selectResults(month,dateStart,dateStop,card,client,store,url){
 
-    if(month == undefined)
-        month = '';
-    if(dateStart == undefined)
-        dateStart = '';
-    if(dateStop == undefined)
-        dateStop = '';
-    if(card == undefined)
-        card = '';
-    if(client == undefined)
-        client = '';
-    if(store == undefined)
-        store ='';
-
     var totalCredit = 0;
     var totalDebit = 0;
     var totalPrime = 0;
-
-    var data = 'month='+month+'&start='+dateStart+'&stop='+dateStop+'&card='+card+'&client='+client+'&store='+store;
+    var totalVip = 0;
+    var data = 'month='+monthContainer.val()+'&start='+dateStartContainer.val()+'&stop='+dateStopContainer.val()+'&card='+cardContainer.val()+'&client='+clientContainer.val()+'&store='+storeContainer.val();
     $.ajax({
         type : 'POST', // envoi des données en GET ou POST
         url : url , // url du fichier de traitement
@@ -187,6 +174,7 @@ function selectResults(month,dateStart,dateStop,card,client,store,url){
             $.each(JSON.parse(data), function(i, item) {
                 //alert(i);
             var date = new Date(item.date_transaction);
+
                 if(item.type_transaction == 'D')
                 {
                     totalDebit = totalDebit + item.amount_transaction;
@@ -194,6 +182,7 @@ function selectResults(month,dateStart,dateStop,card,client,store,url){
                 }
                 else
                 {
+
                     totalCredit = totalCredit + item.amount_transaction;
                     totalPrime = totalPrime + item.prime_transaction;
                     var test = '<td class="col-md-1 col-xs-1"></td><td class="col-md-1 col-xs-1">'+item.amount_transaction.toFixed(2)+' €</td><td class="col-xs-1 col-md-1"></td></tr>';
@@ -201,7 +190,11 @@ function selectResults(month,dateStart,dateStop,card,client,store,url){
                 if(item.is_vip_transaction == false)
                     item.is_vip_transaction = 'NON';
                 else
+                {
+                    totalVip = totalVip + item.amount_transaction;
                     item.is_vip_transaction = 'OUI';
+                }
+
 
                 $('#tabResultDebit').append('<tr class="row'+k+'"><td class="col-md-1 col-xs-1">'+date.getDate()+'/'+(date.getMonth() + 1) +'/'+date.getFullYear()+'</td><td class="col-md-1 col-xs-1">'+item.card.card_number+'</td><td class="col-md-1 col-xs-1">'+item.is_vip_transaction+'</td><td class="col-md-1 col-xs-1">'+item.prime_transaction.toFixed(2)+' €</td>'+test);
                 if(k == 1)
@@ -209,7 +202,7 @@ function selectResults(month,dateStart,dateStop,card,client,store,url){
                 else
                  k = k +1;
             });
-            $.selectTotal(totalDebit,totalCredit,totalPrime);
+            $.selectTotal(totalDebit,totalCredit,totalPrime,totalVip);
                 $('#loaderOn').remove();
             },
         beforeSend : function() { // traitements JS à faire AVANT l'envoi
@@ -362,9 +355,9 @@ function refreshResult()
     selectResults(monthContainer.value,dateStartContainer.value,dateStopContainer.value,cardContainer.value,clientContainer.value,storeContainer.value,url);
 }
 
-$.selectTotal = function(debit,credit,prime){
-    $("#divTotal").append('<table id="tabTotal" class="table table-responsive"><tr class="titleTable"><td class="col-md-1 col-xs-1">TOTAL</td><td class="col-md-1 col-xs-1"></td><td class="col-md-1 col-xs-1"></td><td class="col-md-1 col-xs-1">PRIME</td><td class="col-md-1 col-xs-1">DEBIT</td><td class="col-md-1 col-xs-1">CREDIT</td><td class="col-xs-1 col-md-1">SOLDE</td></tr>');
-    $("#tabTotal").append('<tr class="row0"><td class="col-md-1 col-xs-1"></td><td class="col-md-1 col-xs-1"></td><td class="col-md-1 col-xs-1"></td><td class="col-md-1 col-xs-1">'+prime.toFixed(2)+' €</td><td class="col-md-1 col-xs-1">'+debit.toFixed(2)+' €</td><td class="col-md-1 col-xs-1">'+credit.toFixed(2)+' €</td><td class="col-md-1 col-xs-1">'+(credit - debit).toFixed(2)+' €</td></tr></table>');
+$.selectTotal = function(debit,credit,prime,vip){
+    $("#divTotal").append('<table id="tabTotal" class="table table-responsive"><tr class="titleTable"><td class="col-md-1 col-xs-1">TOTAL</td><td class="col-md-1 col-xs-1"></td><td class="col-md-1 col-xs-1">VIP</td><td class="col-md-1 col-xs-1">PRIME</td><td class="col-md-1 col-xs-1">DEBIT</td><td class="col-md-1 col-xs-1">CREDIT</td><td class="col-xs-1 col-md-1">SOLDE</td></tr>');
+    $("#tabTotal").append('<tr class="row0"><td class="col-md-1 col-xs-1"></td><td class="col-md-1 col-xs-1"></td><td class="col-md-1 col-xs-1">'+vip.toFixed(2)+' €</td><td class="col-md-1 col-xs-1">'+prime.toFixed(2)+' €</td><td class="col-md-1 col-xs-1">'+debit.toFixed(2)+' €</td><td class="col-md-1 col-xs-1">'+credit.toFixed(2)+' €</td><td class="col-md-1 col-xs-1">'+(credit - debit).toFixed(2)+' €</td></tr></table>');
 };
 
 function deleteResult(){
