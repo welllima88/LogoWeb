@@ -140,7 +140,7 @@ $.selectResults = function(){
                     idLastEnclose = test.last_enclose.enclose_id;
                 }
 
-
+                //console.log(debit);
                 real = balance + lastEnclose;
                 credit = credit - prime;
                 balance = (credit + vip + prime)-debit;
