@@ -95,11 +95,7 @@ class DataController extends Controller
         $treatment = new Treatment($this->getDoctrine()->getManager());
         $treatment->downloadDataFile($ftp);
         $transactions = $treatment->treatDataFiles();
-//        foreach($transactions as $transaction)
-//        {
-//            $em->persist($transaction);
-//            $em->flush();
-//        }
+
         return $this->redirect($this->generateUrl('displayResults'));
     }
 

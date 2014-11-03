@@ -63,14 +63,14 @@ class Transaction {
     /**
      * @var
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="decimal", precision=6, scale=2)
      */
     private $amountTransaction;
 
     /**
      * @var
      *
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="decimal", precision=6, scale=2, nullable=true)
      */
     private $primeTransaction;
 
