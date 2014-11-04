@@ -459,11 +459,6 @@ class CustomerController extends Controller
     {
         if($request->isXmlHttpRequest())
         {
-//            $ch = curl_init();
-//            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//            curl_setopt($ch, CURLOPT_URL,'https://api.zippopotam.us?country='.$request->request->get('country').'&postal_code='.$request->request->get('postal_code'));
-//
-//            $content = curl_exec($ch);
             $response = Unirest::get("https://us-w1.zippopotam.us/".$request->query->get('country')."/".$request->query->get('postal_code'),
                 array(
                     "X-Mashape-Key" => "cHk24A6zULmshCf1JFcPG6RVx2iXp1bTrENjsn8zLhYHurk8hU"
@@ -472,6 +467,32 @@ class CustomerController extends Controller
 
             return new Response($response);
         }
+    }
+
+    /**
+     *
+     * @Route("/import/csv/client", name="importCsv")
+     */
+    public function getCsvClient()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repoClient = $em->getRepository('CibCustomerBundle:Client');
+        $handle = fopen("/home/ega/EGA.csv","r");
+        $file = fread($handle,filesize("C:\\Users\\cedric\\Documents\\text.csv"));
+//        var_dump($file);
+        $rows = explode("\n",$file);
+//        var_dump($rows);
+        foreach($rows as $row)
+        {
+            $field = explode(";",$row);
+            if($field[0] != "")
+                $repoClient->setClientFromCsv($em,$field);
+        }
+
+        fclose($handle);
+//        die;
+
+        return $this->redirect($this->generateUrl('displayClient'));
     }
 
 } 

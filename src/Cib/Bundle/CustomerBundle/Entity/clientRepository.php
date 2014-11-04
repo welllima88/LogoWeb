@@ -48,4 +48,45 @@ class clientRepository extends EntityRepository
 //            return new Client();
         return $query->getOneOrNullResult();
     }
+
+    public function setClientFromCsv(EntityManager $em,$fields)
+    {
+        $club = $em->getRepository('CibActivityBundle:Club')->findOneBy(array('clubNumber' => $fields[17]));
+//        $store = $em->getRepository('CibActivityBundle:Store')
+//        var_dump($club);
+        $client = new Client();
+        $client->setClientNumber($fields[0]);
+        $client->setClientLicense($fields[1]);
+        $client->setClientName($fields[2]);
+        $client->setClientFirstName($fields[3]);
+        if($fields[4] == 'Mr')
+            $fields[4] = 'M';
+        $client->setClientCivility($fields[4]);
+        $client->setClientAddress($fields[5]);
+        $client->setClientZipCode($fields[6]);
+        $client->setClientCity($fields[7]);
+        if($fields[8] == 'H')
+            $fields[8] = 'm';
+        else
+            $fields[8] = 'f';
+        $client->setClientGender($fields[8]);
+        $dateString = explode("/",$fields[9]);
+        $date = $dateString[2].'-'.$dateString[1].'-'.$dateString[0];
+//        var_dump($fields[9]);
+        $date = new \DateTime($date);
+        $client->setClientBirthDate($date);
+        $client->setAge();
+        $client->setClientAgeFfg($fields[11]);
+        if($fields[12])
+            $client->setHomePhone('0'.$fields[12]);
+        if($fields[13])
+            $client->setOfficePhone('0'.$fields[13]);
+        if($fields[14])
+        $client->setCellPhone('0'.$fields[14]);
+        $client->setMailAddress($fields[15]);
+        $client->setClub($club);
+        $em->persist($client);
+        $em->flush();
+//        die;
+    }
 }

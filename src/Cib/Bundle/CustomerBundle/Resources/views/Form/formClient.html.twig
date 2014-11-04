@@ -28,21 +28,34 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3">
+        <div class="col-xs-offset-2 col-md-offset-2 col-xs-1 col-md-1">
             {{ form_label(form.clientGender) }}
         </div>
-        <div class="col-xs-3 col-md-3">
+        <div class="col-xs-1 col-md-1">
+            {{ form_label(form.clientCivility) }}
+        </div>
+        <div class="col-xs-offset-1 col-md-offset-1 col-xs-3 col-md-3">
             {{ form_label(form.clientBirthDate) }}
+        </div>
+        <div class="col-xs-2 col-md-2">
+            {{ form_label(form.clientAgeFfg) }}
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3">
+        <div class="col-xs-offset-2 col-md-offset-2 col-xs-1 col-md-1">
             {{ form_errors(form.clientGender) }}
             {{ form_widget(form.clientGender) }}
         </div>
-        <div class="col-xs-3 col-md-3">
+        <div class=" col-xs-1 col-md-1">
+            {{ form_errors(form.clientCivility) }}
+            {{ form_widget(form.clientCivility) }}
+        </div>
+        <div class=" col-xs-offset-1 col-md-offset-1 col-xs-3 col-md-3">
             {{ form_errors(form.clientBirthDate) }}
             {{ form_widget(form.clientBirthDate) }}
+        </div>
+        <div class="col-xs-2 col-md-2">
+            {{ form_widget(form.clientAgeFfg) }}
         </div>
     </div>
     <div class="row">
@@ -98,14 +111,26 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3">
+        <div class="col-xs-offset-2 col-md-offset-2 col-xs-2 col-md-2">
             {{ form_label(form.mailAddress) }}
+        </div>
+        <div class="col-xs-offset-1 col-md-offset-1 col-xs-3 col-md-3">
+            {{ form_label(form.price) }}
+        </div>
+        <div class="col-xs-3 col-md-3">
+            {{ form_label(form.yearIsPaied) }}
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3">
+        <div class="col-xs-offset-2 col-md-offset-2 col-xs-2 col-md-2">
             {{ form_errors(form.mailAddress) }}
             {{ form_widget(form.mailAddress) }}
+        </div>
+        <div class="col-xs-offset-1 col-md-offset-1 col-xs-3 col-md-3">
+            {{ form_widget(form.price) }} €
+        </div>
+        <div class="col-xs-3 col-md-3">
+            {{ form_widget(form.yearIsPaied) }}
         </div>
     </div>
     <div class="row">
@@ -137,6 +162,28 @@
                     {% endfor %}
                 </ul>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-offset-4 col-md-offset-4 col-xs-1 col-md-1">
+            {{ form_label(form.checkCivility) }}
+        </div>
+        <div class="col-xs-1 col-md-1">
+            {{ form_label(form.checkBankAccount) }}
+        </div>
+        <div class="col-xs-1 col-md-1">
+            {{ form_label(form.checkClub) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-offset-4 col-md-offset-4 col-xs-1 col-md-1">
+            {{ form_widget(form.checkCivility) }}
+        </div>
+        <div class="col-xs-1 col-md-1">
+            {{ form_widget(form.checkBankAccount) }}
+        </div>
+        <div class="col-xs-1 col-md-1">
+            {{ form_widget(form.checkClub) }}
         </div>
     </div>
 </div>
@@ -259,19 +306,27 @@
 </div>
 <div class="tab-pane" id="club">
     <div class="row">
-        <div class="col-xs-1 col-md-1">
-            {{ form_label(form.club.clubNumber) }}
+        {#<div class="col-xs-1 col-md-1">#}
+            {#{{ form_label(form.club.clubNumber) }}#}
+        {#</div>#}
+        {#<div class="col-xs-4 col-md-4">#}
+            {#{{ form_widget(form.club.clubNumber) }}#}
+        {#</div>#}
+    </div>
+    <div class="row">
+        <div class="col-xs-1 col-xs-1">
+            {{ form_label(form.club) }}
         </div>
         <div class="col-xs-4 col-md-4">
-            {{ form_widget(form.club.clubNumber) }}
+            {{ form_widget(form.club) }}
         </div>
     </div>
     <div class="row">
         <div class="col-xs-1 col-xs-1">
-            {{ form_label(form.club.clubName) }}
+            {{ form_label(form.clientLicense) }}
         </div>
         <div class="col-xs-4 col-md-4">
-            {{ form_widget(form.club.clubName) }}
+            {{ form_widget(form.clientLicense) }}
         </div>
     </div>
 </div>

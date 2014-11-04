@@ -122,6 +122,7 @@ class Club {
     public function addClient(\Cib\Bundle\CustomerBundle\Entity\Client $client)
     {
         $this->client[] = $client;
+        $client->setClub($this);
 
         return $this;
     }

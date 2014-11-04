@@ -69,6 +69,20 @@ class Client
     /**
      * @var
      *
+     * @ORM\Column(type="string")
+     */
+    private $clientCivility;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="integer")
+     */
+    private $clientAgeFfg;
+
+    /**
+     * @var
+     *
      * @ORM\Column(type="date", nullable=true)
      */
     private $clientBirthDate;
@@ -166,7 +180,7 @@ class Client
 
     /**
      * @var
-     * @ORM\OneToMany(targetEntity="Cib\Bundle\DataBundle\Entity\Transaction", mappedBy="client", cascade={"persist","remove"})
+     * @ORM\OneToMany(targetEntity="Cib\Bundle\DataBundle\Entity\Transaction", mappedBy="client", cascade={"persist"})
      */
     private $transaction;
 
@@ -180,10 +194,33 @@ class Client
     /**
      * @var
      *
-     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\Club", inversedBy="client")
+     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\Club", inversedBy="client", cascade={"persist"})
+     * @ORM\JoinColumn(name="clubId", referencedColumnName="clubId", onDelete="SET NULL" )
      */
     private $club;
 
+    /**
+     * @var
+     *
+     * @ORM\Column(type="text")
+     */
+    private $clientPrice;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="text")
+     */
+    private $clientLicense;
+
+
+    /**
+     * @var
+     *
+     * @ORM\OneToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\Price")
+     * @ORM\JoinColumn(name="priceId", referencedColumnName="priceId")
+     */
+    private $price;
 
 
     private $token;
@@ -758,5 +795,120 @@ class Client
     public function getBankAccount()
     {
         return $this->bankAccount;
+    }
+
+    /**
+     * Set club
+     *
+     * @param \Cib\Bundle\ActivityBundle\Entity\Club $club
+     * @return Client
+     */
+    public function setClub(\Cib\Bundle\ActivityBundle\Entity\Club $club = null)
+    {
+        $this->club = $club;
+
+        return $this;
+    }
+
+    /**
+     * Get club
+     *
+     * @return \Cib\Bundle\ActivityBundle\Entity\Club 
+     */
+    public function getClub()
+    {
+        return $this->club;
+    }
+
+    /**
+     * Set clientCivility
+     *
+     * @param string $clientCivility
+     * @return Client
+     */
+    public function setClientCivility($clientCivility)
+    {
+        $this->clientCivility = $clientCivility;
+
+        return $this;
+    }
+
+    /**
+     * Get clientCivility
+     *
+     * @return string 
+     */
+    public function getClientCivility()
+    {
+        return $this->clientCivility;
+    }
+
+    /**
+     * Set clientAgeFfg
+     *
+     * @param integer $clientAgeFfg
+     * @return Client
+     */
+    public function setClientAgeFfg($clientAgeFfg)
+    {
+        $this->clientAgeFfg = $clientAgeFfg;
+
+        return $this;
+    }
+
+    /**
+     * Get clientAgeFfg
+     *
+     * @return integer 
+     */
+    public function getClientAgeFfg()
+    {
+        return $this->clientAgeFfg;
+    }
+
+    /**
+     * Set clientPrice
+     *
+     * @param string $clientPrice
+     * @return Client
+     */
+    public function setClientPrice($clientPrice)
+    {
+        $this->clientPrice = $clientPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get clientPrice
+     *
+     * @return string 
+     */
+    public function getClientPrice()
+    {
+        return $this->clientPrice;
+    }
+
+    /**
+     * Set clientLicense
+     *
+     * @param string $clientLicense
+     * @return Client
+     */
+    public function setClientLicense($clientLicense)
+    {
+        $this->clientLicense = $clientLicense;
+
+        return $this;
+    }
+
+    /**
+     * Get clientLicense
+     *
+     * @return string 
+     */
+    public function getClientLicense()
+    {
+        return $this->clientLicense;
     }
 }

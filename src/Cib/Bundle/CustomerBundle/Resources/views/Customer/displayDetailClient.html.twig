@@ -39,54 +39,58 @@
                 <div class="col-xs-offset-1 col-md-offset-1 col-xs-8 col-md-8">
                     <table class="table table-responsive">
                         <tr class="titleTable">
-                            <td>NUMERO DE CLIENT</td>
+                            <td colspan="2">NUMERO DE CLIENT</td>
                             <td>NOM CLIENT</td>
-                            <td>PRENOM CLIENT</td>
+                            <td colspan="2">PRENOM CLIENT</td>
                         </tr>
                         <tr class="row0">
-                            <td>{{ client.clientNumber }}</td>
+                            <td colspan="2">{{ client.clientNumber }}</td>
                             <td>{{ client.clientName }}</td>
-                            <td>{{ client.clientFirstName }}</td>
+                            <td colspan="2">{{ client.clientFirstName }}</td>
                         </tr>
                         <tr class="titleTable">
                             <td>SEXE</td>
+                            <td>CIVILITE</td>
                             <td>DATE DE NAISSANCE</td>
-                            <td></td>
+                            <td>AGE</td>
+                            <td>AGE FFG</td>
                         </tr>
                         <tr class="row0">
                             <td>{{ client.clientGender }}</td>
+                            <td>CIVILITE</td>
                             <td>{{ client.clientBirthDate|date('D M Y') }}</td>
-                            <td></td>
+                            <td>{{ client.age }}</td>
+                            <td>Age ffg</td>
                         </tr>
                         <tr class="titleTable">
-                            <td>ADRESSE</td>
+                            <td colspan="2">ADRESSE</td>
                             <td>CODE POSTAL</td>
-                            <td>VILLE</td>
+                            <td colspan="2">VILLE</td>
                         </tr>
                         <tr class="row0">
-                            <td>{{ client.clientAddress }}</td>
+                            <td colspan="2">{{ client.clientAddress }}</td>
                             <td>{{ client.clientZipCode }}</td>
-                            <td>{{ client.clientCity }}</td>
+                            <td colspan="2">{{ client.clientCity }}</td>
                         </tr>
                         <tr class="titleTable">
-                            <td>TEL (DOMICILE)</td>
+                            <td colspan="2">TEL (DOMICILE)</td>
                             <td>TEL (MOBILE)</td>
-                            <td>TEL (PROFESSIONNEL)</td>
+                            <td colspan="2">TEL (PROFESSIONNEL)</td>
                         </tr>
                         <tr class="row0">
-                            <td>{{ client.homePhone }}</td>
+                            <td colspan="2">{{ client.homePhone }}</td>
                             <td>{{ client.cellPhone }}</td>
-                            <td>{{ client.officePhone }}</td>
+                            <td colspan="2">{{ client.officePhone }}</td>
                         </tr>
                         <tr class="titleTable">
-                            <td></td>
+                            <td colspan="2"></td>
                             <td>E-MAIL</td>
-                            <td></td>
+                            <td colspan="2"></td>
                         </tr>
                         <tr class="row0">
-                            <td></td>
+                            <td colspan="2"></td>
                             <td>{{ client.mailAddress }}</td>
-                            <td></td>
+                            <td colspan="2"></td>
                         </tr>
                     </table>
                 </div>
@@ -127,13 +131,127 @@
                 </div>
             </div>
         </div>
+        {% if client.bankAccount is not null %}
+            {% if client.bankAccount.rum is not null%}
+                {% set rum = client.bankAccount.rum %}
+            {% else %}
+                {% set rum = "" %}
+            {% endif %}
+
+            {% if client.bankAccount.creditorCode is not null%}
+                {% set creditorCode = client.bankAccount.creditorCode %}
+            {% else %}
+                {% set creditorCode = ""%}
+            {% endif %}
+
+            {% if client.bankAccount.debtorName is not null%}
+                {% set debtorName = client.bankAccount.debtorName %}
+            {% else %}
+                {% set debtorName = "" %}
+            {% endif %}
+
+            {% if  client.bankAccount.debtorAddress is not null%}
+                {% set debtorAddress = client.bankAccount.debtorAddress %}
+            {% else %}
+                {% set debtorAddress = "" %}
+            {% endif %}
+
+            {% if client.bankAccount.debtorZipCode is not null %}
+                {% set debtorZipCode = client.bankAccount.debtorZipCode %}
+            {% else %}
+                {% set debtorZipCode = "" %}
+            {% endif %}
+
+            {% if client.bankAccount.debtorCity is not null %}
+                {% set debtorCity = client.bankAccount.debtorCity %}
+            {% else %}
+                {% set debtorCity = "" %}
+            {% endif %}
+
+            {% if client.bankAccount.debtorCountry is not null %}
+                {% set debtorCountry = client.bankAccount.debtorCountry %}
+            {% else %}
+                {% set debtorCountry = "" %}
+            {% endif %}
+
+            {% if client.bankAccount.creditorName  is not null %}
+                {% set creditorName = client.bankAccount.creditorName %}
+            {% else %}
+                {% set creditorName = "" %}
+            {% endif %}
+
+            {% if client.bankAccount.creditorAddress is not null %}
+                {% set creditorAddress = client.bankAccount.creditorAddress %}
+            {% else %}
+                {% set creditorAddress = "" %}
+            {% endif %}
+
+            {% if  client.bankAccount.creditorZipCode is not null%}
+                {% set creditorZipCode = client.bankAccount.creditorZipCode %}
+            {% else %}
+                {% set creditoZipCode = "" %}
+            {% endif %}
+
+            {% if client.bankAccount.creditorCity is not null %}
+                {% set creditorCity = client.bankAccount.creditorCity %}
+            {% else %}
+                {% set creditorCity = "" %}
+            {% endif %}
+
+            {% if client.bankAccount.creditorCountry is not null %}
+                {% set creditorCountry = client.bankAccount.creditorCountry %}
+            {% else %}
+                {% set creditorCountry = "" %}
+            {% endif %}
+
+            {% if client.bankAccount.iban is not null %}
+                {% set iban = client.bankAccount.iban %}
+            {% else %}
+                {% set iban = "" %}
+            {% endif %}
+
+            {% if client.bankAccount.bic is not null %}
+                {% set bic = client.bankAccount.bic %}
+            {% else %}
+                {% set bic = "" %}
+            {% endif %}
+
+            {% if  client.bankAccount.placeSign is not null%}
+                {% set placeSign = client.bankAccount.placeSign %}
+            {% else %}
+                {% set placeSign = "" %}
+            {% endif %}
+
+            {% if client.bankAccount.dateSign is not null %}
+                {% set dateSign = client.bankAccount.dateSign|date('D M Y') %}
+            {% else %}
+                {% set dateSign = "" %}
+            {% endif %}
+        {% else %}
+            {% set rum = "" %}
+            {% set creditorCode = "" %}
+            {% set debtorName = "" %}
+            {% set debtorAddress =  "" %}
+            {% set debtorZipCode = "" %}
+            {% set debtorCity = "" %}
+            {% set debtorCountry = "" %}
+            {% set creditorName = "" %}
+            {% set creditorAddress = "" %}
+            {% set creditorZipCode = "" %}
+            {% set creditorCity = "" %}
+            {% set creditorCountry = "" %}
+            {% set iban = "" %}
+            {% set bic = "" %}
+            {% set placeSign = "" %}
+            {% set dateSign = "" %}
+        {% endif %}
         <div class="tab-pane" id="bank">
             <div class="row">
                 <div class="col-xs-6 col-md-6">
-                    RUM {{ client.bankAccount.rum }}
+                    RUM {{ rum }}
                 </div>
                 <div class="col-xs-6 col-md-6">
-                    CODE CREDITEUR {{ client.bankAccount.creditorCode }}
+                    CODE CREDITEUR {{ creditorCode }}
                 </div>
             </div>
             <div class="container well col-xs-6 col-md-6">
@@ -145,7 +263,7 @@
                         NOM
                     </div>
                     <div class="col-xs-8 col-md-8">
-                        {{ client.bankAccount.debtorName }}
+                        {{ debtorName }}
                     </div>
                 </div>
                 <div class="row">
@@ -153,20 +271,20 @@
                         ADRESSE
                     </div>
                     <div class="col-xs-8 col-md-8">
-                        {{ client.bankAccount.debtorAddress }}
+                        {{ debtorAddress }}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-4 col-md-4">
-                        CODE POSTAL {{ client.bankAccount.debtorZipCode }}
+                        CODE POSTAL {{ debtorZipCode }}
                     </div>
                     <div class="col-xs-offset-1 col-md-offset-1 col-xs-4 col-md-4">
-                        VILLE {{ client.bankAccount.debtorCity }}
+                        VILLE {{ debtorCity }}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-12 col-md-12">
-                        PAYS {{ client.bankAccount.debtorCountry }}
+                        PAYS {{ debtorCountry }}
                     </div>
                 </div>
             </div>
@@ -179,7 +297,7 @@
                         NOM
                     </div>
                     <div class="col-xs-8 col-md-8">
-                        {{ client.bankAccount.creditorName }}
+                        {{ creditorName }}
                     </div>
                 </div>
                 <div class="row">
@@ -187,20 +305,20 @@
                         ADRESSE
                     </div>
                     <div class="col-xs-8 col-md-8">
-                        {{ client.bankAccount.creditorAddress }}
+                        {{ creditorAddress }}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-4 col-md-4">
-                        CODE POSTAL {{ client.bankAccount.creditorZipCode }}
+                        CODE POSTAL {{ creditorZipCode }}
                     </div>
                     <div class="col-xs-offset-1 col-md-offset-1 col-xs-4 col-md-4">
-                        VILLE {{ client.bankAccount.creditorCity }}
+                        VILLE {{ creditorCity }}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-12 col-md-12">
-                        PAYS {{ client.bankAccount.creditorCountry }}
+                        PAYS {{ creditorCountry }}
                     </div>
                 </div>
             </div>
@@ -210,13 +328,13 @@
                         IBAN
                     </div>
                     <div class="col-xs-4 col-md-4">
-                        {{ client.bankAccount.iban }}
+                        {{ iban }}
                     </div>
                     <div class="col-xs-offset-1 col-md-offset-1 col-xs-1 col-md-1">
                         BIC
                     </div>
                     <div class="col-xs-4 col-md-4">
-                        {{ client.bankAccount.bic }}
+                        {{ bic }}
                     </div>
                 </div>
                 <div class="row">
@@ -224,17 +342,17 @@
                         LIEU DE SIGNATURE
                     </div>
                     <div class="col-xs-4 col-md-4">
-                        {{ client.bankAccount.placeSign }}
+                        {{ placeSign }}
                     </div>
                     <div class="col-xs-offset-1 col-md-offset-1 col-xs-1 col-md-1">
                         DATE DE SIGNATURE
                     </div>
                     <div class="col-xs-4 col-md-4">
-                        {{ client.bankAccount.dateSign|date('D M Y') }}
+                        {{ dateSign }}
                     </div>
                 </div>
             </div>
-
+        {#{% endif %}#}
             {#{{ form_widget(form.bankAccount) }}#}
         </div>
         <div class="tab-pane" id="club">

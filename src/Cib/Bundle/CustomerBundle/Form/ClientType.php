@@ -9,7 +9,10 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ClientType extends AbstractType
 {
-        /**
+
+    private $year;
+
+    /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
@@ -17,27 +20,38 @@ class ClientType extends AbstractType
     {
         $builder
             ->add('clientNumber','text',array(
-                'label' => 'numéro',
+                'label' => 'Numéro',
             ))
             ->add('clientName','text',array(
-                'label' => 'nom',
+                'label' => 'Nom',
             ))
             ->add('clientFirstName','text',array(
-                'label' => 'prénom',
+                'label' => 'Prénom',
             ))
             ->add('clientGender','choice',array(
-                'label' => 'sexe',
+                'label' => 'Sexe',
                 'choices' => array(
                     'm' => 'Homme',
                     'f' => 'Femme'
                 )
             ))
+            ->add('clientCivility','choice',array(
+                'label' => 'Civilité',
+                'choices' => array(
+                    'M' => 'M.',
+                    'Mme' => 'Mme',
+                    'Mlle' => 'Mlle',
+                ),
+            ))
             ->add('clientBirthDate','birthday',array(
-                'label' => 'date de naissance',
+                'label' => 'Date de naissance',
 
             ))
+            ->add('clientAgeFfg','text',array(
+                'label' => 'Age(complément)',
+            ))
             ->add('clientAddress','text',array(
-                'label' => 'adresse',
+                'label' => 'Adresse',
             ))
             ->add('clientZipCode','text',array(
                 'label' => 'Code Postal',
@@ -46,29 +60,39 @@ class ClientType extends AbstractType
                 )
             ))
             ->add('clientCity','text',array(
-                'label' => 'ville',
+                'label' => 'Ville',
             ))
             ->add('homePhone','text',array(
-                'label' => 'tel. fixe',
+                'label' => 'Tel. fixe',
                 'attr' => array(
                     'maxlength' => 15,
                 )
             ))
             ->add('cellPhone','text',array(
-                'label' => 'tel. mobile',
+                'label' => 'Tel. mobile',
                 'attr' => array(
                     'maxlength' => 15,
                 )
             ))
             ->add('officePhone','text',array(
-                'label' => 'tel. bureau',
+                'label' => 'Tel. bureau',
                 'attr' => array(
                     'maxlength' => 15,
                 )
             ))
             ->add('mailAddress','email',array(
-                'label' => 'mail',
+                'label' => 'Mail',
             ))
+//            ->add('clientPrice','choice',array(
+//                'label' => 'Tarif',
+//                'choices' => array(
+//                    'H' => 'Homme',
+//                    'F' => 'Femme',
+//                    'E' => 'Enfant'
+//                ),
+//                'multiple' => false,
+//                'expanded' => true,
+//            ))
             ->add('pictureFile','file',array(
                 'label' => 'Photo',
             ))
@@ -81,7 +105,41 @@ class ClientType extends AbstractType
                 'label' => false,
             ))
             ->add('bankAccount',new bankAccountType($this))
-            ->add('club',new ClubType($this))
+            ->add('club','entity',array(
+                'class' => 'CibActivityBundle:Club',
+                'property' => 'clubName',
+            ))
+            ->add('clientLicense','text',array(
+                'label' => 'Num. licence',
+            ))
+            ->add('price','entity',array(
+                'label' => 'Tarif',
+                'class' => 'CibActivityBundle:Price',
+                'property' => 'priceAmount',
+            ))
+            ->add('yearIsPaied','checkbox',array(
+                'label' => 'Paiement annuel ('.date('Y').')',
+                'mapped' => false,
+                'required' => false,
+            ))
+            ->add('checkCivility','checkbox',array(
+                'label' => 'Etat civil',
+                'mapped' => false,
+                'required' => true,
+//                'message' => 'Vous devez confirmer vos changements avant de pouvoir valider',
+            ))
+            ->add('checkBankAccount','checkbox',array(
+                'label' => 'Bancaire',
+                'mapped' => false,
+                'required' => true,
+//                'message' => 'Vous devez confirmer vos changements avant de pouvoir valider',
+            ))
+            ->add('checkClub','checkbox',array(
+                'label' => 'Club',
+                'mapped' => false,
+                'required' => true,
+//                'message' => 'Vous devez confirmer vos changements avant de pouvoir valider',
+            ))
         ;
     }
     

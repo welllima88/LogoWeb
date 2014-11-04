@@ -69,6 +69,20 @@ class Client
     /**
      * @var
      *
+     * @ORM\Column(type="string")
+     */
+    private $clientCivility;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="integer")
+     */
+    private $clientAgeFfg;
+
+    /**
+     * @var
+     *
      * @ORM\Column(type="date", nullable=true)
      */
     private $clientBirthDate;
@@ -185,6 +199,29 @@ class Client
      */
     private $club;
 
+    /**
+     * @var
+     *
+     * @ORM\Column(type="text",nullable=true)
+     */
+    private $clientPrice;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $clientLicense;
+
+
+    /**
+     * @var
+     *
+     * @ORM\Column(nullable=true)
+     * @ORM\OneToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\Price")
+     * @ORM\JoinColumn(name="priceId", referencedColumnName="priceId", nullable=true)
+     */
+    private $price;
 
 
     private $token;
@@ -782,5 +819,120 @@ class Client
     public function getClub()
     {
         return $this->club;
+    }
+
+    /**
+     * Set clientCivility
+     *
+     * @param string $clientCivility
+     * @return Client
+     */
+    public function setClientCivility($clientCivility)
+    {
+        $this->clientCivility = $clientCivility;
+
+        return $this;
+    }
+
+    /**
+     * Get clientCivility
+     *
+     * @return string 
+     */
+    public function getClientCivility()
+    {
+        return $this->clientCivility;
+    }
+
+    /**
+     * Set clientAgeFfg
+     *
+     * @param integer $clientAgeFfg
+     * @return Client
+     */
+    public function setClientAgeFfg($clientAgeFfg)
+    {
+        $this->clientAgeFfg = $clientAgeFfg;
+
+        return $this;
+    }
+
+    /**
+     * Get clientAgeFfg
+     *
+     * @return integer 
+     */
+    public function getClientAgeFfg()
+    {
+        return $this->clientAgeFfg;
+    }
+
+    /**
+     * Set clientPrice
+     *
+     * @param string $clientPrice
+     * @return Client
+     */
+    public function setClientPrice($clientPrice)
+    {
+        $this->clientPrice = $clientPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get clientPrice
+     *
+     * @return string 
+     */
+    public function getClientPrice()
+    {
+        return $this->clientPrice;
+    }
+
+    /**
+     * Set clientLicense
+     *
+     * @param string $clientLicense
+     * @return Client
+     */
+    public function setClientLicense($clientLicense)
+    {
+        $this->clientLicense = $clientLicense;
+
+        return $this;
+    }
+
+    /**
+     * Get clientLicense
+     *
+     * @return string 
+     */
+    public function getClientLicense()
+    {
+        return $this->clientLicense;
+    }
+
+    /**
+     * Set price
+     *
+     * @param \Cib\Bundle\ActivityBundle\Entity\Price $price
+     * @return Client
+     */
+    public function setPrice(\Cib\Bundle\ActivityBundle\Entity\Price $price = null)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return \Cib\Bundle\ActivityBundle\Entity\Price 
+     */
+    public function getPrice()
+    {
+        return $this->price;
     }
 }

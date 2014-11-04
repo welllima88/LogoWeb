@@ -50,7 +50,7 @@ class bankAccount {
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $debtorAddress;
+    private $debtorAddress = "";
 
 
     /**
@@ -58,29 +58,14 @@ class bankAccount {
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $debtorZipCode;
+    private $debtorZipCode = "";
 
     /**
      * @var
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $debtorCity;
-
-
-    /**
-     * @var
-     *
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $debtorCountry;
-
-    /**
-     * @var
-     *
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $rum;
+    private $debtorCity = "";
 
 
     /**
@@ -88,56 +73,71 @@ class bankAccount {
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $creditorCode;
+    private $debtorCountry = "";
 
     /**
      * @var
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $creditorName;
+    private $rum = "";
+
 
     /**
      * @var
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $creditorAddress;
+    private $creditorCode = "";
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $creditorName = "";
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $creditorAddress = "";
 
     /**
      * @var
      *
      * @ORM\Column(type="text", nullable = true)
      */
-    private $creditorZipCode;
+    private $creditorZipCode = "";
 
     /**
      * @var
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $creditorCity;
+    private $creditorCity = "";
 
     /**
      * @var
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $creditorCountry;
+    private $creditorCountry = "";
 
     /**
      * @var
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $iban;
+    private $iban = "";
 
     /**
      * @var
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $bic;
+    private $bic = "";
 
 
     /**
@@ -145,21 +145,21 @@ class bankAccount {
      *
      * @ORM\Column(type="datetime")
      */
-    private $dateSign;
+    private $dateSign = "";
 
     /**
      * @var
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $placeSign;
+    private $placeSign ="";
 
     /**
      * @var
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $comment;
+    private $comment = "";
 
     /**
      * @var
