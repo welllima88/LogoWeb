@@ -55,7 +55,7 @@ class CustomerController extends Controller
             10
         );
 
-
+//        var_dump($pagination);die;
         return[
             'pagination' => $pagination,
         ];
@@ -77,6 +77,7 @@ class CustomerController extends Controller
 
         return[
             'client' => $client,
+            'page' => $page,
         ];
     }
 
@@ -132,6 +133,7 @@ class CustomerController extends Controller
             'form' => $form->createView(),
             'id' => $id,
             'client' => $client,
+            'page' => $page,
         ];
 
 

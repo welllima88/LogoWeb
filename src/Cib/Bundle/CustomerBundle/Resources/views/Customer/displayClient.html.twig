@@ -50,9 +50,9 @@
                                 <tbody>
                                 <tr class="rowLink{{ count }}">
                                     <td>{% if app.user is not null and is_granted('ROLE_ADMIN') %}<input class="check" type="checkbox" name="multiDelete[]" value="{{ client.clientId }}">{% endif %}</td>
-                                    <td><a href="{{ path('displayDetailClient',{'id':client.clientId,'page':page}) }}">{{ client.clientName }}</a> </td>
-                                    <td><a href="{{ path('displayDetailClient',{'id':client.clientId,'page':page}) }}">{{ client.clientFirstName }}</a></td>
-                                    <td>{% if app.user is not null and is_granted('ROLE_ADMIN') %}<a href="{{ path('editClient',{'id':client.clientId,'page':page}) }}" class="glyphicon glyphicon-edit" style="color:darkorange"></a>{% endif %}</td>
+                                    <td><a href="{{ path('displayDetailClient',{'id':client.clientId,'page':pagination.params.page}) }}">{{ client.clientName }}</a> </td>
+                                    <td><a href="{{ path('displayDetailClient',{'id':client.clientId,'page':pagination.params.page}) }}">{{ client.clientFirstName }}</a></td>
+                                    <td>{% if app.user is not null and is_granted('ROLE_ADMIN') %}<a href="{{ path('editClient',{'id':client.clientId,'page':pagination.params.page}) }}" class="glyphicon glyphicon-edit" style="color:darkorange"></a>{% endif %}</td>
                                     <td>{% if app.user is not null and is_granted('ROLE_ADMIN') %}<a href="{{ path('deleteClient',{'id':client.clientId,'token':client.token}) }}" class="glyphicon glyphicon-remove" style="color:orangered"></a>{% endif %}</td>
                                 </tr>
                                 </tbody>
