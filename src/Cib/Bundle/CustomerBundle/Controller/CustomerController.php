@@ -66,10 +66,10 @@ class CustomerController extends Controller
      * @param Request $request
      * @param $id
      * @return array
-     * @Route("/loggedin/display/detail/client/{id}", name="displayDetailClient")
+     * @Route("/loggedin/display/detail/client/{id}/{page}", name="displayDetailClient", defaults={"page" = 1,})
      * @Template()
      */
-    public function displayDetailClientAction(Request $request, $id)
+    public function displayDetailClientAction(Request $request, $id,$page)
     {
         $em = $this->getDoctrine()->getManager();
         $repoClient = $em->getRepository('CibCustomerBundle:Client');
@@ -82,14 +82,14 @@ class CustomerController extends Controller
 
     /**
      *
-     * @Route("/loggedin/admin/client/edit/{id}", name="editClient")
+     * @Route("/loggedin/admin/client/edit/{id}/{page}", name="editClient", defaults={"page" =1,})
      *
      * @Template()
      * @param Request $request
      * @param $id
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function editClientAction(Request $request,$id)
+    public function editClientAction(Request $request,$id,$page)
     {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('CibCustomerBundle:Client');
@@ -123,7 +123,7 @@ class CustomerController extends Controller
             $this->get('session')->getFlashBag()->all();
             $this->get('session')->getFlashBag()->add('status','Modification(s) effectuée(s)');
 
-            return $this->redirect($this->generateUrl('displayClient'));
+            return $this->redirect($this->generateUrl('displayClient',array('page' => $page)));
         }
 
         }

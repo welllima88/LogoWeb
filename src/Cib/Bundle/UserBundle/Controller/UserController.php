@@ -67,7 +67,9 @@ class UserController extends BaseController
             $form->handleRequest($request);
             if($form->isValid())
             {
+//                var_dump($form->getData());
                 $user = $form->getData();
+//                var_dump($user);
                 $em->persist($user);
                 $em->flush();
             }
