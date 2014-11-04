@@ -217,8 +217,8 @@ class Client
     /**
      * @var
      *
-     * @ORM\Column(nullable=true)
-     * @ORM\OneToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\Price")
+     *
+     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\Price")
      * @ORM\JoinColumn(name="priceId", referencedColumnName="priceId", nullable=true)
      */
     private $price;

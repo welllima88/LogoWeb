@@ -37,6 +37,7 @@ class CustomerController extends Controller
      */
     public function displayClientAction(Request $request, $page)
     {
+//        var_dump($page);die;
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('CibCustomerBundle:Client');
         if(!$request->request->get('search'))

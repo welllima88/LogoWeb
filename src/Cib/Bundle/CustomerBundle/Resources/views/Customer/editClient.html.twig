@@ -29,7 +29,7 @@
     <div class="row">
         <div class="container well well-lg">
             <div id="is_form" class="form">
-                <form action="{{ path('editClient',{'id':id}) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate" class="{{ path('getCity') }}">
+                <form action="{{ path('editClient',{'id':id,'page':page}) }}" method="post" {{ form_enctype(form) }} novalidate="novalidate" class="{{ path('getCity') }}">
                     {% include 'CibCustomerBundle:Form:formClient.html.twig' %}
                 </form>
             </div>
