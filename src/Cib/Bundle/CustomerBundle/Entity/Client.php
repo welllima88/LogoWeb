@@ -47,7 +47,7 @@ class Client
      * @var
      *
      * @ORM\Column(type="string")
-     * @Assert\Length(min=4,max=50,minMessage="Le nom du client doit être composé d'au moins 4 caractères",maxMessage="Le nom du client ne peut pas dépasser 50 caractères")
+     * @Assert\Length(min=3,max=50,minMessage="Le nom du client doit être composé d'au moins 4 caractères",maxMessage="Le nom du client ne peut pas dépasser 50 caractères")
      */
     private $clientName;
 
@@ -55,7 +55,7 @@ class Client
      * @var
      *
      * @ORM\Column(type="string")
-     * @Assert\Length(min=4,max=50,minMessage="Le prénom du client doit être composé d'au moins 4 caractères",maxMessage="Le prénom du client ne peut pas dépasser 50 caractères")
+     * @Assert\Length(min=3,max=50,minMessage="Le prénom du client doit être composé d'au moins 4 caractères",maxMessage="Le prénom du client ne peut pas dépasser 50 caractères")
      */
     private $clientFirstName;
 
