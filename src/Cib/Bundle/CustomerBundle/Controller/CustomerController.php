@@ -76,6 +76,7 @@ class CustomerController extends Controller
         $repoClient = $em->getRepository('CibCustomerBundle:Client');
         $client = $repoClient->find($id);
 
+//        var_dump($client);die;
         return[
             'client' => $client,
             'page' => $page,
@@ -111,6 +112,7 @@ class CustomerController extends Controller
             $client->setAge();
             $client->upload();
             $bankAccount = $form->getData()->getBankAccount();
+//            var_dump($bankAccount);die;
             $bankAccount->setClient($form->getData());
             $club = $form->getData()->getClub();
             $club->addClient($form->getData());

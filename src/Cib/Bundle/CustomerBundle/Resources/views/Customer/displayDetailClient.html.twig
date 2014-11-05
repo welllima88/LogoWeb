@@ -57,10 +57,10 @@
                         </tr>
                         <tr class="row0">
                             <td>{{ client.clientGender }}</td>
-                            <td>CIVILITE</td>
-                            <td>{{ client.clientBirthDate|date('D M Y') }}</td>
+                            <td>{{ client.clientCivility }}</td>
+                            <td>{{ client.clientBirthDate|date('d / m / Y') }}</td>
                             <td>{{ client.age }}</td>
-                            <td>Age ffg</td>
+                            <td>{{ client.clientAgeFfg }}</td>
                         </tr>
                         <tr class="titleTable">
                             <td colspan="2">ADRESSE</td>
@@ -186,10 +186,10 @@
                 {% set creditorAddress = "" %}
             {% endif %}
 
-            {% if  client.bankAccount.creditorZipCode is not null%}
+            {% if client.bankAccount.creditorZipCode is not null %}
                 {% set creditorZipCode = client.bankAccount.creditorZipCode %}
             {% else %}
-                {% set creditoZipCode = "" %}
+                {% set creditorZipCode = "" %}
             {% endif %}
 
             {% if client.bankAccount.creditorCity is not null %}
@@ -311,6 +311,7 @@
                 <div class="row">
                     <div class="col-xs-4 col-md-4">
                         CODE POSTAL {{ creditorZipCode }}
+
                     </div>
                     <div class="col-xs-offset-1 col-md-offset-1 col-xs-4 col-md-4">
                         VILLE {{ creditorCity }}
