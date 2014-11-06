@@ -88,29 +88,29 @@ knp_paginator:
 services:
     cib_user_menu.menu_builder:
         class: Cib\Bundle\UserBundle\Menu\MenuBuilder
-        arguments: ["@knp_menu.factory"]
+        arguments: ["@knp_menu.factory","@security.context"]
 
     cib_activity_menu.menu_builder:
         class: Cib\Bundle\ActivityBundle\Menu\MenuBuilder
-        arguments: ["@knp_menu.factory"]
+        arguments: ["@knp_menu.factory","@security.context"]
 
     cib_customer_menu.menu_builder:
         class: Cib\Bundle\CustomerBundle\Menu\MenuBuilder
-        arguments: ["@knp_menu.factory"]
+        arguments: ["@knp_menu.factory","@security.context"]
 
     cib_data_menu.menu_builder:
         class: Cib\Bundle\DataBundle\Menu\MenuBuilder
-        arguments: ["@knp_menu.factory"]
+        arguments: ["@knp_menu.factory","@security.context"]
 
     cib_core_menu.menu_builder:
         class: Cib\Bundle\CoreBundle\Menu\MenuBuilder
-        arguments: ["@knp_menu.factory"]
+        arguments: ["@knp_menu.factory","@security.context"]
 
     cib_menu.menu.login:
         class: Knp\Menu\MenuItem # the service definition requires setting the class
         factory_service: cib_user_menu.menu_builder
         factory_method: createLoginMenu
-        arguments: ["@request"]
+        arguments: ["@request","@security.context"]
         scope: request # needed as we have the request as a dependency here
         tags:
             - { name: knp_menu.menu, alias: login } # The alias is what is used to retrieve the menu
@@ -128,7 +128,7 @@ services:
         class: Knp\Menu\MenuItem # the service definition requires setting the class
         factory_service: cib_activity_menu.menu_builder
         factory_method: createActivityMenu
-        arguments: ["@request"]
+        arguments: ["@request","@security.context"]
         scope: request # needed as we have the request as a dependency here
         tags:
             - { name: knp_menu.menu, alias: activity } # The alias is what is used to retrieve the menu
@@ -137,7 +137,7 @@ services:
         class: Knp\Menu\MenuItem # the service definition requires setting the class
         factory_service: cib_customer_menu.menu_builder
         factory_method: createCustomerMenu
-        arguments: ["@request"]
+        arguments: ["@request","@security.context"]
         scope: request # needed as we have the request as a dependency here
         tags:
             - { name: knp_menu.menu, alias: customer } # The alias is what is used to retrieve the menu
@@ -146,7 +146,7 @@ services:
         class: Knp\Menu\MenuItem # the service definition requires setting the class
         factory_service: cib_data_menu.menu_builder
         factory_method: createDataMenu
-        arguments: ["@request"]
+        arguments: ["@request","@security.context"]
         scope: request # needed as we have the request as a dependency here
         tags:
             - { name: knp_menu.menu, alias: results } # The alias is what is used to retrieve the menu
@@ -155,7 +155,7 @@ services:
         class: Knp\Menu\MenuItem # the service definition requires setting the class
         factory_service: cib_core_menu.menu_builder
         factory_method: createParametersMenu
-        arguments: ["@request"]
+        arguments: ["@request","@security.context"]
         scope: request # needed as we have the request as a dependency here
         tags:
             - { name: knp_menu.menu, alias: parameters } # The alias is what is used to retrieve the menu
