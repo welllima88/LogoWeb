@@ -45,13 +45,11 @@ class MenuBuilder
         $menu->setChildrenAttribute('class', 'nav navbar-nav navbar-right');
         $menu->addChild('Connexion',array('route' => 'fos_user_security_login'));
 
-
         return $menu;
     }
 
     public function createLoggedInMenu(Request $request, SecurityContext $securityContext)
     {
-//        var_dump($securityContext->getToken()->getUser());die;
         $menu = $this->factory->createItem('loggedin');
         $menu->setChildrenAttribute('class', 'nav navbar-nav navbar-right');
         $menu->addChild('Deconnexion',array('route' => 'fos_user_security_logout'));

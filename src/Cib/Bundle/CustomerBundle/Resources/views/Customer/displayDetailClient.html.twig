@@ -56,8 +56,8 @@
                             <td>AGE FFG</td>
                         </tr>
                         <tr class="row0">
-                            <td>{{ client.clientGender }}</td>
-                            <td>{{ client.clientCivility }}</td>
+                            <td>{{ client.clientGender|capitalize }}</td>
+                            <td>{{ client.clientCivility }}.</td>
                             <td>{{ client.clientBirthDate|date('d / m / Y') }}</td>
                             <td>{{ client.age }}</td>
                             <td>{{ client.clientAgeFfg }}</td>
