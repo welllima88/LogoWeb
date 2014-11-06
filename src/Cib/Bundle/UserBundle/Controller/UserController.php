@@ -63,15 +63,16 @@ class UserController extends BaseController
         $csrf = $this->get('form.csrf_provider');
         if($token == $csrf->generateCsrfToken($user->getId()) || $request->isMethod('post'))
         {
+//            var_dump($this->getRoles());die;
             $form = $this->createForm(new UserType($this->getRoles()),$user);
             $form->handleRequest($request);
             if($form->isValid())
             {
-//                var_dump($form->getData());
                 $user = $form->getData();
-//                var_dump($user);
+//                var_dump($user);die;
                 $em->persist($user);
                 $em->flush();
+                return $this->redirect($this->generateUrl('displayUsers'));
             }
 
         }

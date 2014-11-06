@@ -32,7 +32,7 @@ class UserType extends AbstractType
 //        ));
         $builder->add('roles','choice',array(
             'choices' => array(
-                'choices' => $this->rolesChoices,
+                /*'choices' =>*/ $this->rolesChoices,
             ),
             'multiple' => true,
             'expanded' => true,
