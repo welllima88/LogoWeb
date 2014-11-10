@@ -112,9 +112,14 @@ class ClientType extends AbstractType
             ->add('clientLicense','text',array(
                 'label' => 'Num. licence',
             ))
-            ->add('price','entity',array(
-                'label' => 'Tarif',
-                'class' => 'CibActivityBundle:Price',
+            ->add('registerPrice','entity',array(
+                'label' => 'Tarif inscription',
+                'class' => 'CibActivityBundle:registerPrice',
+                'property' => 'priceAmount',
+            ))
+            ->add('licensePrice','entity',array(
+                'label' => 'Tarif licence',
+                'class' => 'CibActivityBundle:licensePrice',
                 'property' => 'priceAmount',
             ))
             ->add('yearIsPaied','checkbox',array(

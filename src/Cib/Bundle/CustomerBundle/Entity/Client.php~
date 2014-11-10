@@ -47,7 +47,7 @@ class Client
      * @var
      *
      * @ORM\Column(type="string")
-     * @Assert\Length(min=4,max=50,minMessage="Le nom du client doit être composé d'au moins 4 caractères",maxMessage="Le nom du client ne peut pas dépasser 50 caractères")
+     * @Assert\Length(min=3,max=50,minMessage="Le nom du client doit être composé d'au moins 4 caractères",maxMessage="Le nom du client ne peut pas dépasser 50 caractères")
      */
     private $clientName;
 
@@ -55,7 +55,7 @@ class Client
      * @var
      *
      * @ORM\Column(type="string")
-     * @Assert\Length(min=4,max=50,minMessage="Le prénom du client doit être composé d'au moins 4 caractères",maxMessage="Le prénom du client ne peut pas dépasser 50 caractères")
+     * @Assert\Length(min=3,max=50,minMessage="Le prénom du client doit être composé d'au moins 4 caractères",maxMessage="Le prénom du client ne peut pas dépasser 50 caractères")
      */
     private $clientFirstName;
 
@@ -202,14 +202,14 @@ class Client
     /**
      * @var
      *
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text",nullable=true)
      */
     private $clientPrice;
 
     /**
      * @var
      *
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $clientLicense;
 
@@ -217,10 +217,19 @@ class Client
     /**
      * @var
      *
-     * @ORM\OneToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\Price")
-     * @ORM\JoinColumn(name="priceId", referencedColumnName="priceId")
+     *
+     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\registerPrice")
+     * @ORM\JoinColumn(name="registerPriceId", referencedColumnName="registerPriceId", nullable=true)
      */
-    private $price;
+    private $registerPrice;
+
+    /**
+     * @var
+     *
+     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\licensePrice")
+     * @ORM\JoinColumn(name="licensePriceId", referencedColumnName="licensePriceId", nullable=true)
+     */
+    private $licensePrice;
 
 
     private $token;
@@ -910,5 +919,28 @@ class Client
     public function getClientLicense()
     {
         return $this->clientLicense;
+    }
+
+    /**
+     * Set price
+     *
+     * @param \Cib\Bundle\ActivityBundle\Entity\registerPrice $registerPrice
+     * @return Client
+     */
+    public function setRegisterPrice(\Cib\Bundle\ActivityBundle\Entity\registerPrice $registerPrice = null)
+    {
+        $this->registerPrice = $registerPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return \Cib\Bundle\ActivityBundle\Entity\registerPrice
+     */
+    public function getRegisterPrice()
+    {
+        return $this->registerPrice;
     }
 }

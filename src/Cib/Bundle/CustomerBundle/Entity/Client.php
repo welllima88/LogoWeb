@@ -218,10 +218,18 @@ class Client
      * @var
      *
      *
-     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\Price")
-     * @ORM\JoinColumn(name="priceId", referencedColumnName="priceId", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\registerPrice")
+     * @ORM\JoinColumn(name="registerPriceId", referencedColumnName="registerPriceId", nullable=true)
      */
-    private $price;
+    private $registerPrice;
+
+    /**
+     * @var
+     *
+     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\licensePrice")
+     * @ORM\JoinColumn(name="licensePriceId", referencedColumnName="licensePriceId", nullable=true)
+     */
+    private $licensePrice;
 
 
     private $token;
@@ -916,12 +924,12 @@ class Client
     /**
      * Set price
      *
-     * @param \Cib\Bundle\ActivityBundle\Entity\Price $price
+     * @param \Cib\Bundle\ActivityBundle\Entity\registerPrice $registerPrice
      * @return Client
      */
-    public function setPrice(\Cib\Bundle\ActivityBundle\Entity\Price $price = null)
+    public function setRegisterPrice(\Cib\Bundle\ActivityBundle\Entity\registerPrice $registerPrice = null)
     {
-        $this->price = $price;
+        $this->registerPrice = $registerPrice;
 
         return $this;
     }
@@ -929,10 +937,33 @@ class Client
     /**
      * Get price
      *
-     * @return \Cib\Bundle\ActivityBundle\Entity\Price 
+     * @return \Cib\Bundle\ActivityBundle\Entity\registerPrice
      */
-    public function getPrice()
+    public function getRegisterPrice()
     {
-        return $this->price;
+        return $this->registerPrice;
+    }
+
+    /**
+     * Set licensePrice
+     *
+     * @param \Cib\Bundle\ActivityBundle\Entity\licensePrice $licensePrice
+     * @return Client
+     */
+    public function setLicensePrice(\Cib\Bundle\ActivityBundle\Entity\licensePrice $licensePrice = null)
+    {
+        $this->licensePrice = $licensePrice;
+
+        return $this;
+    }
+
+    /**
+     * Get licensePrice
+     *
+     * @return \Cib\Bundle\ActivityBundle\Entity\licensePrice 
+     */
+    public function getLicensePrice()
+    {
+        return $this->licensePrice;
     }
 }
