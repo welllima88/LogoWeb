@@ -1,0 +1,81 @@
+{% block body %}
+    <div class="container">
+        <div style="margin-left: 100px">
+            <div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mandat de prélévement SEPA<br><img src="{{ picture }}">
+            </div>
+            <div style="text-align: justify;">
+                <p style="font-size: 15px">
+                    En signant ce formulaire vous autorisez (A) {{ bankAccount.creditorName }}
+                    A envoyer des instructions à votre banque pour débiter votre compte, et (B) votre banque à débiter votre compte<br>
+                    conformément aux instructions de {{ bankAccount.creditorName }}
+                    Vous bénéficiez du droit d'être remboursé par votre banque suivant les conditions décrites dans la convention que vous<br>
+                    avez passée avec elle. Une demande de  remboursement doit être présentée dans les 8 semaines suivant la date de débit<br>
+                    de votre compte pour un prélèvement autorisé.
+                </p>
+            </div>
+        </div>
+        <br>
+        <div class="row" style="float: none">
+            <div class="col-xs-12 col-md-12">
+                <table class="table table-responsive" style="margin-left: 100px">
+                    <tr>
+                        <td style="width: 200px">Référence unique du mandat</td>
+                        <td style="width: 200px">{{ bankAccount.rum }}</td>
+                        <td style="width: 200px">Identifiant créancier SEPA</td>
+                        <td style="width: 200px">{{ bankAccount.creditorCode }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Débiteur</td>
+                        <td colspan="2">Créditeur</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px">Votre Nom</td>
+                        <td style="width: 200px">{{ bankAccount.debtorName }}</td>
+                        <td style="width: 200px">Nom</td>
+                        <td style="width: 200px">{{ bankAccount.creditorName }}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px">Votre Adresse</td>
+                        <td style="width: 200px">{{ bankAccount.debtorAddress }}</td>
+                        <td style="width: 200px">Adresse</td>
+                        <td style="width: 200px">{{ bankAccount.creditorAddress }}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px">Code Postal &nbsp;{{ bankAccount.debtorZipCode }}</td>
+                        <td style="width: 200px">Ville &nbsp;{{ bankAccount.debtorCity }}</td>
+                        <td style="width: 200px">Code Postal &nbsp;{{ bankAccount.creditorZipCode }}</td>
+                        <td style="width: 200px">Ville &nbsp;{{ bankAccount.creditorCity }}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px">Pays</td>
+                        <td style="width: 200px">{{ bankAccount.debtorCountry }}</td>
+                        <td style="width: 200px">Pays</td>
+                        <td style="width: 200px">{{ bankAccount.creditorCountry }}</td>
+                    </tr>
+                </table>
+                <div style="margin-left: 100px">
+                    <p>IBAN &nbsp;&nbsp;{{ bankAccount.iban }}</p>
+                </div>
+                <div style="margin-left: 100px">
+                    BIC &nbsp;&nbsp;{{ bankAccount.bic }}
+                </div>
+                <div style="margin-left: 100px">
+                    Paiement : &nbsp;&nbsp;{{ bankAccount.frequency }}
+                </div>
+                <div style="margin-left: 100px">
+                    A : &nbsp;{{ bankAccount.placeSign }}
+                </div>
+                <div style="margin-left: 100px">
+                    Le : &nbsp;{{ bankAccount.dateSign|date('d m Y') }}
+                </div>
+                <div style="margin-left: 100px;width: 400px;height: 100px;border: solid orange 2px">
+                    Signature :
+                </div>
+                <div style="margin-left:100px;width: 400px">
+                    Nota: Vos droits concernant le présent mandat sont expliqués dans un document que vous pouvez obtenir auprès de votre banque
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
