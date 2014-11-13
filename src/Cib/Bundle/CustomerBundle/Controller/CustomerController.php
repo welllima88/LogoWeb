@@ -517,12 +517,12 @@ class CustomerController extends Controller
         $picture = __DIR__.'/../../../../../web/bundles/cibcore/pictures/sepa.jpg';
 
         $bankAccount = $this->getDoctrine()->getManager()->getRepository('CibCustomerBundle:bankAccount')->find($id);
-        $fileName = $bankAccount->getClient()->getClientName();
+        $fileName = $bankAccount->getClient()->getClientName().'_'.$bankAccount->getClient()->getClientFirstName();
         $html = $this->renderView('CibCustomerBundle:Customer:writeSepaPdf.html.twig',array('picture' => $picture,'bankAccount' => $bankAccount));
         $html2pdf = new \Html2Pdf_Html2Pdf('L','A4','fr');
         $html2pdf->pdf->SetDisplayMode('real');
         $html2pdf->writeHTML($html);
-        $file = $html2pdf->Output('SEPA'.$fileName.'.pdf','I');
+        $file = $html2pdf->Output('SEPA_'.$fileName.'.pdf','I');
 //        $response = new Response();
 //        $response->clearHttpHeaders();
 //        $response->setContent(file_get_contents($file));
