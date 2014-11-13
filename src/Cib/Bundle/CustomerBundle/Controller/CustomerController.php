@@ -514,11 +514,12 @@ class CustomerController extends Controller
      */
     public function printPdfAction(Request $request, $id)
     {
-        $picture = __DIR__.'/../../../../../web/bundles/cibcore/pictures/sepa.jpg';
+        $pictureSepa = __DIR__.'/../../../../../web/bundles/cibcore/pictures/logoSepa.jpg';
+//        $pictureEga = __DIR__.'/../../../../../web/bundles/cibcore/pictures/pictureEga.jpg';
 
         $bankAccount = $this->getDoctrine()->getManager()->getRepository('CibCustomerBundle:bankAccount')->find($id);
         $fileName = $bankAccount->getClient()->getClientName().'_'.$bankAccount->getClient()->getClientFirstName();
-        $html = $this->renderView('CibCustomerBundle:Customer:writeSepaPdf.html.twig',array('picture' => $picture,'bankAccount' => $bankAccount));
+        $html = $this->renderView('CibCustomerBundle:Customer:writeSepaPdf.html.twig',array('pictureSepa' => $pictureSepa,/*'pictureEga' => $pictureEga,*/'bankAccount' => $bankAccount));
         $html2pdf = new \Html2Pdf_Html2Pdf('L','A4','fr');
         $html2pdf->pdf->SetDisplayMode('real');
         $html2pdf->writeHTML($html);
