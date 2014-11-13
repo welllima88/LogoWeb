@@ -27,7 +27,7 @@ $(document).ready(function() {
     dateStartContainer.datepicker();
     dateStopContainer.datepicker();
     cardContainer.attr({maxLength:10});
-    selectResults(monthContainer.value,dateStartContainer.value,dateStopContainer.value,cardContainer.value,clientContainer.value,storeContainer.value,url);
+    selectResults(monthContainer.value,dateStartContainer.value,dateStopContainer.value,cardContainer.value,clientContainer.value,storeContainer.value,url,null);
     getResultList();
 
     cardContainer.on('change',function(){
@@ -35,14 +35,14 @@ $(document).ready(function() {
     });
 
     buttonReset.on('click',function(){
-        selectResults(undefined,undefined,undefined,undefined,undefined,undefined,url);
+        selectResults(undefined,undefined,undefined,undefined,undefined,undefined,url,null);
         monthContainer.value = "";
     });
     cardContainer.keyup(function(){
         if(this.value.length >= 4)
             autoLoadCard(this.value,url);
         if(this.value.length == 10)
-            selectResults(monthContainer.value,dateStartContainer.value,dateStopContainer.value,this.value,clientContainer.value,storeContainer.value,url);
+            selectResults(monthContainer.value,dateStartContainer.value,dateStopContainer.value,this.value,clientContainer.value,storeContainer.value,url,null);
     });
 
     clientContainer.keyup(function(){
@@ -52,20 +52,20 @@ $(document).ready(function() {
 
     dateStopContainer.on('change', function () {
         dateStartContainer.datepicker('option','maxDate',this.value);
-        selectResults(monthContainer.value,dateStartContainer.value,this.value,cardContainer.value,clientContainer.value,storeContainer.value,url);
+        selectResults(monthContainer.value,dateStartContainer.value,this.value,cardContainer.value,clientContainer.value,storeContainer.value,url,null);
     });
 
     dateStartContainer.on('change',function(){
         dateStopContainer.datepicker('option','minDate',this.value);
-        selectResults(monthContainer.value,this.value,dateStopContainer.value,cardContainer.value,clientContainer.value,storeContainer.value,url);
+        selectResults(monthContainer.value,this.value,dateStopContainer.value,cardContainer.value,clientContainer.value,storeContainer.value,url,null);
     });
 
     monthContainer.on('change', function () {
-        selectResults(this.value,dateStartContainer.value,dateStopContainer.value,cardContainer.value,clientContainer.value,storeContainer.value,url);
+        selectResults(this.value,dateStartContainer.value,dateStopContainer.value,cardContainer.value,clientContainer.value,storeContainer.value,url,null);
     });
 
     storeContainer.on('change',function(){
-        selectResults(monthContainer.value,dateStartContainer.value,dateStopContainer.value,cardContainer.value,clientContainer.value,this.value,url);
+        selectResults(monthContainer.value,dateStartContainer.value,dateStopContainer.value,cardContainer.value,clientContainer.value,this.value,url,null);
     });
 
     $(".deleteResult").on('click',function(){
@@ -116,7 +116,7 @@ function autoLoadCard(val,url){
             cardContainer.autocomplete({
                 source : suggestion,
                 select : function(event, ui){
-                    selectResults(monthContainer.value,dateStartContainer.value,dateStopContainer.value,this.value,clientContainer.value,storeContainer.value,url);
+                    selectResults(monthContainer.value,dateStartContainer.value,dateStopContainer.value,this.value,clientContainer.value,storeContainer.value,url,null);
                 }
             });
         }
@@ -139,7 +139,7 @@ function autoLoadClient(val,url){
             clientContainer.autocomplete({
                 source : suggestion,
                 select: function(event,ui){
-                    selectResults(monthContainer.value,dateStartContainer.value,dateStopContainer.value,cardContainer.value,this.value,storeContainer.value,url)
+                    selectResults(monthContainer.value,dateStartContainer.value,dateStopContainer.value,cardContainer.value,this.value,storeContainer.value,url,null)
                 }
             });
         }
@@ -147,13 +147,15 @@ function autoLoadClient(val,url){
     });
 }
 
-function selectResults(month,dateStart,dateStop,card,client,store,url){
+function selectResults(month,dateStart,dateStop,card,client,store,url,page){
 
     var totalCredit = 0;
     var totalDebit = 0;
     var totalPrime = 0;
     var totalVip = 0;
     var data = 'month='+monthContainer.val()+'&start='+dateStartContainer.val()+'&stop='+dateStopContainer.val()+'&card='+cardContainer.val()+'&client='+clientContainer.val()+'&store='+storeContainer.val();
+    if(page != null)
+    data = data + '&page='+page;
     $.ajax({
         type : 'POST', // envoi des données en GET ou POST
         url : url , // url du fichier de traitement
@@ -166,7 +168,11 @@ function selectResults(month,dateStart,dateStop,card,client,store,url){
 
             tabResultContainer.append('<table id="tabResultDebit" class="table table-responsive"><tr class="titleTableLarge"><td colspan="7"><bold>TRANSACTIONS</bold></td></tr><tr class="titleTable"><td class="col-xs-1 col-md-1">DATE</td><td class="col-xs-1 col-md-1">NUMERO DE CARTE</td><td class="col-xs-1 col-md-1">VIP</td><td class="col-xs-1 col-md-1">PRIME</td><td class="col-xs-1 col-md-1">DEBIT</td><td class="col-xs-1 col-md-1">CREDIT</td><td class="col-xs-1 col-md-1"></td></tr></table>');
             var k = 0;
-            $.each(JSON.parse(data), function(i, item) {
+
+            var row = JSON.parse(data);
+            //console.log(row);
+            $.each(row.items, function(i, item) {
+
             var date = new Date(item.date_transaction);
                 if(item.type_transaction == 'D')
                 {
@@ -196,6 +202,19 @@ function selectResults(month,dateStart,dateStop,card,client,store,url){
                 else
                  k = k +1;
             });
+
+            //var route = console.log(row.route);
+            //console.log(url);
+            var range = row.pageRange;
+            var itemsPerPage = row.numItemsPerPage;
+            var totalItems = row.totalCount;
+            var currentPage = row.currentPageNumber;
+            var totalPages = Math.ceil(totalItems/itemsPerPage);
+            if(totalItems%itemsPerPage != 0)
+                totalPages = totalPages + 1;
+
+            $.displayLinkPages(1,5,5,10);
+
             $.selectTotal(totalDebit,totalCredit,totalPrime,totalVip);
                 $('#loaderOn').remove();
             },
@@ -314,6 +333,11 @@ $.urlParam = function(name){
 
 function refreshResult()
 {
+    var page;
+    if($.urlParam('page') != 'null')
+        page = $.urlParam('page');
+    else
+        page = null;
     $("#modalList").modal('toggle');
     if($.urlParam('card') != 'null')
         cardContainer.value = $.urlParam('card');
@@ -346,7 +370,7 @@ function refreshResult()
     else
         storeContainer.value = "";
 
-    selectResults(monthContainer.value,dateStartContainer.value,dateStopContainer.value,cardContainer.value,clientContainer.value,storeContainer.value,url);
+    selectResults(monthContainer.value,dateStartContainer.value,dateStopContainer.value,cardContainer.value,clientContainer.value,storeContainer.value,url,page);
 }
 
 $.selectTotal = function(debit,credit,prime,vip){
@@ -378,6 +402,49 @@ function deleteResult(){
         }
 
     });
+};
+
+$.displayLinkPages = function(page,totalPages,range,itemPerPage){
+    var pages = 0;
+    var pageCount = 0;
+
+    if(totalPages < page)
+        pages = totalPages;
+
+    if(range > totalPages)
+        range = totalPages;
+
+    var delta = Math.ceil(range/2);
+
+    if(pages - delta > totalPages - range)
+        pageCount = _.range(totalPages - range + 1, totalPages);
+    else
+    {
+        if(pages-delta < 0)
+            delta = pages;
+
+        var offset = pages - delta;
+        pageCount = _.range(offset+1,offset+range);
+    }
+
+    var proximity = Math.floor(range/2);
+    var startPage = page-proximity;
+    var stopPage =  page+proximity;
+
+    if(startPage < 1){
+        stopPage = Math.min(stopPage + (1 - startPage),totalPages);
+        startPage = 1;
+
+    if (stopPage > totalPages) {
+        startPage = Math.max(startPage - (stopPage - totalPages), 1);
+        stopPage = totalPages;
+    }
+
+        console.log(startPage);
+        console.log(stopPage);
+
+    }
+
 };
 
 

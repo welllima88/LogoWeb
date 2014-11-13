@@ -223,9 +223,14 @@
             {% endif %}
 
             {% if client.bankAccount.dateSign is not null %}
-                {% set dateSign = client.bankAccount.dateSign|date('D M Y') %}
+                {% set dateSign = client.bankAccount.dateSign|date('d / m / Y') %}
             {% else %}
                 {% set dateSign = "" %}
+            {% endif %}
+            {% if client.bankAccount.frequency is not null %}
+                {% set frequency =  client.bankAccount.frequency %}
+            {% else %}
+                {% set frequency = "" %}
             {% endif %}
         {% else %}
             {% set rum = "" %}
@@ -244,6 +249,7 @@
             {% set bic = "" %}
             {% set placeSign = "" %}
             {% set dateSign = "" %}
+            {% set frequency = "" %}
         {% endif %}
         <div class="tab-pane" id="bank">
             <div class="row">
@@ -325,6 +331,9 @@
             </div>
             <div class="container well col-xs-12 col-md-12">
                 <div class="row">
+                    Paiement : {{ frequency }}
+                </div>
+                <div class="row">
                     <div class="col-xs-1 col-md-1">
                         IBAN
                     </div>
@@ -352,6 +361,12 @@
                         {{ dateSign }}
                     </div>
                 </div>
+                {#{% for bankAccount in client.bankAccount %}#}
+
+                {#{% endfor %}#}
+            </div>
+            <div class="row">
+                <center><a href="{{ path('printPdf',{'id':client.bankAccount.bankAccountId}) }}" class="btn btn-primary">Imprimer/Télécharger relevé SEPA</a> </center>
             </div>
         {#{% endif %}#}
             {#{{ form_widget(form.bankAccount) }}#}
@@ -365,8 +380,13 @@
                             <td>NOM CLUB</td>
                         </tr>
                         <tr class="row0">
-                            <td>{{ client.club.clubNumber }}</td>
-                            <td>{{ client.club.clubName }}</td>
+                            {% for club in client.club %}
+                                <td>{{ client.club.clubNumber }}</td>
+                                <td>{{ client.club.clubName }}</td>
+                            {% else %}
+                                <td></td>
+                                <td></td>
+                            {% endfor %}
                         </tr>
                     </table>
                 </div>

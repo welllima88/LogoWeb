@@ -2,12 +2,21 @@
 
 namespace Cib\Bundle\CustomerBundle\Form;
 
+use Cib\Bundle\CustomerBundle\Entity\bankAccount;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class bankAccountType extends AbstractType
 {
+
+    /**
+     * @var bankAccount
+     *
+     */
+    public $bank ;
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -36,7 +45,7 @@ class bankAccountType extends AbstractType
             ->add('debtorCountry','choice',array(
                 'label' => 'Pays',
                 'choices' => array(
-                    'fr' => 'France'
+                    'France' => 'France'
                 ),
                 'data' => 'FR',
             ))
@@ -44,7 +53,7 @@ class bankAccountType extends AbstractType
                 'label' => 'Identifiant créancier SEPA :',
             ))
             ->add('creditorName','text',array(
-                'label' => 'Nom'
+                'label' => 'Nom',
             ))
             ->add('creditorAddress','text',array(
                 'label' => 'Adresse',
@@ -61,9 +70,8 @@ class bankAccountType extends AbstractType
             ->add('creditorCountry','choice',array(
                 'label' => 'Pays',
                 'choices' => array(
-                    'fr' => 'France',
+                    'France' => 'France',
                 ),
-                'data' => 'France',
             ))
             ->add('iban','text',array(
                 'label' => 'IBAN',
@@ -84,6 +92,16 @@ class bankAccountType extends AbstractType
                     'cols' => 100,
                 )
             ))
+            ->add('frequency','choice',array(
+                'label' => 'Paiement :',
+                'choices' => array(
+                    'Récurrent' => 'Récurrent',
+                    'Ponctuel' => 'Ponctuel',
+                ),
+                'multiple' => false,
+                'expanded' => true,
+                'data' => 'Récurrent',
+            ))
         ;
     }
     
@@ -93,7 +111,8 @@ class bankAccountType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Cib\Bundle\CustomerBundle\Entity\bankAccount'
+            'data_class' => 'Cib\Bundle\CustomerBundle\Entity\bankAccount',
+//            'empty_value' => new bankAccount(),
         ));
     }
 

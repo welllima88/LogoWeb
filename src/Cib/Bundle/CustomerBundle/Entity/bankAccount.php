@@ -50,7 +50,7 @@ class bankAccount {
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $debtorAddress = "";
+    private $debtorAddress;
 
 
     /**
@@ -58,29 +58,14 @@ class bankAccount {
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $debtorZipCode = "";
+    private $debtorZipCode;
 
     /**
      * @var
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $debtorCity = "";
-
-
-    /**
-     * @var
-     *
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $debtorCountry = "";
-
-    /**
-     * @var
-     *
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $rum = "";
+    private $debtorCity;
 
 
     /**
@@ -88,56 +73,71 @@ class bankAccount {
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $creditorCode = "";
+    private $debtorCountry;
 
     /**
      * @var
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $creditorName = "";
+    private $rum;
+
 
     /**
      * @var
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $creditorAddress = "";
+    private $creditorCode;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $creditorName;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $creditorAddress;
 
     /**
      * @var
      *
      * @ORM\Column(type="text", nullable = true)
      */
-    private $creditorZipCode = "";
+    private $creditorZipCode;
 
     /**
      * @var
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $creditorCity = "";
+    private $creditorCity;
 
     /**
      * @var
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $creditorCountry = "";
+    private $creditorCountry;
 
     /**
      * @var
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $iban = "";
+    private $iban;
 
     /**
      * @var
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $bic = "";
+    private $bic;
 
 
     /**
@@ -145,21 +145,21 @@ class bankAccount {
      *
      * @ORM\Column(type="datetime")
      */
-    private $dateSign = "";
+    private $dateSign;
 
     /**
      * @var
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $placeSign ="";
+    private $placeSign;
 
     /**
      * @var
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $comment = "";
+    private $comment;
 
     /**
      * @var
@@ -169,6 +169,12 @@ class bankAccount {
      */
     private $client;
 
+    /**
+     * @var
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $frequency;
 
     /**
      * Get bankAccountId
@@ -206,7 +212,8 @@ class bankAccount {
     /**
      * Set activityCode
      *
-     * @param string $activityCode
+     * @param $creditorCode
+     * @internal param string $activityCode
      * @return bankAccount
      */
     public function setCreditorCode($creditorCode)
@@ -555,5 +562,52 @@ class bankAccount {
     public function getCreditorCountry()
     {
         return $this->creditorCountry;
+    }
+
+
+
+    public function __construct()
+    {
+        $this->setCreditorInformation();
+        return $this;
+    }
+
+    public function setCreditorInformation()
+    {
+        $var = parse_ini_file('bundles/cibcustomer/creditor/creditorInformations.ini');
+
+//        var_dump($var);die;
+        $this->creditorAddress = $var['address'];
+        $this->creditorCode = $var['idSepa'];
+        $this->creditorName = $var['name'];
+        $this->creditorZipCode = $var['zipCode'];
+        $this->creditorCity = $var['city'];
+        $this->creditorCountry = $var['country'];
+        $this->dateSign = new \DateTime();
+
+    }
+
+
+    /**
+     * Set frequency
+     *
+     * @param string $frequency
+     * @return bankAccount
+     */
+    public function setFrequency($frequency)
+    {
+        $this->frequency = $frequency;
+
+        return $this;
+    }
+
+    /**
+     * Get frequency
+     *
+     * @return string 
+     */
+    public function getFrequency()
+    {
+        return $this->frequency;
     }
 }

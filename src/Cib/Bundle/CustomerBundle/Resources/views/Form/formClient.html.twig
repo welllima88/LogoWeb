@@ -283,6 +283,9 @@
     </div>
     <div class="container well col-xs-12 col-md-12">
         <div class="row">
+            {{ form_label(form.bankAccount.frequency) }} {{ form_widget(form.bankAccount.frequency) }}
+        </div>
+        <div class="row">
             <div class="col-xs-1 col-md-1">
                 {{ form_label(form.bankAccount.iban) }}
             </div>

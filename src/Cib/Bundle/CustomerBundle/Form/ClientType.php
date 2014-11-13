@@ -3,6 +3,7 @@
 namespace Cib\Bundle\CustomerBundle\Form;
 
 use Cib\Bundle\ActivityBundle\Form\ClubType;
+use Cib\Bundle\CustomerBundle\Entity\bankAccount;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -130,19 +131,16 @@ class ClientType extends AbstractType
             ->add('checkCivility','checkbox',array(
                 'label' => 'Etat civil',
                 'mapped' => false,
-                'required' => true,
 //                'message' => 'Vous devez confirmer vos changements avant de pouvoir valider',
             ))
             ->add('checkBankAccount','checkbox',array(
                 'label' => 'Bancaire',
                 'mapped' => false,
-                'required' => true,
 //                'message' => 'Vous devez confirmer vos changements avant de pouvoir valider',
             ))
             ->add('checkClub','checkbox',array(
                 'label' => 'Club',
                 'mapped' => false,
-                'required' => true,
 //                'message' => 'Vous devez confirmer vos changements avant de pouvoir valider',
             ))
         ;
@@ -166,4 +164,5 @@ class ClientType extends AbstractType
     {
         return 'cib_bundle_customerbundle_client';
     }
+
 }

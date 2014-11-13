@@ -60,7 +60,13 @@ class DataController extends Controller
             if($request->request->get('result'))
             {
                 $results = $repoTransaction->getAjaxTransactions($em,$repoCard->selectAjaxCard($em,$request->request->get('card')),$repoClient->selectAjaxClient($em,$request->request->get('client')),$dateStart,$dateStop,$repoStore->selectAjaxStore($em,$request->request->get('store')),$request->request->get('month'));
-                return new Response($serializer->create()->build()->serialize($results,'json'),200);
+                $paginator= $this->get('knp_paginator');
+                $pagination = $paginator->paginate(
+                    $results,
+                    $page,
+                    20
+                );
+                return new Response($serializer->create()->build()->serialize($pagination,'json'),200);
             }
 
         }

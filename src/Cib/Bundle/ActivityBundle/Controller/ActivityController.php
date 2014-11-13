@@ -229,6 +229,8 @@ class ActivityController extends Controller
             10
         );
 
+//        var_dump($pagination);die;
+
         return[
             'pagination' => $pagination,
         ];

@@ -9,6 +9,7 @@
 namespace Cib\Bundle\CustomerBundle\Controller;
 
 
+use Cib\Bundle\CustomerBundle\Entity\bankAccount;
 use Cib\Bundle\CustomerBundle\Entity\Card;
 use Cib\Bundle\CustomerBundle\Entity\Client;
 use Cib\Bundle\CustomerBundle\Form\CardType;
@@ -20,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
-use Unirest;
+
 
 
 class CustomerController extends Controller
@@ -76,6 +77,7 @@ class CustomerController extends Controller
         $repoClient = $em->getRepository('CibCustomerBundle:Client');
         $client = $repoClient->find($id);
 
+//        var_dump($client->getBankAccount());die;
 //        var_dump($client);die;
         return[
             'client' => $client,
@@ -97,6 +99,9 @@ class CustomerController extends Controller
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('CibCustomerBundle:Client');
         $client = $repo->find($id);
+
+//        if(!$client->getBankAccount() || !$client->getBankAccount()->getCreditorName())
+//            $client->setBankAccount(new bankAccount());
 
         $originalCards = new ArrayCollection();
 
@@ -132,6 +137,7 @@ class CustomerController extends Controller
 
         }
 
+
         return[
             'form' => $form->createView(),
             'id' => $id,
@@ -153,6 +159,8 @@ class CustomerController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $client = new Client();
+        $bankAccount = new bankAccount();
+        $client->setBankAccount($bankAccount);
         $originalCards = new ArrayCollection();
 
         $form = $this->createForm(new ClientType(),$client);
@@ -186,7 +194,7 @@ class CustomerController extends Controller
                     throw $this->createNotFoundException('page introuvable');
             }
         }
-
+//        var_dump($form->createView()->children);die;
         return[
             'form' => $form->createView(),
             'client' => $client,
@@ -484,9 +492,7 @@ class CustomerController extends Controller
         $repoClient = $em->getRepository('CibCustomerBundle:Client');
         $handle = fopen("/home/ega/EGA.csv","r");
         $file = fread($handle,filesize("C:\\Users\\cedric\\Documents\\text.csv"));
-//        var_dump($file);
         $rows = explode("\n",$file);
-//        var_dump($rows);
         foreach($rows as $row)
         {
             $field = explode(";",$row);
@@ -495,9 +501,53 @@ class CustomerController extends Controller
         }
 
         fclose($handle);
-//        die;
 
         return $this->redirect($this->generateUrl('displayClient'));
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route("/loggedin/print/pdf/{id}", name="printPdf" )
+     */
+    public function printPdfAction(Request $request, $id)
+    {
+        $picture = __DIR__.'/../../../../../web/bundles/cibcore/pictures/sepa.jpg';
+
+        $bankAccount = $this->getDoctrine()->getManager()->getRepository('CibCustomerBundle:bankAccount')->find($id);
+        $fileName = $bankAccount->getClient()->getClientName();
+        $html = $this->renderView('CibCustomerBundle:Customer:writeSepaPdf.html.twig',array('picture' => $picture,'bankAccount' => $bankAccount));
+        $html2pdf = new \Html2Pdf_Html2Pdf('L','A4','fr');
+        $html2pdf->pdf->SetDisplayMode('real');
+        $html2pdf->writeHTML($html);
+        $file = $html2pdf->Output('SEPA'.$fileName.'.pdf','I');
+//        $response = new Response();
+//        $response->clearHttpHeaders();
+//        $response->setContent(file_get_contents($file));
+//        $response->headers->set('Content-Type', 'application/force-download');
+//        $response->headers->set('Content-disposition', 'filename='. $file);
+        die;
+        $response = new Response();
+        $response->headers->set('Content-Type','application/pdf');
+        $response->headers->set('Content-Disposition', "attachment; filename=filename.pdf");
+        $response->headers->set('Content-Length', filesize($file));
+//        $response->send();
+        $response->setContent(file_get_contents($file));
+
+        return $response;
+//        ->redirect($this->generateUrl('displayDetailClient',array('id' => $bankAccount->getClient()->getClientId())));
+
+//        $response = new Response();
+//        $response->setContent(file_get_contents());
+//        $response->headers->set('Content-Type', 'application/force-download');
+//        return $response;
+//        $response->setContent(file_get_contents($fichier));
+//        $response->headers->set('Content-Type', 'application/force-download');
+//        $response->headers->set('Content-disposition', 'filename='. $fichier);
+//
+//        return $response;
     }
 
 } 
