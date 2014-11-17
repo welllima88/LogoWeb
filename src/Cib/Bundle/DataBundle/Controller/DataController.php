@@ -66,7 +66,7 @@ class DataController extends Controller
                 $pagination = $paginator->paginate(
                     $results,
                     $page,
-                    1
+                    20
                 );
                 return new Response($serializer->create()->build()->serialize($pagination,'json'),200);
             }
