@@ -44,6 +44,12 @@ class registerPrice
      */
     private $priceAmount;
 
+    /**
+     * @var
+     *
+     * @ORM\OneToMany(targetEntity="Cib\Bundle\CustomerBundle\Entity\Client", mappedBy="registerPrice")
+     */
+    private $client;
 
     /**
      * Get priceId
@@ -99,5 +105,45 @@ class registerPrice
     public function getPriceAmount()
     {
         return $this->priceAmount;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->client = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add client
+     *
+     * @param \Cib\Bundle\CustomerBundle\Entity\Client $client
+     * @return registerPrice
+     */
+    public function addClient(\Cib\Bundle\CustomerBundle\Entity\Client $client)
+    {
+        $this->client[] = $client;
+
+        return $this;
+    }
+
+    /**
+     * Remove client
+     *
+     * @param \Cib\Bundle\CustomerBundle\Entity\Client $client
+     */
+    public function removeClient(\Cib\Bundle\CustomerBundle\Entity\Client $client)
+    {
+        $this->client->removeElement($client);
+    }
+
+    /**
+     * Get client
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getClient()
+    {
+        return $this->client;
     }
 }

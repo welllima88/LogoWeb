@@ -218,7 +218,7 @@ class Client
      * @var
      *
      *
-     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\registerPrice")
+     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\registerPrice", inversedBy="client")
      * @ORM\JoinColumn(name="registerPriceId", referencedColumnName="registerPriceId", nullable=true)
      */
     private $registerPrice;
@@ -226,11 +226,18 @@ class Client
     /**
      * @var
      *
-     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\licensePrice")
+     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\licensePrice", inversedBy="client")
      * @ORM\JoinColumn(name="licensePriceId", referencedColumnName="licensePriceId", nullable=true)
      */
     private $licensePrice;
 
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="boolean")
+     */
+    private $checkPayYear;
 
     private $token;
 
@@ -930,7 +937,7 @@ class Client
     public function setRegisterPrice(\Cib\Bundle\ActivityBundle\Entity\registerPrice $registerPrice = null)
     {
         $this->registerPrice = $registerPrice;
-
+        $registerPrice->addClient($this);
         return $this;
     }
 
@@ -953,7 +960,7 @@ class Client
     public function setLicensePrice(\Cib\Bundle\ActivityBundle\Entity\licensePrice $licensePrice = null)
     {
         $this->licensePrice = $licensePrice;
-
+        $licensePrice->addClient($this);
         return $this;
     }
 
@@ -965,5 +972,28 @@ class Client
     public function getLicensePrice()
     {
         return $this->licensePrice;
+    }
+
+    /**
+     * Set checkPayYear
+     *
+     * @param boolean $checkPayYear
+     * @return Client
+     */
+    public function setCheckPayYear($checkPayYear)
+    {
+        $this->checkPayYear = $checkPayYear;
+
+        return $this;
+    }
+
+    /**
+     * Get checkPayYear
+     *
+     * @return boolean 
+     */
+    public function getCheckPayYear()
+    {
+        return $this->checkPayYear;
     }
 }

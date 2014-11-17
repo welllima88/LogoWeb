@@ -1,38 +1,4 @@
-{% if form_errors(form) %}
-    <div class="alert alert-danger">
-        {{ form_errors(form) }}
-    </div>
-{% endif %}
-{#<table class="table table-responsive">#}
-    {#<thead>#}
-    {#<tr>#}
-        {#<th> PME </th>#}
-        {#<th> Actif</th>#}
-    {#</tr>#}
-    {#</thead>#}
-    {#<tbody>#}
-    {#<tr>#}
-        {#<td>{{ form_label(form.Pme1) }}</td>#}
-        {#<td>{{ form_widget(form.Pme1) }}</td>#}
-    {#</tr>#}
-    {#<tr>#}
-        {#<td>{{ form_label(form.Pme2) }}</td>#}
-        {#<td>{{ form_widget(form.Pme2) }}</td>#}
-    {#</tr>#}
-    {#<tr>#}
-        {#<td>{{ form_label(form.Pme3) }}</td>#}
-        {#<td>{{ form_widget(form.Pme3) }}</td>#}
-    {#</tr>#}
-    {#<tr>#}
-        {#<td>{{ form_label(form.Pme4) }}</td>#}
-        {#<td>{{ form_widget(form.Pme4) }}</td>#}
-    {#</tr>#}
-    {#<tr>#}
-        {#<td>{{ form_label(form.Pme5) }}</td>#}
-        {#<td>{{ form_widget(form.Pme5) }}</td>#}
-    {#</tr>#}
-    {#</tbody>#}
-{#</table>#}
+{% include 'CibCoreBundle:Core:displayFormErrors.html.twig' %}
 <table class="table table-bordered table-responsive">
     <tr>
         <td>{{ form_label(form.ftpUrl) }}</td>

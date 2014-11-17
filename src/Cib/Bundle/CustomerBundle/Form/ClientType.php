@@ -7,6 +7,7 @@ use Cib\Bundle\CustomerBundle\Entity\bankAccount;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ClientType extends AbstractType
 {
@@ -84,16 +85,6 @@ class ClientType extends AbstractType
             ->add('mailAddress','email',array(
                 'label' => 'Mail',
             ))
-//            ->add('clientPrice','choice',array(
-//                'label' => 'Tarif',
-//                'choices' => array(
-//                    'H' => 'Homme',
-//                    'F' => 'Femme',
-//                    'E' => 'Enfant'
-//                ),
-//                'multiple' => false,
-//                'expanded' => true,
-//            ))
             ->add('pictureFile','file',array(
                 'label' => 'Photo',
             ))
@@ -114,34 +105,45 @@ class ClientType extends AbstractType
                 'label' => 'Num. licence',
             ))
             ->add('registerPrice','entity',array(
-                'label' => 'Tarif inscription',
+                'label' => 'Tarif adhesion',
                 'class' => 'CibActivityBundle:registerPrice',
-                'property' => 'priceAmount',
+                'property' => 'priceLabel',
             ))
             ->add('licensePrice','entity',array(
                 'label' => 'Tarif licence',
                 'class' => 'CibActivityBundle:licensePrice',
-                'property' => 'priceAmount',
+                'property' => 'priceLabel',
             ))
-            ->add('yearIsPaied','checkbox',array(
-                'label' => 'Paiement annuel ('.date('Y').')',
-                'mapped' => false,
+            ->add('checkPayYear','checkbox',array(
+                'label' => 'Paiement annuel ('.date('Y',$this->date).')',
                 'required' => false,
             ))
             ->add('checkCivility','checkbox',array(
                 'label' => 'Etat civil',
                 'mapped' => false,
-//                'message' => 'Vous devez confirmer vos changements avant de pouvoir valider',
+                'constraints' => array(
+                    new NotBlank(array(
+                        'message' => 'Cochez la case Etat-Civil pour signifier que vous avez terminé la modification des informations concernant l\'Etat Civil du client'
+                    )),
+                ),
             ))
             ->add('checkBankAccount','checkbox',array(
                 'label' => 'Bancaire',
                 'mapped' => false,
-//                'message' => 'Vous devez confirmer vos changements avant de pouvoir valider',
+                'constraints' => array(
+                    new NotBlank(array(
+                        'message' => 'Cochez la case Bancaire pour signifier que vous avez terminé la modification des informations bancaires du client'
+                    )),
+                )
             ))
             ->add('checkClub','checkbox',array(
                 'label' => 'Club',
                 'mapped' => false,
-//                'message' => 'Vous devez confirmer vos changements avant de pouvoir valider',
+                'constraints' => array(
+                    new NotBlank(array(
+                        'message' => 'Cochez la case Club pour signifier que vous avez terminé la modification des informations relatives au club du client'
+                    )),
+                )
             ))
         ;
     }
@@ -163,6 +165,11 @@ class ClientType extends AbstractType
     public function getName()
     {
         return 'cib_bundle_customerbundle_client';
+    }
+
+    public function __construct()
+    {
+        $this->date = strtotime('+1 year');
     }
 
 }

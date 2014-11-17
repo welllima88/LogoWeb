@@ -35,6 +35,10 @@ jQuery(document).ready(function() {
     $('#toggleCard').click(function(){
         $('.toggle').toggle();
     });
+
+    $("#valid").on('click', function () {
+        $('[data-toggle="popover"]').popover();
+    })
 });
 
 function addCardForm(collectionHolder, $newLinkLi) {

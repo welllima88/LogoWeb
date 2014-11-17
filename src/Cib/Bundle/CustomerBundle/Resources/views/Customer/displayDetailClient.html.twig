@@ -83,14 +83,24 @@
                             <td colspan="2">{{ client.officePhone }}</td>
                         </tr>
                         <tr class="titleTable">
-                            <td colspan="2"></td>
-                            <td>E-MAIL</td>
+                            <td colspan="2">E-MAIL</td>
+                            <td></td>
                             <td colspan="2"></td>
                         </tr>
                         <tr class="row0">
+                            <td colspan="2">{{ client.mailAddress }}</td>
+                            <td></td>
                             <td colspan="2"></td>
-                            <td>{{ client.mailAddress }}</td>
-                            <td colspan="2"></td>
+                        </tr>
+                        <tr class="titleTable">
+                            <td colspan="2">TARIF ADHESION</td>
+                            <td>TARIF LICENCE</td>
+                            <td colspan="2">PAIEMENT {{ "now"|date_modify("+1 year")|date('Y') }}</td>
+                        </tr>
+                        <tr class="row0">
+                            <td colspan="2">{% if client.registerPrice is not null %}{{ client.registerPrice.priceLabel }} ({{ client.registerPrice.priceAmount }} €){% endif %}</td>
+                            <td>{% if client.registerPrice is not null %}{{ client.licensePrice.priceLabel }} ({{ client.licensePrice.priceAmount }} €){% endif %}</td>
+                            <td colspan="2"><input type="checkbox" disabled="disabled" {% if client.checkPayYear %} checked="checked" {% endif %}></td>
                         </tr>
                     </table>
                 </div>

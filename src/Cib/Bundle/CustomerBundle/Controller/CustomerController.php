@@ -77,8 +77,6 @@ class CustomerController extends Controller
         $repoClient = $em->getRepository('CibCustomerBundle:Client');
         $client = $repoClient->find($id);
 
-//        var_dump($client->getBankAccount());die;
-//        var_dump($client);die;
         return[
             'client' => $client,
             'page' => $page,
@@ -112,32 +110,30 @@ class CustomerController extends Controller
         $form = $this->createForm(new ClientType(),$client);
         if($request->isMethod('POST')){
             $form->handleRequest($request);
-        if($form->isValid())
-        {
-            $client->setAge();
-            $client->upload();
-            $bankAccount = $form->getData()->getBankAccount();
-//            var_dump($bankAccount);die;
-            $bankAccount->setClient($form->getData());
-            $club = $form->getData()->getClub();
-            $club->addClient($form->getData());
-            foreach ($originalCards as $card) {
-                if ($client->getCard()->contains($card) == false) {
-                    $card->setClient(null);
-                    $em->remove($card);
+            if($form->isValid())
+            {
+                $client->setAge();
+                $client->upload();
+                $bankAccount = $form->getData()->getBankAccount();
+    //            var_dump($bankAccount);die;
+                $bankAccount->setClient($form->getData());
+                $club = $form->getData()->getClub();
+                $club->addClient($form->getData());
+                foreach ($originalCards as $card) {
+                    if ($client->getCard()->contains($card) == false) {
+                        $card->setClient(null);
+                        $em->remove($card);
+                    }
                 }
+                $em->persist($client);
+                $em->flush();
+                $this->get('session')->getFlashBag()->all();
+                $this->get('session')->getFlashBag()->add('status','Modification(s) effectuée(s)');
+
+                return $this->redirect($this->generateUrl('displayClient',array('page' => $page)));
             }
-            $em->persist($client);
-            $em->flush();
-            $this->get('session')->getFlashBag()->all();
-            $this->get('session')->getFlashBag()->add('status','Modification(s) effectuée(s)');
-
-            return $this->redirect($this->generateUrl('displayClient',array('page' => $page)));
-        }
 
         }
-
-
         return[
             'form' => $form->createView(),
             'id' => $id,

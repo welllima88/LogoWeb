@@ -218,7 +218,7 @@ class Client
      * @var
      *
      *
-     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\registerPrice")
+     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\registerPrice", inversedBy="client")
      * @ORM\JoinColumn(name="registerPriceId", referencedColumnName="registerPriceId", nullable=true)
      */
     private $registerPrice;
@@ -226,11 +226,18 @@ class Client
     /**
      * @var
      *
-     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\licensePrice")
+     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\licensePrice", inversedBy="client")
      * @ORM\JoinColumn(name="licensePriceId", referencedColumnName="licensePriceId", nullable=true)
      */
     private $licensePrice;
 
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="boolean")
+     */
+    private $checkPayYear;
 
     private $token;
 
@@ -942,5 +949,28 @@ class Client
     public function getRegisterPrice()
     {
         return $this->registerPrice;
+    }
+
+    /**
+     * Set licensePrice
+     *
+     * @param \Cib\Bundle\ActivityBundle\Entity\licensePrice $licensePrice
+     * @return Client
+     */
+    public function setLicensePrice(\Cib\Bundle\ActivityBundle\Entity\licensePrice $licensePrice = null)
+    {
+        $this->licensePrice = $licensePrice;
+
+        return $this;
+    }
+
+    /**
+     * Get licensePrice
+     *
+     * @return \Cib\Bundle\ActivityBundle\Entity\licensePrice 
+     */
+    public function getLicensePrice()
+    {
+        return $this->licensePrice;
     }
 }

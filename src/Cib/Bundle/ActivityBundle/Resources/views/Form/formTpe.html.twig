@@ -1,6 +1,6 @@
 {% form_theme form 'form_table_layout.html.twig' %}
 <br>
-
+{% include 'CibCoreBundle:Core:displayFormErrors.html.twig' %}
 <div class="row">
     <div class="container">
         <div class="row">
@@ -8,12 +8,10 @@
                 <div class="row">
                     <div class="col-md-3 col-xs-3" style="font-size: large;text-transform: uppercase">
                         {{ form_label(form.tpeNumber) }}
-                        {{ form_errors(form.tpeNumber) }}
                         {{ form_widget(form.tpeNumber) }}
                     </div>
                     <div class="col-xs-offset-3 col-md-offset-3 col-md-2 col-xs-2" style="font-size: large;text-transform: uppercase">
                         {{ form_label(form.store) }}
-                        {{ form_errors(form.store) }}
                         {{ form_widget(form.store) }}
                     </div>
                 </div>
@@ -242,12 +240,10 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             {{ form_label(form.tpeParameters.urlSoap) }}
-                                            {{ form_errors(form.tpeParameters.urlSoap) }}
                                             {{ form_widget(form.tpeParameters.urlSoap) }}
                                         </div>
                                         <div class="col-md-4">
                                             {{ form_label(form.tpeParameters.portSoap) }}
-                                            {{ form_errors(form.tpeParameters.portSoap) }}
                                             {{ form_widget(form.tpeParameters.portSoap) }}
                                         </div>
                                     </div>
@@ -282,27 +278,22 @@
                                         </div>
                                         <div class="col-md-2">
                                             {{ form_label(form.tpeParameters.header1) }}
-                                            {{ form_errors(form.tpeParameters.header1) }}
                                             {{ form_widget(form.tpeParameters.header1) }}
                                         </div>
                                         <div class="col-md-2">
                                             {{ form_label(form.tpeParameters.header2) }}
-                                            {{ form_errors(form.tpeParameters.header2) }}
                                             {{ form_widget(form.tpeParameters.header2) }}
                                         </div>
                                         <div class="col-md-2">
                                             {{ form_label(form.tpeParameters.header3) }}
-                                            {{ form_errors(form.tpeParameters.header3) }}
                                             {{ form_widget(form.tpeParameters.header3) }}
                                         </div>
                                         <div class="col-md-2">
                                             {{ form_label(form.tpeParameters.header4) }}
-                                            {{ form_errors(form.tpeParameters.header4) }}
                                             {{ form_widget(form.tpeParameters.header4) }}
                                         </div>
                                         <div class="col-md-2">
                                             {{ form_label(form.tpeParameters.header5) }}
-                                            {{ form_errors(form.tpeParameters.header5) }}
                                             {{ form_widget(form.tpeParameters.header5) }}
                                         </div>
                                     </div>
@@ -312,27 +303,22 @@
                                         </div>
                                         <div class="col-md-2">
                                             {{ form_label(form.tpeParameters.footer1) }}
-                                            {{ form_errors(form.tpeParameters.footer1) }}
                                             {{ form_widget(form.tpeParameters.footer1) }}
                                         </div>
                                         <div class="col-md-2">
                                             {{ form_label(form.tpeParameters.footer2) }}
-                                            {{ form_errors(form.tpeParameters.footer2) }}
                                             {{ form_widget(form.tpeParameters.footer2) }}
                                         </div>
                                         <div class="col-md-2">
                                             {{ form_label(form.tpeParameters.footer3) }}
-                                            {{ form_errors(form.tpeParameters.footer3) }}
                                             {{ form_widget(form.tpeParameters.footer3) }}
                                         </div>
                                         <div class="col-md-2">
                                             {{ form_label(form.tpeParameters.footer4) }}
-                                            {{ form_errors(form.tpeParameters.footer4) }}
                                             {{ form_widget(form.tpeParameters.footer4) }}
                                         </div>
                                         <div class="col-md-2">
                                             {{ form_label(form.tpeParameters.footer5) }}
-                                            {{ form_errors(form.tpeParameters.footer5) }}
                                             {{ form_widget(form.tpeParameters.footer5) }}
                                         </div>
                                     </div>

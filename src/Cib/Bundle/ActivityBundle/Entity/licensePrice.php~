@@ -44,5 +44,66 @@ class licensePrice
      */
     private $priceAmount;
 
+    /**
+     * @var
+     *
+     * @ORM\OneToMany(targetEntity="Cib\Bundle\CustomerBundle\Entity\Client", mappedBy="licensePrice")
+     */
+    private $client;
 
-} 
+    /**
+     * Get licensePriceId
+     *
+     * @return integer 
+     */
+    public function getLicensePriceId()
+    {
+        return $this->licensePriceId;
+    }
+
+    /**
+     * Set priceLabel
+     *
+     * @param string $priceLabel
+     * @return licensePrice
+     */
+    public function setPriceLabel($priceLabel)
+    {
+        $this->priceLabel = $priceLabel;
+
+        return $this;
+    }
+
+    /**
+     * Get priceLabel
+     *
+     * @return string 
+     */
+    public function getPriceLabel()
+    {
+        return $this->priceLabel;
+    }
+
+    /**
+     * Set priceAmount
+     *
+     * @param string $priceAmount
+     * @return licensePrice
+     */
+    public function setPriceAmount($priceAmount)
+    {
+        $this->priceAmount = $priceAmount;
+
+        return $this;
+    }
+
+    /**
+     * Get priceAmount
+     *
+     * @return string 
+     */
+    public function getPriceAmount()
+    {
+        return $this->priceAmount;
+    }
+}

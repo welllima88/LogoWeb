@@ -44,7 +44,12 @@ class licensePrice
      */
     private $priceAmount;
 
-
+    /**
+     * @var
+     *
+     * @ORM\OneToMany(targetEntity="Cib\Bundle\CustomerBundle\Entity\Client", mappedBy="licensePrice")
+     */
+    private $client;
 
     /**
      * Get licensePriceId
@@ -100,5 +105,45 @@ class licensePrice
     public function getPriceAmount()
     {
         return $this->priceAmount;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->client = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add client
+     *
+     * @param \Cib\Bundle\CustomerBundle\Entity\Client $client
+     * @return licensePrice
+     */
+    public function addClient(\Cib\Bundle\CustomerBundle\Entity\Client $client)
+    {
+        $this->client[] = $client;
+
+        return $this;
+    }
+
+    /**
+     * Remove client
+     *
+     * @param \Cib\Bundle\CustomerBundle\Entity\Client $client
+     */
+    public function removeClient(\Cib\Bundle\CustomerBundle\Entity\Client $client)
+    {
+        $this->client->removeElement($client);
+    }
+
+    /**
+     * Get client
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getClient()
+    {
+        return $this->client;
     }
 }
