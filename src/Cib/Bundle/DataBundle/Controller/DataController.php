@@ -59,12 +59,14 @@ class DataController extends Controller
                 return $repoResults->deleteResultAjax($request->request->get('id'),$em);
             if($request->request->get('result'))
             {
+                if($request->request->get('page'))
+                    $page = $request->request->get('page');
                 $results = $repoTransaction->getAjaxTransactions($em,$repoCard->selectAjaxCard($em,$request->request->get('card')),$repoClient->selectAjaxClient($em,$request->request->get('client')),$dateStart,$dateStop,$repoStore->selectAjaxStore($em,$request->request->get('store')),$request->request->get('month'));
                 $paginator= $this->get('knp_paginator');
                 $pagination = $paginator->paginate(
                     $results,
                     $page,
-                    20
+                    1
                 );
                 return new Response($serializer->create()->build()->serialize($pagination,'json'),200);
             }

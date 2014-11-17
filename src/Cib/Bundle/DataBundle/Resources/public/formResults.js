@@ -11,6 +11,7 @@ var srcLoader = tabResultContainer.attr("class");
 var resultList = $("#resultList");
 var resultModal = $("#resultModal");
 var buttonReset = $("#resetResultChoice");
+var pagesContainer = $("#divPages");
 
 
 $(document).ready(function() {
@@ -170,14 +171,12 @@ function selectResults(month,dateStart,dateStop,card,client,store,url,page){
             var k = 0;
 
             var row = JSON.parse(data);
-            //console.log(row);
             $.each(row.items, function(i, item) {
 
             var date = new Date(item.date_transaction);
                 if(item.type_transaction == 'D')
                 {
                     totalDebit = totalDebit + parseFloat(item.amount_transaction);
-                    //console.log(parseFloat(item.amount_transaction));
                     var test = '<td class="col-md-1 col-xs-1">'+parseFloat(item.amount_transaction).toFixed(2)+' €</td><td class="col-md-1 col-xs-1"></td><td class="col-xs-1 col-md-1"></td></tr>';
                 }
                 else
@@ -190,7 +189,6 @@ function selectResults(month,dateStart,dateStop,card,client,store,url,page){
                     item.is_vip_transaction = 'NON';
                 else
                 {
-                    //console.log(item + i);
                     totalVip = totalVip + parseFloat(item.amount_transaction);
                     item.is_vip_transaction = 'OUI';
                 }
@@ -202,18 +200,14 @@ function selectResults(month,dateStart,dateStop,card,client,store,url,page){
                 else
                  k = k +1;
             });
-
-            //var route = console.log(row.route);
-            //console.log(url);
-            var range = row.pageRange;
-            var itemsPerPage = row.numItemsPerPage;
-            var totalItems = row.totalCount;
-            var currentPage = row.currentPageNumber;
-            var totalPages = Math.ceil(totalItems/itemsPerPage);
-            if(totalItems%itemsPerPage != 0)
-                totalPages = totalPages + 1;
-
-            $.displayLinkPages(1,5,5,10);
+            var range = row.page_range;
+            var itemsPerPage = row.num_items_per_page;
+            var totalItems = row.total_count;
+            var currentPage = row.current_page_number;
+            var totalPages = Math.round(Math.ceil(totalItems/itemsPerPage));
+            //console.log(totalPages);
+            $('.linkPages').remove();
+            $.displayLinkPages(currentPage,totalPages,range,10);
 
             $.selectTotal(totalDebit,totalCredit,totalPrime,totalVip);
                 $('#loaderOn').remove();
@@ -283,7 +277,6 @@ function getResultList()
                 resultList.append('<div class="row"><a class="btn btn-info" data-toggle="modal" data-target="#modalList" id="modalWindow">Préséléctions enregistrées</a></div>');
                 resultModal.append('<div class="modal fade" id="modalList" tabindex="-1" role="dialog" aria-labelledby="list" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-body"></div></div></div></div>');
                 $.each(JSON.parse(data), function(i, item){
-                    console.log(item);
                     if(item.month)
                         month = item.month;
                     else
@@ -405,46 +398,55 @@ function deleteResult(){
 };
 
 $.displayLinkPages = function(page,totalPages,range,itemPerPage){
+
     var pages = 0;
     var pageCount = 0;
 
     if(totalPages < page)
-        pages = totalPages;
+        pages = page = totalPages;
 
     if(range > totalPages)
         range = totalPages;
 
     var delta = Math.ceil(range/2);
 
-    if(pages - delta > totalPages - range)
-        pageCount = _.range(totalPages - range + 1, totalPages);
+    if(page - delta > totalPages - range)
+    {
+        pageCount = _.range(totalPages - range + 1, totalPages + 1);
+    }
     else
     {
-        if(pages-delta < 0)
-            delta = pages;
+        if(page-delta < 0)
+            delta = page;
 
-        var offset = pages - delta;
-        pageCount = _.range(offset+1,offset+range);
+        var offset = page - delta;
+        pageCount = _.range(offset+1,(offset+range)+1);
     }
 
     var proximity = Math.floor(range/2);
+
     var startPage = page-proximity;
     var stopPage =  page+proximity;
 
     if(startPage < 1){
         stopPage = Math.min(stopPage + (1 - startPage),totalPages);
         startPage = 1;
-
+    }
     if (stopPage > totalPages) {
         startPage = Math.max(startPage - (stopPage - totalPages), 1);
         stopPage = totalPages;
     }
 
-        console.log(startPage);
-        console.log(stopPage);
-
-    }
-
+    console.log(pageCount);
+    $.each(pageCount,function(i,item){
+        if(page == item)
+            pagesContainer.append('<a href="#" id="page'+item+'" class="linkPages" style="text-decoration: underline">'+ item +'</a>&nbsp;');
+        else
+            pagesContainer.append('<a href="#" id="page'+item+'" class="linkPages">'+ item +'</a>&nbsp;');
+        $("#page"+item).on('click',function(){
+            selectResults(monthContainer.value,dateStartContainer.value,dateStopContainer.value,cardContainer.value,this.value,storeContainer.value,url,item)
+        });
+    });
 };
 
 
