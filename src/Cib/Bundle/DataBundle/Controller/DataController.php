@@ -37,6 +37,10 @@ class DataController extends Controller
         $repoStore = $em->getRepository('CibActivityBundle:Store');
         $formResult = $this->createForm(new ResultsType());
         $serializer = new SerializerBuilder();
+        $totalDebit = 0;
+        $totalPrime = 0;
+        $totalVip = 0;
+        $totalCredit = 0;
         if($request->isXmlHttpRequest())
         {
             if($request->request->get('start'))
@@ -62,23 +66,37 @@ class DataController extends Controller
                 if($request->request->get('page'))
                     $page = $request->request->get('page');
                 $results = $repoTransaction->getAjaxTransactions($em,$repoCard->selectAjaxCard($em,$request->request->get('card')),$repoClient->selectAjaxClient($em,$request->request->get('client')),$dateStart,$dateStop,$repoStore->selectAjaxStore($em,$request->request->get('store')),$request->request->get('month'));
+                foreach($results as $result)
+                {
+                    if($result->getTypeTransaction() == 'D')
+                        $totalDebit += $result->getAmountTransaction();
+                    if($result->getTypeTransaction() == 'C')
+                    {
+                        $totalPrime += $result->getPrimeTransaction();
+                        if($result->getIsVipTransaction())
+                            $totalVip += $result->getAmountTransaction();
+                        else
+                            $totalCredit += $result->getAmountTransaction();;
+                    }
+                }
+                $array = array(
+                    'totalDebit' => $totalDebit,
+                    'totalCredit' => $totalCredit,
+                    'totalPrime' => $totalPrime,
+                    'totalVip' => $totalVip,
+                );
                 $paginator= $this->get('knp_paginator');
                 $pagination = $paginator->paginate(
                     $results,
                     $page,
                     20
                 );
-                return new Response($serializer->create()->build()->serialize($pagination,'json'),200);
+                $arrayResult['total'] = $array;
+                $arrayResult['pagination'] = $pagination;
+                return new Response($serializer->create()->build()->serialize($arrayResult,'json'),200);
             }
 
         }
-
-//        $paginator= $this->get('knp_paginator');
-//        $pagination = $paginator->paginate(
-//            $results,
-//            $page,
-//            20
-//        );
 
 
         return[

@@ -171,25 +171,30 @@ function selectResults(month,dateStart,dateStop,card,client,store,url,page){
             var k = 0;
 
             var row = JSON.parse(data);
-            $.each(row.items, function(i, item) {
-
+            //console.log(row);
+            totalDebit = row.total.totalDebit;
+            totalCredit = row.total.totalCredit;
+            totalPrime = row.total.totalPrime;
+            totalVip = row.total.totalVip;
+            $.each(row.pagination.items, function(i, item) {
+            //console.log(item);
             var date = new Date(item.date_transaction);
                 if(item.type_transaction == 'D')
                 {
-                    totalDebit = totalDebit + parseFloat(item.amount_transaction);
+                    //totalDebit = totalDebit + parseFloat(item.amount_transaction);
                     var test = '<td class="col-md-1 col-xs-1">'+parseFloat(item.amount_transaction).toFixed(2)+' €</td><td class="col-md-1 col-xs-1"></td><td class="col-xs-1 col-md-1"></td></tr>';
                 }
                 else
                 {
-                    totalCredit = totalCredit + parseFloat(item.amount_transaction);
-                    totalPrime = totalPrime + parseFloat(item.prime_transaction);
+                    //totalCredit = totalCredit + parseFloat(item.amount_transaction);
+                    //totalPrime = totalPrime + parseFloat(item.prime_transaction);
                     var test = '<td class="col-md-1 col-xs-1"></td><td class="col-md-1 col-xs-1">'+parseFloat(item.amount_transaction).toFixed(2)+' €</td><td class="col-xs-1 col-md-1"></td></tr>';
                 }
                 if(item.is_vip_transaction == false)
                     item.is_vip_transaction = 'NON';
                 else
                 {
-                    totalVip = totalVip + parseFloat(item.amount_transaction);
+                    //totalVip = totalVip + parseFloat(item.amount_transaction);
                     item.is_vip_transaction = 'OUI';
                 }
 
@@ -200,10 +205,10 @@ function selectResults(month,dateStart,dateStop,card,client,store,url,page){
                 else
                  k = k +1;
             });
-            var range = row.page_range;
-            var itemsPerPage = row.num_items_per_page;
-            var totalItems = row.total_count;
-            var currentPage = row.current_page_number;
+            var range = row.pagination.page_range;
+            var itemsPerPage = row.pagination.num_items_per_page;
+            var totalItems = row.pagination.total_count;
+            var currentPage = row.pagination.current_page_number;
             var totalPages = Math.round(Math.ceil(totalItems/itemsPerPage));
             //console.log(totalPages);
             $('.linkPages').remove();
