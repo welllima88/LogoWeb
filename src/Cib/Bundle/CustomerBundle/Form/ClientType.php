@@ -51,6 +51,7 @@ class ClientType extends AbstractType
             ))
             ->add('clientAgeFfg','text',array(
                 'label' => 'Age(complément)',
+                'required' => false,
             ))
             ->add('clientAddress','text',array(
                 'label' => 'Adresse',
