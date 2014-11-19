@@ -1,0 +1,47 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: cedric
+ * Date: 17/11/2014
+ * Time: 14:24
+ */
+
+namespace Cib\Bundle\CustomerBundle\Entity;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="cib_registerPrice")
+ * @ORM\Entity(repositoryClass="Cib\Bundle\CustomerBundle\Entity\registerPriceRepository")
+ */
+class registerPrice
+{
+
+    /**
+     * @var
+     *
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $registerPriceId;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="text")
+     */
+    private $registerPriceName;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="decimal", precision=6, scale=2)
+     */
+    private $registerPrice;
+
+
+} 

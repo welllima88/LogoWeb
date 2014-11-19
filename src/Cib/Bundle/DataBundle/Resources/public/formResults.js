@@ -36,9 +36,16 @@ $(document).ready(function() {
     });
 
     buttonReset.on('click',function(){
+        monthContainer.val('');
+        dateStartContainer.val('');
+        dateStopContainer.val('');
+        cardContainer.val('');
+        clientContainer.val('');
+        storeContainer.val('');
+
         selectResults(undefined,undefined,undefined,undefined,undefined,undefined,url,null);
-        monthContainer.value = "";
     });
+
     cardContainer.keyup(function(){
         if(this.value.length >= 4)
             autoLoadCard(this.value,url);
@@ -70,27 +77,32 @@ $(document).ready(function() {
     });
 
     $(".deleteResult").on('click',function(){
-        alert('click!');
         $.deleteResult(this.attr('id'));
     });
 
     resultContainer.on('click',function(){
         $('#inputResult').append('<input type="text" name="nameResult" placeholder="Entrez le nom de votre enregistrment" id="nameResult" style="width: 23%"><div class="row"><div class="col-xs-1 col-md-1"><button class="btn btn-success" id="nameValid">Valider</button></div><div class="col-xs-1 col-md-1"><button class="btn btn-danger" id="nameCancel">Annuler</button></div>');
         resultContainer.attr("disabled", "disabled");
+        buttonReset.attr("disabled", "disabled");
+        $("#modalWindow").attr("disabled","disabled");
         var buttonResultContainer = $('#nameValid');
         var buttonCancel = $('#nameCancel');
         var nameResultContainer = $('#nameResult');
         buttonResultContainer.on('click',function(){
-        if(nameResultContainer.val() != undefined)
-        {
-            saveResult(nameResultContainer.val())
-        }
+            if(nameResultContainer.val())
+            {
+                saveResult(nameResultContainer.val())
+            }
+            else
+                alert('Vous devez donner un nom à votre enregistrment');
         });
         buttonCancel.on('click',function(){
-           buttonResultContainer.remove();
-           buttonCancel.remove();
-           nameResultContainer.remove();
-           resultContainer.removeAttr("disabled");
+            buttonResultContainer.remove();
+            buttonCancel.remove();
+            nameResultContainer.remove();
+            resultContainer.removeAttr("disabled");
+            buttonReset.removeAttr("disabled");
+            $("#modalWindow").removeAttr("disabled");
         });
 
     });
@@ -111,7 +123,6 @@ function autoLoadCard(val,url){
             //console.log($.parseJSON(data));
             var suggestion = [];
             $.each($.parseJSON(data), function(i, item) {
-                console.log(item);
                suggestion.push(item.cardNumber);
             });
             cardContainer.autocomplete({
@@ -134,7 +145,6 @@ function autoLoadClient(val,url){
             //console.log($.parseJSON(data));
             var suggestion = [];
             $.each($.parseJSON(data), function(i, item) {
-                console.log(item);
                 suggestion.push(item.clientName);
             });
             clientContainer.autocomplete({
@@ -253,6 +263,8 @@ function saveResult(name)
             $('#nameCancel').remove();
             $('#nameResult').remove();
             resultContainer.removeAttr("disabled");
+            buttonReset.removeAttr("disabled");
+            $("#modalWindow").removeAttr("disabled");
             getResultList();
             $('#loaderOn').remove();
         },
@@ -306,11 +318,12 @@ function getResultList()
                         client = item.client.client_id;
                     else
                         client = null;
-                    //var resultId = item.result_id;
                     $(".modal-body").append('<div id="linkResult"></div>');
 
-                    $("#linkResult").append('<a href="#?month='+month+'&dateStart='+dateStart+'&dateStop='+dateStop+'&card='+card+'&store='+store+'&client='+client+'" onClick="refreshResult()">'+item.name+'</a><a href="#?id='+item.result_id+'" class="btn glyphicon glyphicon-remove-circle"  onclick="deleteResult()"></a><br>');
-                    //$(".deleteResult").attr('id',item.result_id);
+                    $("#linkResult").append('<a href="#?month='+month+'&dateStart='+dateStart+'&dateStop='+dateStop+'&card='+card+'&store='+store+'&client='+client+'" onClick="refreshResult()">'+item.name+'</a><a id="delete'+item.result_id+'" href="#?id='+item.result_id+'" class="btn glyphicon glyphicon-remove-circle"></a><br>');
+                    $("#delete"+item.result_id).on('click',function(){
+                       deleteResult(item.result_id);
+                    });
                 });
             }
             $('#loaderOn').remove();
@@ -332,53 +345,50 @@ $.urlParam = function(name){
 function refreshResult()
 {
     var page;
-    if($.urlParam('page') != 'null')
-        page = $.urlParam('page');
-    else
-        page = null;
     $("#modalList").modal('toggle');
     if($.urlParam('card') != 'null')
-        cardContainer.value = $.urlParam('card');
+        cardContainer.val($.urlParam('card'));
     else
-        cardContainer.value = "";
+        cardContainer.val("");
     if($.urlParam('client') != 'null')
-        clientContainer.value = $.urlParam('client');
+        clientContainer.val($.urlParam('client'));
     else
-        clientContainer.value = "";
+        clientContainer.val("");
     if($.urlParam('dateStart') != 'null')
     {
         var dateStart = new Date($.urlParam('dateStart'));
-        dateStartContainer.value = dateStart.getDate()+'-'+(dateStart.getMonth()+1)+'-'+dateStart.getFullYear();
+        dateStartContainer.val(dateStart.getDate()+'-'+(dateStart.getMonth()+1)+'-'+dateStart.getFullYear());
     }
     else
-        dateStartContainer.value = "";
+        dateStartContainer.val("");
     if($.urlParam('dateStop') != 'null')
     {
         var dateStop = new Date($.urlParam('dateStop'));
-        dateStopContainer.value = dateStop.getDate()+'-'+(dateStop.getMonth()+1)+'-'+dateStop.getFullYear();
+        dateStopContainer.val(dateStop.getDate()+'-'+(dateStop.getMonth()+1)+'-'+dateStop.getFullYear());
     }
     else
-        dateStopContainer.value = "";
+        dateStopContainer.val("");
     if($.urlParam('month') != 'null')
-        monthContainer.value = $.urlParam('month');
+        monthContainer.val($.urlParam('month'));
     else
-        monthContainer.value = "";
+        monthContainer.val("");
     if($.urlParam('store') != 'null')
-        storeContainer.value = $.urlParam('store');
+        storeContainer.val($.urlParam('store'));
     else
-        storeContainer.value = "";
+        storeContainer.val("");
+
 
     selectResults(monthContainer.value,dateStartContainer.value,dateStopContainer.value,cardContainer.value,clientContainer.value,storeContainer.value,url,page);
 }
 
 $.selectTotal = function(debit,credit,prime,vip){
-    //console.log(debit);
     $("#divTotal").append('<table id="tabTotal" class="table table-responsive"><tr class="titleTable"><td class="col-md-1 col-xs-1">TOTAL</td><td class="col-md-1 col-xs-1"></td><td class="col-md-1 col-xs-1">VIP</td><td class="col-md-1 col-xs-1">PRIME</td><td class="col-md-1 col-xs-1">DEBIT</td><td class="col-md-1 col-xs-1">CREDIT</td><td class="col-xs-1 col-md-1">SOLDE</td></tr>');
     $("#tabTotal").append('<tr class="row0"><td class="col-md-1 col-xs-1"></td><td class="col-md-1 col-xs-1"></td><td class="col-md-1 col-xs-1">'+parseFloat(vip).toFixed(2)+' €</td><td class="col-md-1 col-xs-1">'+parseFloat(prime).toFixed(2)+' €</td><td class="col-md-1 col-xs-1">'+parseFloat(debit).toFixed(2)+' €</td><td class="col-md-1 col-xs-1">'+parseFloat(credit).toFixed(2)+' €</td><td class="col-md-1 col-xs-1">'+parseFloat(credit - debit).toFixed(2)+' €</td></tr></table>');
 };
 
-function deleteResult(){
-    var id = $.urlParam('id');
+function deleteResult(id){
+    $("#modalList").modal('toggle');
+    //var id = $.urlParam('id');
     $.ajax({
         type : 'POST', // envoi des données en GET ou POST
         url : url , // url du fichier de traitement
