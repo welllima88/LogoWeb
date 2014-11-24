@@ -502,7 +502,7 @@ $.displayLinkPages = function(page,totalPages,range,itemPerPage){
         stopPage = totalPages;
     }
 
-    console.log(pageCount);
+    //console.log(pageCount);
     $.each(pageCount,function(i,item){
         if(page == item)
             pagesContainer.append('<a href="#" id="page'+item+'" class="linkPages" style="text-decoration: underline">'+ item +'</a>&nbsp;');

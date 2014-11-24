@@ -91,7 +91,7 @@ $.selectResults = function(){
                 var warningBalance = 0;
                 var isWarning = 0;
 
-                console.log(test);
+                //console.log(test);
                 if(test.amount_warning_debit != undefined)
                 {
                     warningDebit = parseFloat(test.amount_warning_debit);
