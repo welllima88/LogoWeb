@@ -26,6 +26,7 @@ class AppKernel extends Kernel
             new Cib\Bundle\FtpBundle\CibFtpBundle(),
             new Cib\Bundle\DataBundle\CibDataBundle(),
             new Cib\Bundle\SoapBundle\CibSoapBundle(),
+            new Liuggio\ExcelBundle\LiuggioExcelBundle(),
         ];
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

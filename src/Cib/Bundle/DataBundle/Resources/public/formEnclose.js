@@ -62,8 +62,11 @@ $.selectResults = function(){
     var totalHistoric = 0;
     var totalReal = 0;
     var testo = 0;
+    var link = "";
     $.each(stores,function(i,item){
        arrayStore.push(item);
+        if(item != undefined && item != "")
+        link = link + item +';';
     });
     $.ajax({
         type : 'POST',
@@ -88,6 +91,7 @@ $.selectResults = function(){
                 var warningBalance = 0;
                 var isWarning = 0;
 
+                console.log(test);
                 if(test.amount_warning_debit != undefined)
                 {
                     warningDebit = parseFloat(test.amount_warning_debit);
@@ -143,7 +147,7 @@ $.selectResults = function(){
                 //console.log(debit);
                 real = balance + lastEnclose;
                 credit = credit - prime;
-                balance = (credit + vip + prime)-debit;
+                balance = (credit + vip)-debit;
                 vip = vip-prime;
                 //console.log(debit);
                 totalCredit = totalCredit + credit;
@@ -214,6 +218,9 @@ $.selectResults = function(){
             totalCredit = totalCredit - totalPrime;
             totalSolde = (totalCredit + totalVip + totalPrime) - totalDebit;
             $("#totalId").append('<tr class="row0 rowTotal"><td><a href="#" class="btn btn-danger">CLOTURER</a></td><td></td><td style="color: red">'+totalDebit.toFixed(2)+' €</td><td style="color: #0088CC">'+totalCredit.toFixed(2)+' €</td><td style="color: #0088CC">'+totalVip.toFixed(2)+' €</td><td style="color: #0088CC">'+totalPrime.toFixed(2)+' €</td><td>'+totalSolde.toFixed(2)+' €</td><td>'+totalHistoric.toFixed(2)+' €</td><td>'+totalReal.toFixed(2)+' €</td><td></td></tr>')
+            if(date == "")
+                date=0;
+            $("#linkExport").append('<a href="'+$("#linkExport").attr('class')+'/'+link+'/'+date+'" class="btn btn-primary">Exporter vers Excel</a>');
         }
 
 

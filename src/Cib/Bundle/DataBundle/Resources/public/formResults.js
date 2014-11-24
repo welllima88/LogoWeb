@@ -12,6 +12,7 @@ var resultList = $("#resultList");
 var resultModal = $("#resultModal");
 var buttonReset = $("#resetResultChoice");
 var pagesContainer = $("#divPages");
+var exportExcelContainer = $("#exportExcel");
 
 
 $(document).ready(function() {
@@ -164,13 +165,44 @@ function selectResults(month,dateStart,dateStop,card,client,store,url,page){
     var totalDebit = 0;
     var totalPrime = 0;
     var totalVip = 0;
-    var data = 'month='+monthContainer.val()+'&start='+dateStartContainer.val()+'&stop='+dateStopContainer.val()+'&card='+cardContainer.val()+'&client='+clientContainer.val()+'&store='+storeContainer.val();
+    var monthData;
+    var start;
+    var stop;
+    var cardData;
+    var clientData;
+    var storeData;
+    if(monthContainer.val())
+        monthData = monthContainer.val();
+    else
+        monthData = 0;
+    if(dateStartContainer.val())
+        start = dateStartContainer.val();
+    else
+        start = 0;
+    if(dateStopContainer.val())
+        stop = dateStopContainer.val();
+    else
+        stop = 0;
+    if(cardContainer.val())
+        cardData = cardContainer.val();
+    else
+        cardData = 0;
+    if(clientContainer.val())
+        clientData = clientContainer.val();
+    else
+        clientData = 0;
+    if(storeContainer.val())
+        storeData = storeContainer.val();
+    else
+        storeData = 0;
+
+    var dataToSend = 'month='+monthContainer.val()+'&start='+dateStartContainer.val()+'&stop='+dateStopContainer.val()+'&card='+cardContainer.val()+'&client='+clientContainer.val()+'&store='+storeContainer.val();
     if(page != null)
-    data = data + '&page='+page;
+        dataToSend = dataToSend + '&page='+page;
     $.ajax({
         type : 'POST', // envoi des données en GET ou POST
         url : url , // url du fichier de traitement
-        data : data + "&result=ok", // données à envoyer en  GET ou POST
+        data : dataToSend + "&result=ok", // données à envoyer en  GET ou POST
         content: 'json',
         success : function(data){ // traitements JS à faire APRES le retour d'ajax-search.php
 
@@ -210,29 +242,47 @@ function selectResults(month,dateStart,dateStop,card,client,store,url,page){
 
 
                 $('#tabResultDebit').append('<tr class="row'+k+'"><td class="col-md-1 col-xs-1">'+date.getDate()+'/'+(date.getMonth() + 1) +'/'+date.getFullYear()+'</td><td class="col-md-1 col-xs-1">'+item.card.card_number+'</td><td class="col-md-1 col-xs-1">'+item.is_vip_transaction+'</td><td class="col-md-1 col-xs-1">'+parseFloat(item.prime_transaction).toFixed(2)+' €</td>'+test);
+
                 if(k == 1)
                  k =0;
                 else
                  k = k +1;
             });
-            var range = row.pagination.page_range;
-            var itemsPerPage = row.pagination.num_items_per_page;
-            var totalItems = row.pagination.total_count;
-            var currentPage = row.pagination.current_page_number;
-            var totalPages = Math.round(Math.ceil(totalItems/itemsPerPage));
-            //console.log(totalPages);
-            $('.linkPages').remove();
-            $.displayLinkPages(currentPage,totalPages,range,10);
+                var range = row.pagination.page_range;
+                var itemsPerPage = row.pagination.num_items_per_page;
+                var totalItems = row.pagination.total_count;
+                var currentPage = row.pagination.current_page_number;
+                var totalPages = Math.round(Math.ceil(totalItems/itemsPerPage));
+                //console.log(totalPages);
+                $('.linkPages').remove();
+                $.displayLinkPages(currentPage,totalPages,range,10);
 
-            $.selectTotal(totalDebit,totalCredit,totalPrime,totalVip);
-                $('#loaderOn').remove();
+                $.selectTotal(totalDebit,totalCredit,totalPrime,totalVip);
+                    $('#loaderOn').remove();
+
+                exportExcelContainer.append('<center><a class="btn btn-primary" id="btnExportExcel" href="'+exportExcelContainer.attr('class')+'/'+monthData+'/'+start+'/'+stop+'/'+cardData+'/'+clientData+'/'+storeData+'">Exporter vers Excel</a></center>');
+                //$("#btnExportExcel").on('click',function(){
+                //    $.exportResult(data);
+                //});
             },
         beforeSend : function() { // traitements JS à faire AVANT l'envoi
             tabResultContainer.after('<div class="row"><img src="'+srcLoader+'" id="loaderOn" class="col-md-offset-5 ">');
+            $("#btnExportExcel").remove();
         }
 
     });
 }
+
+$.exportResult = function(data){
+    $.ajax({
+        type:'POST',
+        url: exportExcelContainer.attr('class'),
+        data: data,
+        content: 'json',
+        success : function(){
+        }
+    });
+};
 
 function saveResult(name)
 {

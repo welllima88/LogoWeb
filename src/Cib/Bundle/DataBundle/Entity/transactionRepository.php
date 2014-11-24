@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * transactionRepository
@@ -26,7 +27,7 @@ class transactionRepository extends EntityRepository
     public function getAjaxTransactions(EntityManager $em,Card $card = null,Client $client = null,$dateStart = null, $dateStop = null,Store $store = null,$month = null)
     {
         $where = null;
-        if($card != '' || $client != '' || $dateStart != '' || $dateStop!= '' || $store != '' || $month!= '' )
+        if(($card != '' && $card != 0) || ($client != '' && $client != 0) || ($dateStart != '' /*&& $dateStart == DateTime::CLASS_CONSTRAINT*/) || ($dateStop!= '' /*&& $dateStop == DateTime::CLASS_CONSTRAINT*/) || ($store != '' && $store != 0) || ($month!= '' && $month != 0) )
             $where = "WHERE";
 
         $dql = "SELECT t FROM CibDataBundle:Transaction t ";
