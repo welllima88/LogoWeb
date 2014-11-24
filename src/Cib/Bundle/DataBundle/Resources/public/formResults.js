@@ -33,7 +33,8 @@ $(document).ready(function() {
     getResultList();
 
     cardContainer.on('change',function(){
-
+        if(this.value.length == 10)
+            selectResults(monthContainer.value,dateStartContainer.value,dateStopContainer.value,this.value,clientContainer.value,storeContainer.value,url,null);
     });
 
     buttonReset.on('click',function(){
@@ -50,8 +51,8 @@ $(document).ready(function() {
     cardContainer.keyup(function(){
         if(this.value.length >= 4)
             autoLoadCard(this.value,url);
-        if(this.value.length == 10)
-            selectResults(monthContainer.value,dateStartContainer.value,dateStopContainer.value,this.value,clientContainer.value,storeContainer.value,url,null);
+        //if(this.value.length == 10)
+        //    selectResults(monthContainer.value,dateStartContainer.value,dateStopContainer.value,this.value,clientContainer.value,storeContainer.value,url,null);
     });
 
     clientContainer.keyup(function(){
@@ -253,21 +254,17 @@ function selectResults(month,dateStart,dateStop,card,client,store,url,page){
                 var totalItems = row.pagination.total_count;
                 var currentPage = row.pagination.current_page_number;
                 var totalPages = Math.round(Math.ceil(totalItems/itemsPerPage));
-                //console.log(totalPages);
                 $('.linkPages').remove();
                 $.displayLinkPages(currentPage,totalPages,range,10);
 
                 $.selectTotal(totalDebit,totalCredit,totalPrime,totalVip);
-                    $('#loaderOn').remove();
+                $('#loaderOn').remove();
 
                 exportExcelContainer.append('<center><a class="btn btn-primary" id="btnExportExcel" href="'+exportExcelContainer.attr('class')+'/'+monthData+'/'+start+'/'+stop+'/'+cardData+'/'+clientData+'/'+storeData+'">Exporter vers Excel</a></center>');
-                //$("#btnExportExcel").on('click',function(){
-                //    $.exportResult(data);
-                //});
             },
         beforeSend : function() { // traitements JS à faire AVANT l'envoi
-            tabResultContainer.after('<div class="row"><img src="'+srcLoader+'" id="loaderOn" class="col-md-offset-5 ">');
             $("#btnExportExcel").remove();
+            tabResultContainer.after('<div class="row"><img src="'+srcLoader+'" id="loaderOn" class="col-md-offset-5 ">');
         }
 
     });
