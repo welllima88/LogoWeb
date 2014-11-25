@@ -51,8 +51,6 @@ $(document).ready(function() {
     cardContainer.keyup(function(){
         if(this.value.length >= 4)
             autoLoadCard(this.value,url);
-        //if(this.value.length == 10)
-        //    selectResults(monthContainer.value,dateStartContainer.value,dateStopContainer.value,this.value,clientContainer.value,storeContainer.value,url,null);
     });
 
     clientContainer.keyup(function(){
