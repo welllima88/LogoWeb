@@ -30,7 +30,7 @@ class MenuBuilder {
         $menu->setChildrenAttribute('class','nav navbar-nav');
         $menu->addChild('Resultats')->setAttribute('dropdown',true);
         $menu['Resultats']->addChild('Transactions',array('route' => 'displayResults'))->setAttribute('divider_append',true);
-        $menu['Resultats']->addChild('Compensation',array('route' => 'displayCompensation'))->setAttribute('divider_append',true);
+        $menu['Resultats']->addChild('Compensation',array('route' => 'displayCompensation'));
 
         return $menu;
     }

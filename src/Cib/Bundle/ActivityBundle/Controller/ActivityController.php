@@ -344,6 +344,8 @@ class ActivityController extends Controller
                         $tpe->setStore(null);
                         $em->remove($tpe);
                     }
+                    else
+                        $tpe->setStore($store);
                 }
                 $em->persist($store);
                 $em->flush();
