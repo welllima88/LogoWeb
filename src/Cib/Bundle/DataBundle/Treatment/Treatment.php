@@ -48,11 +48,13 @@ class Treatment {
         {
             if(!in_array($dir, array('.','..')))
             {
+
 //                var_dump($dir);
                 $test = @scandir($this->getUploadDir().'/'.$dir);
 //                var_dump($test);
                 foreach($test as $file)
                 {
+                    set_time_limit(30);
                     if(!in_array($file, array('.','..')))
                     {
                         $handle = fopen($this->getUploadDir().'/'.$dir.'/'.$file,'r');
