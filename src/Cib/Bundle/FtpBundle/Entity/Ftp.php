@@ -322,6 +322,7 @@ class Ftp {
 
         if($this->connect() === true)
         {
+            ftp_pasv($this->ftpHandle,true);
             $content = ftp_nlist($this->ftpHandle,$origin = ftp_pwd($this->ftpHandle));
             foreach($content as $dir)
             {

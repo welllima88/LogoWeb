@@ -18,7 +18,7 @@ class Treatment {
 
     private $em;
 
-    public function __construct($entityManager)
+    public function __construct(EntityManager $entityManager)
     {
         $this->em = $entityManager;
     }
@@ -33,6 +33,11 @@ class Treatment {
     public function getTreatedDoneFile()
     {
         return 'done';
+    }
+
+    public function getTreatedFailFile()
+    {
+        return 'fail';
     }
 
     public function downloadDataFile(Ftp $ftp)
@@ -57,8 +62,14 @@ class Treatment {
                     set_time_limit(30);
                     if(!in_array($file, array('.','..')))
                     {
+                        @mkdir($this->getTreatedDoneFile().'/'.$dir,0777,true);
+                        @mkdir($this->getTreatedFailFile().'/'.$dir,0777,true);
+                        $handleDone = fopen($this->getTreatedDoneFile().'/'.$dir.'/'.$file,'a');
+                        $handleFail = fopen($this->getTreatedFailFile().'/'.$dir.'/'.$file,'a');
                         $handle = fopen($this->getUploadDir().'/'.$dir.'/'.$file,'r');
                         $content = fread($handle,filesize($this->getUploadDir().'/'.$dir.'/'.$file));
+                        $connexion = $this->em->getConnection();
+                        $configuration = $this->em->getConfiguration();
                         $raws = explode("\n",$content);
                         foreach($raws as $raw)
                         {
@@ -66,13 +77,30 @@ class Treatment {
                             {
                                 $field = explode(';',$raw);
                                 $transaction = new Transaction($field[0],$field[1],$field[2],$field[3],$field[4],$field[5],$field[6],$field[7],$field[8],$field[9],$this->em);
+                            }
+                            try{
                                 $this->em->persist($transaction);
                                 $this->em->flush();
+                                fwrite($handleDone,$raw,strlen($raw));
+                            }
+                            catch(\Exception $e){
+                                fwrite($handleFail,"TRANSACTION EN DOUBLON;".$raw,strlen($raw)+strlen("TRANSACTION EN DOUBLON;"));
+                                $this->em = $this->em->create(
+                                    $connexion,
+                                    $configuration
+                                );
                             }
                         }
                         fclose($handle);
-                        @mkdir($this->getTreatedDoneFile().'/'.$dir,0777,true);
-                        copy($this->getUploadDir().'/'.$dir.'/'.$file,$this->getTreatedDoneFile().'/'.$dir.'/'.$file);
+                        fclose($handleDone);
+                        fclose($handleFail);
+
+                        if(filesize($this->getTreatedDoneFile().'/'.$dir.'/'.$file) == 0)
+                            unlink($this->getTreatedDoneFile().'/'.$dir.'/'.$file);
+//
+                        if(filesize($this->getTreatedFailFile().'/'.$dir.'/'.$file) == 0)
+                            unlink($this->getTreatedFailFile().'/'.$dir.'/'.$file);
+
                         unlink($this->getUploadDir().'/'.$dir.'/'.$file);
                     }
                 }

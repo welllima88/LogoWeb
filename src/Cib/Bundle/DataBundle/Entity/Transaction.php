@@ -22,9 +22,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @package Cib\Bundle\DataBundle\Entity
  *
  * @ORM\Entity
- * @ORM\Table(name="cib_transaction")
+ * @ORM\Table(name="cib_transaction",uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="transaction_idx", columns={"dateTransaction", "typeTransaction", "amountTransaction", "cardId", "tpeId"})}))
  * @ORM\Entity(repositoryClass="Cib\Bundle\DataBundle\Entity\transactionRepository")
- * @UniqueEntity(fields = {"dateTransaction","typeTransaction","amountTransaction","card","tpe"})
  *
  */
 class Transaction {
@@ -48,7 +48,7 @@ class Transaction {
     /**
      * @var
      *
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="string", length=1)
      */
     private $typeTransaction;
 
