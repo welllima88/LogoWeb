@@ -67,6 +67,7 @@ class DataController extends Controller
                 if($request->request->get('page'))
                     $page = $request->request->get('page');
                 $results = $repoTransaction->getAjaxTransactions($em,$repoCard->selectAjaxCard($em,$request->request->get('card')),$repoClient->selectAjaxClient($em,$request->request->get('client')),$dateStart,$dateStop,$repoStore->selectAjaxStore($em,$request->request->get('store')),$request->request->get('month'));
+
                 foreach($results as $result)
                 {
                     if($result->getTypeTransaction() == 'D')

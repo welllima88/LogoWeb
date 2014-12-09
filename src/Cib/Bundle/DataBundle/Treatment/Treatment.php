@@ -54,6 +54,7 @@ class Treatment {
             if(!in_array($dir, array('.','..')))
             {
                 $test = @scandir($this->getUploadDir().'/'.$dir);
+//                var_dump($test);
                 foreach($test as $file)
                 {
                     set_time_limit(30);
@@ -67,7 +68,10 @@ class Treatment {
                         $content = fread($handle,filesize($this->getUploadDir().'/'.$dir.'/'.$file));
                         $connexion = $this->em->getConnection();
                         $configuration = $this->em->getConfiguration();
+//                        var_dump($content);
                         $raws = explode("\n",$content);
+//                        var_dump($raws);
+//                        die;
                         foreach($raws as $raw)
                         {
                             if($raw != '')
@@ -103,6 +107,7 @@ class Treatment {
                 }
             }
         }
+//        die;
         return true;
 
     }
