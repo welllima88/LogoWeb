@@ -70,8 +70,6 @@ class Treatment {
                         $configuration = $this->em->getConfiguration();
 //                        var_dump($content);
                         $raws = explode("\n",$content);
-//                        var_dump($raws);
-//                        die;
                         foreach($raws as $raw)
                         {
                             if($raw != '')

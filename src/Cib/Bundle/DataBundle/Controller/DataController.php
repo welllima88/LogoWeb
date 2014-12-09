@@ -86,6 +86,12 @@ class DataController extends Controller
                     'totalCredit' => $totalCredit,
                     'totalPrime' => $totalPrime,
                     'totalVip' => $totalVip,
+                    'card' => $repoCard->selectAjaxCard($em,$request->request->get('card')),
+                    'client' => $repoClient->selectAjaxClient($em,$request->request->get('client')),
+                    'start' => $dateStart,
+                    'stop' => $dateStop,
+                    'store' => $repoStore->selectAjaxStore($em,$request->request->get('store')),
+                    'month' => $request->request->get('month')
                 );
                 $paginator= $this->get('knp_paginator');
                 $pagination = $paginator->paginate(
