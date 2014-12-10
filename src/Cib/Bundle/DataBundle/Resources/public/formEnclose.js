@@ -148,7 +148,7 @@ $.selectResults = function(){
                 real = balance + lastEnclose;
                 credit = credit - prime;
                 balance = (credit + vip)-debit;
-                vip = vip-prime;
+                //vip = vip - prime;
                 //console.log(debit);
                 totalCredit = totalCredit + credit;
                 totalDebit = totalDebit + debit;
@@ -215,7 +215,6 @@ $.selectResults = function(){
                 else
                     count = count + 1;
             });
-            totalCredit = totalCredit - totalPrime;
             totalSolde = (totalCredit + totalVip + totalPrime) - totalDebit;
             $("#totalId").append('<tr class="row0 rowTotal"><td><a href="#" class="btn btn-danger">CLOTURER</a></td><td></td><td style="color: red">'+totalDebit.toFixed(2)+' €</td><td style="color: #0088CC">'+totalCredit.toFixed(2)+' €</td><td style="color: #0088CC">'+totalVip.toFixed(2)+' €</td><td style="color: #0088CC">'+totalPrime.toFixed(2)+' €</td><td>'+totalSolde.toFixed(2)+' €</td><td>'+totalHistoric.toFixed(2)+' €</td><td>'+totalReal.toFixed(2)+' €</td><td></td></tr>')
             if(date == "")
