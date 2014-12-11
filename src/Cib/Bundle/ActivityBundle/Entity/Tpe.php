@@ -10,6 +10,7 @@ namespace Cib\Bundle\ActivityBundle\Entity;
 
 use Cib\Bundle\FtpBundle\Entity\Ftp;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -148,9 +149,9 @@ class Tpe
         return $this->tpeParameters;
     }
 
-    public function uploadParameterFile(Ftp $ftp)
+    public function uploadParameterFile(Ftp $ftp, Request $request)
     {
-        return $ftp->uploadParameterFile($this);
+        return $ftp->uploadParameterFile($this, $request);
     }
 
     public function rmdir_recursive()

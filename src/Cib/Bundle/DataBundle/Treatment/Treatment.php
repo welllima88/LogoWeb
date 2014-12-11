@@ -13,6 +13,7 @@ use Cib\Bundle\DataBundle\Entity\Transaction;
 use Cib\Bundle\FtpBundle\Entity\Ftp;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\Request;
 
 class Treatment {
 
@@ -40,9 +41,9 @@ class Treatment {
         return 'fail';
     }
 
-    public function downloadDataFile(Ftp $ftp)
+    public function downloadDataFile(Ftp $ftp,Request $request)
     {
-        return $ftp->downloadDataFile($this->getUploadDir());
+        return $ftp->downloadDataFile($this->getUploadDir(), $request);
     }
 
     public function treatDataFiles()

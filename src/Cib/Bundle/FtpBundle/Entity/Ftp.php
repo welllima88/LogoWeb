@@ -10,6 +10,7 @@ namespace Cib\Bundle\FtpBundle\Entity;
 
 
 use Cib\Bundle\ActivityBundle\Entity\Tpe;
+use Symfony\Component\HttpFoundation\Request;
 
 class Ftp {
 
@@ -296,11 +297,14 @@ class Ftp {
         }
     }
 
-    public function uploadParameterFile(Tpe $tpe)
+    public function uploadParameterFile(Tpe $tpe,Request $request)
     {
+
         if($this->connect() === true)
         {
-//            ftp_pasv($this->ftpHandle,true);
+            if(strstr($request->server->get('HTTP_USER_AGENT'),'Windows'))
+                ftp_pasv($this->ftpHandle,true);
+
             if($this->makeDirectory($tpe->getTpeNumber()) === true)
             {
                 if($this->changeDirectory($tpe->getTpeNumber()) === true)
@@ -316,13 +320,15 @@ class Ftp {
 
     }
 
-    public function downloadDataFile($localDir)
+    public function downloadDataFile($localDir,Request $request)
     {
         ini_set('max_execution_time', 300);
 
         if($this->connect() === true)
         {
-//            ftp_pasv($this->ftpHandle,true);
+            if(strstr($request->server->get('HTTP_USER_AGENT'),'Windows'))
+                ftp_pasv($this->ftpHandle,true);
+
             $content = ftp_nlist($this->ftpHandle,$origin = ftp_pwd($this->ftpHandle));
             foreach($content as $dir)
             {

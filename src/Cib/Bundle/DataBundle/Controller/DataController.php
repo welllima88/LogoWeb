@@ -127,7 +127,7 @@ class DataController extends Controller
         $parameters = $repoParameters->find(1);
         $ftp = new Ftp($parameters->getFtpUrl(),$parameters->getFtpUser(),$parameters->getFtpPassword(),$parameters->getFtpPort(),false,false);
         $treatment = new Treatment($this->getDoctrine()->getManager());
-        $treatment->downloadDataFile($ftp);
+        $treatment->downloadDataFile($ftp,$request);
         $transactions = $treatment->treatDataFiles();
 
         return $this->redirect($this->generateUrl('displayResults'));
