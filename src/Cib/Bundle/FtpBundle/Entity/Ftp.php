@@ -302,7 +302,7 @@ class Ftp {
 
         if($this->connect() === true)
         {
-            if(strstr($request->server->get('HTTP_USER_AGENT'),'Windows'))
+            if(PHP_OS == 'WINNT')
                 ftp_pasv($this->ftpHandle,true);
 
             if($this->makeDirectory($tpe->getTpeNumber()) === true)
@@ -326,7 +326,8 @@ class Ftp {
 
         if($this->connect() === true)
         {
-            if(strstr($request->server->get('HTTP_USER_AGENT'),'Windows'))
+
+            if(PHP_OS == 'WINNT')
                 ftp_pasv($this->ftpHandle,true);
 
             $content = ftp_nlist($this->ftpHandle,$origin = ftp_pwd($this->ftpHandle));
