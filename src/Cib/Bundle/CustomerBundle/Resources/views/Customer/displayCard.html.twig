@@ -36,6 +36,7 @@
                                 <th>numéro de carte</th>
                                 <th></th>
                                 <th></th>
+                                <th></th>
                             </tr>
                             {#</thead>#}
                             {% set count = 0 %}
@@ -46,6 +47,7 @@
                                     <td><a href="{{ path('displayDetailCard',{'id' : card.cardId}) }}"> {{ card.cardNumber }} </a></td>
                                     <td>{% if app.user is not null and is_granted('ROLE_ADMIN')%}<a href="{{ path('editCard',{'id' : card.cardId}) }}" class="glyphicon glyphicon-edit" style="color:darkorange"></a>{% endif %}</td>
                                     <td>{% if app.user is not null and is_granted('ROLE_ADMIN')%}<a href="{{ path('deleteCard',{'id' : card.cardId, 'token' : card.token }) }}" class="glyphicon glyphicon-remove" style="color:orangered"></a>{% endif %}</td>
+                                    <td>{% if app.user is not null and is_granted('ROLE_ADMIN')%}<a href="{{ path('writeOppositionFile',{'id' : card.cardId, 'token' : card.token }) }}" class="glyphicon glyphicon-lock" style="color:red"></a>{% endif %}</td>
                                 </tr>
                                 </tbody>
                                 {% if count == 1 %}

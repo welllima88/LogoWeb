@@ -14,6 +14,7 @@ use Cib\Bundle\CustomerBundle\Entity\Card;
 use Cib\Bundle\CustomerBundle\Entity\Client;
 use Cib\Bundle\CustomerBundle\Form\CardType;
 use Cib\Bundle\CustomerBundle\Form\ClientType;
+use Cib\Bundle\FtpBundle\Entity\Ftp;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\DBALException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -546,4 +547,40 @@ class CustomerController extends Controller
 //        return $response;
     }
 
+    /**
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route("/loggedin/admin/write/opposition/{id}/{token}", name="writeOppositionFile")
+     *
+     */
+    public function writeOppositionFileAction(Request $request,$id,$token)
+    {
+        $csrf = $this->get('form.csrf_provider');
+        if($csrf->generateCsrfToken($id) != $token)
+            throw $this->createNotFoundException('Page introuvable');
+        @mkdir('oppo');
+        $em = $this->getDoctrine()->getManager();
+        $repoCard = $em->getRepository('CibCustomerBundle:Card');
+        $card = $repoCard->find($id);
+        $card->setIsActive(false);
+        $em->persist($card);
+        $em->flush();
+        $parameters = $em->getRepository('CibCoreBundle:Parameters')->find(1);
+        $cards = $repoCard->findBy(array('isActive' => false));
+        if(file_exists('oppo/loppo.txt'))
+            unlink('oppo/loppo.txt');
+        $handle = fopen('oppo/loppo.txt','a');
+        foreach($cards as $card)
+        {
+            fwrite($handle,$card->getCardNumber()."\r\n");
+        }
+
+        fclose($handle);
+
+        $ftp = new Ftp($parameters->getFtpUrl(),$parameters->getFtpUser(),$parameters->getFtpPassword(),$parameters->getFtpPort(),false,false);
+        $ftp->uploadOppositionFile();
+        return $this->redirect($this->generateUrl('displayCard'));
+
+    }
 } 

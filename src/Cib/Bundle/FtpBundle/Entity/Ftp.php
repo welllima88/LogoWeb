@@ -114,6 +114,11 @@ class Ftp {
         return $this->ftpError;
     }
 
+    public function getOppositionDir()
+    {
+        return 'oppo';
+    }
+
 
     public function __construct($ftpHost, $ftpLogin, $ftpPassword, $ftpPort, $ftpMode, $ftpIsSecured)
     {
@@ -297,7 +302,7 @@ class Ftp {
         }
     }
 
-    public function uploadParameterFile(Tpe $tpe,Request $request)
+    public function uploadParameterFile(Tpe $tpe)
     {
 
         if($this->connect() === true)
@@ -320,7 +325,7 @@ class Ftp {
 
     }
 
-    public function downloadDataFile($localDir,Request $request)
+    public function downloadDataFile($localDir)
     {
         ini_set('max_execution_time', 300);
 
@@ -370,6 +375,21 @@ class Ftp {
             return true;
         else
             return false;
+    }
+
+    public function uploadOppositionFile()
+    {
+
+        if($this->connect() === true)
+        {
+            if(PHP_OS == 'WINNT')
+                ftp_pasv($this->ftpHandle,true);
+
+            return $this->uploadFile($this->getOppositionDir().'/loppo.txt','loppo.txt',FTP_ASCII);
+        }
+
+        return false;
+
     }
 
 } 

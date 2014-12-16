@@ -149,9 +149,9 @@ class Tpe
         return $this->tpeParameters;
     }
 
-    public function uploadParameterFile(Ftp $ftp, Request $request)
+    public function uploadParameterFile(Ftp $ftp)
     {
-        return $ftp->uploadParameterFile($this, $request);
+        return $ftp->uploadParameterFile($this);
     }
 
     public function rmdir_recursive()

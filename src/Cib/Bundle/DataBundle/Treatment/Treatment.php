@@ -41,9 +41,9 @@ class Treatment {
         return 'fail';
     }
 
-    public function downloadDataFile(Ftp $ftp,Request $request)
+    public function downloadDataFile(Ftp $ftp)
     {
-        return $ftp->downloadDataFile($this->getUploadDir(), $request);
+        return $ftp->downloadDataFile($this->getUploadDir());
     }
 
     public function treatDataFiles()

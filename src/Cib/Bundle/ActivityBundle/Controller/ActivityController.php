@@ -524,7 +524,7 @@ class ActivityController extends Controller
                 $this->get('session')->getFlashBag()->all();
                 $tpe = $form->getData();
                 $tpe->getTpeParameters()->createParameterFile($tpe);
-                if($tpe->uploadParameterFile($ftp,$request))
+                if($tpe->uploadParameterFile($ftp))
                     $this->get('session')->getFlashBag()->add('ftpSuccess','envoi du fichier de paramétrage réussi');
                 else
                     $this->get('session')->getFlashBag()->add('ftpError','echec de l\'envoi du fichier de paramétrage');
