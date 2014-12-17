@@ -47,7 +47,7 @@
                                     <td><a href="{{ path('displayDetailCard',{'id' : card.cardId}) }}"> {{ card.cardNumber }} </a></td>
                                     <td>{% if app.user is not null and is_granted('ROLE_ADMIN')%}<a href="{{ path('editCard',{'id' : card.cardId}) }}" class="glyphicon glyphicon-edit" style="color:darkorange"></a>{% endif %}</td>
                                     <td>{% if app.user is not null and is_granted('ROLE_ADMIN')%}<a href="{{ path('deleteCard',{'id' : card.cardId, 'token' : card.token }) }}" class="glyphicon glyphicon-remove" style="color:orangered"></a>{% endif %}</td>
-                                    <td>{% if app.user is not null and is_granted('ROLE_ADMIN')%}<a href="{{ path('writeOppositionFile',{'id' : card.cardId, 'token' : card.token }) }}" class="glyphicon glyphicon-lock" style="color:red"></a>{% endif %}</td>
+                                    {% if card.isActive == 1 %}<td>{% if app.user is not null and is_granted('ROLE_ADMIN')%}<a href="{{ path('toggleActiveCard',{'id' : card.cardId, 'token' : card.token,'active' : 0 }) }}" class="glyphicon glyphicon-lock" style="color:red" title="Ajouter la carte à la liste d'opposition"></a>{% endif %}</td>{% else %}<td>{% if app.user is not null and is_granted('ROLE_ADMIN')%}<a href="{{ path('toggleActiveCard',{'id' : card.cardId, 'token' : card.token, 'active' : 1 }) }}" class="glyphicon glyphicon-ok" style="color:limegreen" title="Retirer la carte de la liste d'opposition"></a>{% endif %}</td>{% endif %}
                                 </tr>
                                 </tbody>
                                 {% if count == 1 %}

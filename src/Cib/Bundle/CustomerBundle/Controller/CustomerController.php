@@ -17,6 +17,7 @@ use Cib\Bundle\CustomerBundle\Form\ClientType;
 use Cib\Bundle\FtpBundle\Entity\Ftp;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\DBALException;
+use Cib\Bundle\CustomerBundle\Opposition\Opposition;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -547,40 +548,73 @@ class CustomerController extends Controller
 //        return $response;
     }
 
+
     /**
      * @param Request $request
-     *
+     * @param $id
+     * @param $token
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @Route("/loggedin/admin/write/opposition/{id}/{token}", name="writeOppositionFile")
      *
+     * @Route("loggedin/admin/toggle/active/card/{id}/{token}/{active}", name="toggleActiveCard")
      */
-    public function writeOppositionFileAction(Request $request,$id,$token)
+    public function lockCardAction(Request $request,$id,$token,$active)
     {
         $csrf = $this->get('form.csrf_provider');
         if($csrf->generateCsrfToken($id) != $token)
             throw $this->createNotFoundException('Page introuvable');
-        @mkdir('oppo');
+
+        $em = $this->getDoctrine()->getManager();
+        $repoParameters = $em->getRepository('CibCoreBundle:Parameters');
+        $parameters = $repoParameters->find(1);
+        $ftp = new Ftp($parameters->getFtpUrl(),$parameters->getFtpUser(),$parameters->getFtpPassword(),$parameters->getFtpPort(),false,false);
         $em = $this->getDoctrine()->getManager();
         $repoCard = $em->getRepository('CibCustomerBundle:Card');
         $card = $repoCard->find($id);
-        $card->setIsActive(false);
+        if($active == 0)
+            $card->setIsActive(false);
+        else if($active ==1)
+            $card->setIsActive(true);
         $em->persist($card);
         $em->flush();
-        $parameters = $em->getRepository('CibCoreBundle:Parameters')->find(1);
+
         $cards = $repoCard->findBy(array('isActive' => false));
-        if(file_exists('oppo/loppo.txt'))
-            unlink('oppo/loppo.txt');
-        $handle = fopen('oppo/loppo.txt','a');
-        foreach($cards as $card)
-        {
-            fwrite($handle,$card->getCardNumber()."\r\n");
-        }
+        $opposition = new Opposition($ftp);
 
-        fclose($handle);
-
-        $ftp = new Ftp($parameters->getFtpUrl(),$parameters->getFtpUser(),$parameters->getFtpPassword(),$parameters->getFtpPort(),false,false);
-        $ftp->uploadOppositionFile();
+        $opposition->writeOppositionFile($cards);
         return $this->redirect($this->generateUrl('displayCard'));
-
     }
+
+//    /**
+//     * @param Request $request
+//     * @param $id
+//     * @param $token
+//     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+//     *
+//     * @Route("loggedin/admin/unlock/card/{id}/{token}", name="unlockCard")
+//     */
+//    public function unlockCardAction(Request $request,$id,$token)
+//    {
+//
+//        $csrf = $this->get('form.csrf_provider');
+//        if($csrf->generateCsrfToken($id) != $token)
+//            throw $this->createNotFoundException('Page introuvable');
+//
+//        $em = $this->getDoctrine()->getManager();
+//        $repoParameters = $em->getRepository('CibCoreBundle:Parameters');
+//        $parameters = $repoParameters->find(1);
+//        $ftp = new Ftp($parameters->getFtpUrl(),$parameters->getFtpUser(),$parameters->getFtpPassword(),$parameters->getFtpPort(),false,false);
+//        $em = $this->getDoctrine()->getManager();
+//        $repoCard = $em->getRepository('CibCustomerBundle:Card');
+//        $card = $repoCard->find($id);
+//        $card->setIsActive(true);
+//        $em->persist($card);
+//        $em->flush();
+//
+//
+//        $cards = $repoCard->findBy(array('isActive' => false));
+//        $opposition = new Opposition($ftp);
+//
+//        $opposition->writeOppositionFile($cards);
+//        return $this->redirect($this->generateUrl('displayCard'));
+//    }
 } 
