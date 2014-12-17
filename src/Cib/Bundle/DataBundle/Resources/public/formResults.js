@@ -208,7 +208,7 @@ function selectResults(month,dateStart,dateStop,card,client,store,url,page){
             $('#tabResultDebit').remove();
             $("#tabTotal").remove();
 
-            tabResultContainer.append('<table id="tabResultDebit" class="table table-responsive"><tr class="titleTableLarge"><td colspan="7"><bold>TRANSACTIONS</bold></td></tr><tr class="titleTable"><td class="col-xs-1 col-md-1">DATE</td><td class="col-xs-1 col-md-1">NUMERO DE CARTE</td><td class="col-xs-1 col-md-1">VIP</td><td class="col-xs-1 col-md-1">PRIME</td><td class="col-xs-1 col-md-1">DEBIT</td><td class="col-xs-1 col-md-1">CREDIT</td><td class="col-xs-1 col-md-1"></td></tr></table>');
+            tabResultContainer.append('<table id="tabResultDebit" class="table table-responsive"><tr class="titleTableLarge"><td colspan="7"><bold>TRANSACTIONS</bold></td></tr><tr class="titleTable"><td class="col-xs-1 col-md-1">DATE</td><td class="col-xs-1 col-md-1">NUMERO DE CARTE</td><td class="col-xs-1 col-md-1">VIP</td><td class="col-xs-1 col-md-1">PRIME</td><td class="col-xs-1 col-md-1">DEBIT</td><td class="col-xs-1 col-md-1">CREDIT</td><td class="col-xs-1 col-md-1">MAGASIN</td></tr></table>');
             var k = 0;
 
             var row = JSON.parse(data);
@@ -218,18 +218,18 @@ function selectResults(month,dateStart,dateStop,card,client,store,url,page){
             totalPrime = row.total.totalPrime;
             totalVip = row.total.totalVip;
             $.each(row.pagination.items, function(i, item) {
-            //console.log(item);
+            console.log(item);
             var date = new Date(item.date_transaction);
                 if(item.type_transaction == 'D')
                 {
                     //totalDebit = totalDebit + parseFloat(item.amount_transaction);
-                    var test = '<td class="col-md-1 col-xs-1">'+parseFloat(item.amount_transaction).toFixed(2)+' €</td><td class="col-md-1 col-xs-1"></td><td class="col-xs-1 col-md-1"></td></tr>';
+                    var test = '<td class="col-md-1 col-xs-1">'+parseFloat(item.amount_transaction).toFixed(2)+' €</td><td class="col-md-1 col-xs-1"></td><td class="col-xs-1 col-md-1">'+item.store.store_name+'</td></tr>';
                 }
                 else
                 {
                     //totalCredit = totalCredit + parseFloat(item.amount_transaction);
                     //totalPrime = totalPrime + parseFloat(item.prime_transaction);
-                    var test = '<td class="col-md-1 col-xs-1"></td><td class="col-md-1 col-xs-1">'+parseFloat(item.amount_transaction).toFixed(2)+' €</td><td class="col-xs-1 col-md-1"></td></tr>';
+                    var test = '<td class="col-md-1 col-xs-1"></td><td class="col-md-1 col-xs-1">'+parseFloat(item.amount_transaction).toFixed(2)+' €</td><td class="col-xs-1 col-md-1">'+item.store.store_name+'</td></tr>';
                 }
                 if(item.is_vip_transaction == false)
                     item.is_vip_transaction = 'NON';
