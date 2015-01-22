@@ -22,8 +22,8 @@ $(document).ready(function() {
         count = count + 1;
     });
 
-    //for(var i =0;i < count; i++)
-        mySelect.sumo.selectItem(0);
+    for(var i =0;i < count; i++)
+        mySelect.sumo.selectItem(i);
 
     dateContainer.datepicker({
         dateFormat: 'dd-mm-yy',
