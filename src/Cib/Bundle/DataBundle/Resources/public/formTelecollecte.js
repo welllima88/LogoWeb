@@ -20,8 +20,8 @@ $(document).ready(function() {
         count = count + 1;
     });
 
-    //for(var i =0;i < count; i++)
-    //    mySelect.sumo.selectItem(i);
+    for(var i =0;i < count; i++)
+        mySelect.sumo.selectItem(i);
 
     dateContainer.datepicker({
         dateFormat: 'dd-mm-yy',
@@ -34,7 +34,7 @@ $(document).ready(function() {
     });
 
     //$.selectTelecollecte();
-    //$.initTabResult();
+    $.initTabResult();
     dateContainer.on('change',function(){
         $.initTabResult();
     });
@@ -60,30 +60,9 @@ $.selectTelecollecte = function(storeId,date,valueContainer){
         },
         complete: function(){
             $.each(date, function (i, itemDate) {
-                $.ajax({
-                    type : 'POST',
-                    url : $('form').prop('action'),
-                    data : {store : storeId,date : itemDate},
-                    content: 'json',
-                    success: function(data){
-                        $.each(JSON.parse(data),function(i,item){
-                            //console.log(data);
-                            if(i == 'status' && item == 'true')
-                                valueContainer.append('<td class="alert alert-success" id="' + storeId + itemDate + '"></td>');
-                            else if(i == 'status' && item == 'false')
-                                valueContainer.append('<td class="alert alert-danger" id="' + storeId + itemDate+ '">KO</td>');
-
-                            if(i == 'path')
-                                $("#"+storeId + itemDate).append('<a href="'+item+'">OK</a>');
-
-
-                        });
-
-
-                    }
-                })
+                valueContainer.append('<td id="' + storeId + itemDate + '"></td>');
+                $.fillCell($("#"+storeId+itemDate),storeId,itemDate);
             })
-
         }
     });
 
@@ -112,6 +91,31 @@ $.selectTelecollecte = function(storeId,date,valueContainer){
     })
 }*/
 
+};
+
+$.fillCell = function(container,storeId,date){
+    $.ajax({
+        type : 'POST',
+        url : $('form').prop('action'),
+        data : {store : storeId,date : date},
+        content: 'json',
+        success: function(data){
+            $.each(JSON.parse(data),function(i,item){
+                //console.log(data);
+                if(i == 'status' && item == 'true')
+                    container.attr('class','alert alert-success');
+
+                else if(i == 'status' && item == 'false'){
+                    container.attr('class','alert alert-danger');
+                    container.append('KO');
+                }
+
+
+                if(i == 'path')
+                    container.append('<a href="'+item+'">OK</a>');
+            });
+        }
+    })
 };
 
 $.initTabResult = function(){
