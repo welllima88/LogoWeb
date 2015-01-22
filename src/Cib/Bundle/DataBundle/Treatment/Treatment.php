@@ -9,6 +9,7 @@
 namespace Cib\Bundle\DataBundle\Treatment;
 
 
+use Cib\Bundle\DataBundle\Entity\Telecollecte;
 use Cib\Bundle\DataBundle\Entity\Transaction;
 use Cib\Bundle\FtpBundle\Entity\Ftp;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -50,6 +51,8 @@ class Treatment {
     {
         $transactions = new ArrayCollection();
         $contentDir = @scandir($this->getUploadDir());
+
+//        var_dump($contentDir);die;
         foreach($contentDir as $dir)
         {
             if(!in_array($dir, array('.','..')))
@@ -59,12 +62,20 @@ class Treatment {
                 foreach($test as $file)
                 {
                     set_time_limit(30);
-                    if(!in_array($file, array('.','..')))
+                    if(!in_array($file, array('.','..','Telecollectes')))
                     {
+                        $tpe = $this->em->getRepository('CibActivityBundle:Tpe')->findOneBy(array('tpeNumber'=>$dir));
                         @mkdir($this->getTreatedDoneFile().'/'.$dir,0777,true);
                         @mkdir($this->getTreatedFailFile().'/'.$dir,0777,true);
+                        @mkdir($this->getUploadDir().'/Telecollectes/'.$dir,0777,true);
                         $handleDone = fopen($this->getTreatedDoneFile().'/'.$dir.'/'.$file,'a');
                         $handleFail = fopen($this->getTreatedFailFile().'/'.$dir.'/'.$file,'a');
+//                        var_dump($this->getUploadDir().'/'.$dir.'/'.$file);die;
+                        copy($this->getUploadDir().'/'.$dir.'/'.$file,$this->getUploadDir().'/Telecollectes/'.$dir.'/'.$file);
+                        $date = new \DateTime($file[12].$file[13].$file[14].$file[15].'-'.$file[16].$file[17].'-'.$file[18].$file[19]);
+                        $telecollecte = new Telecollecte($date,$this->getUploadDir().'/Telecollectes/'.$dir.'/'.$file,$tpe,$tpe->getStore());
+                        $this->em->persist($telecollecte);
+                        $this->em->flush();
                         $handle = fopen($this->getUploadDir().'/'.$dir.'/'.$file,'r');
                         $content = fread($handle,filesize($this->getUploadDir().'/'.$dir.'/'.$file));
                         $connexion = $this->em->getConnection();

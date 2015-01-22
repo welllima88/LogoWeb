@@ -14,6 +14,7 @@ use Cib\Bundle\ActivityBundle\Entity\tpeParameters;
 use Cib\Bundle\ActivityBundle\Form\SignboardType;
 use Cib\Bundle\ActivityBundle\Form\StoreType;
 use Cib\Bundle\ActivityBundle\Form\TpeType;
+use Cib\Bundle\DataBundle\Treatment\Treatment;
 use Cib\Bundle\FtpBundle\Entity\Ftp;
 use Doctrine\Common\Collections\ArrayCollection;
 use Proxies\__CG__\Cib\Bundle\ActivityBundle\Entity\Store;
@@ -600,6 +601,30 @@ class ActivityController extends Controller
             else
                 throw $this->createNotFoundException('page introuvable');
         }
+    }
+
+
+
+    protected function getTreatmentDirList()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repoTpe = $em->getRepository('CibActivityBundle:Tpe');
+
+        $doneDir = @scandir('done');
+        $failDir = @scandir('fail');
+        $array['done'] = new ArrayCollection();
+        $array['fail'] = new ArrayCollection();
+        foreach($doneDir as $done){
+            if($done != '.' && $done != '..')
+                $array['done']->add($repoTpe->findOneBy(array('tpeNumber' => $done)));
+        }
+        foreach($failDir as $fail)
+        {
+            if($fail != '.' && $fail != '..')
+                $array['fail']->add($repoTpe->findOneBy(array('tpeNumber' => $done)));
+        }
+
+        return $array;
     }
 
 

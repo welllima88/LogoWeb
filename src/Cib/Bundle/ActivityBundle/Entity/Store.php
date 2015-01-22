@@ -116,6 +116,13 @@ class Store
      */
     private $tpe;
 
+    /**
+     * @var
+     *
+     * @ORM\OneToMany(targetEntity="Cib\Bundle\DataBundle\Entity\Telecollecte",mappedBy="store", cascade={"persist"})
+     */
+    private $tellecolecte;
+
 
     public function setToken($token)
     {
@@ -446,5 +453,38 @@ class Store
     public function getEnclose()
     {
         return $this->enclose;
+    }
+
+    /**
+     * Add tellecolecte
+     *
+     * @param \Cib\Bundle\DataBundle\Entity\Telecollecte $tellecolecte
+     * @return Store
+     */
+    public function addTellecolecte(\Cib\Bundle\DataBundle\Entity\Telecollecte $tellecolecte)
+    {
+        $this->tellecolecte[] = $tellecolecte;
+
+        return $this;
+    }
+
+    /**
+     * Remove tellecolecte
+     *
+     * @param \Cib\Bundle\DataBundle\Entity\Telecollecte $tellecolecte
+     */
+    public function removeTellecolecte(\Cib\Bundle\DataBundle\Entity\Telecollecte $tellecolecte)
+    {
+        $this->tellecolecte->removeElement($tellecolecte);
+    }
+
+    /**
+     * Get tellecolecte
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTellecolecte()
+    {
+        return $this->tellecolecte;
     }
 }

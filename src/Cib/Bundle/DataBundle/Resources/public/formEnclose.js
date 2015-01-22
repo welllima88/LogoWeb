@@ -144,12 +144,9 @@ $.selectResults = function(){
                     idLastEnclose = test.last_enclose.enclose_id;
                 }
 
-                //console.log(debit);
                 real = balance + lastEnclose;
                 credit = credit - prime;
                 balance = (credit + vip)-debit;
-                //vip = vip - prime;
-                //console.log(debit);
                 totalCredit = totalCredit + credit;
                 totalDebit = totalDebit + debit;
                 totalVip = totalVip + vip;
@@ -159,7 +156,6 @@ $.selectResults = function(){
                 totalReal = totalReal + real;
 
 
-                //$("#resultId").append('');
                 if(isWarning == 1)
                 {
                     $("#resultId").append('<tr class="row'+count+' rowResult"><td><button class="btn btn-primary btn-sm" id="'+test.store.store_id+'">CLOTURER</buttton> </td><td>'+test.store.store_name+'</td><td style="color: red">'+debit.toFixed(2)+' €</td><td style="color: cornflowerblue">'+credit.toFixed(2)+' €</td><td style="color: cornflowerblue">'+vip.toFixed(2)+' €</td><td style="color: cornflowerblue">'+prime.toFixed(2)+' €</td><td>'+balance.toFixed(2)+' €</td><td>'+lastEnclose.toFixed(2)+' €</td><td>'+real.toFixed(2)+' €</td><td><button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal'+test.store.store_id+'">ATTENTION</button> </td></tr>');

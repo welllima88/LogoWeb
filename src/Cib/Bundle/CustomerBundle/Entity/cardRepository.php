@@ -33,7 +33,6 @@ class cardRepository extends EntityRepository
         $cards = $query->getArrayResult();
 
         return new Response(json_encode($cards), 200);
-//        return $cards = $query->getResult();
     }
 
     public function selectAjaxCard(EntityManager $em,$search)
@@ -42,10 +41,6 @@ class cardRepository extends EntityRepository
         $query = $em->createQuery($dql);
         $query->setParameter('search',$search);
 
-//        if($query->getResult())
-//            return $query->getResult();
-//        else
-//            return new Card();
         return $query->getOneOrNullResult();
     }
 }

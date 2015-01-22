@@ -32,21 +32,26 @@ class CustomerController extends Controller
     /**
      * @param Request $request
      * @param $page
+     * @param $search
      * @internal param $search
      * @return array
      *
-     * @Route("/loggedin/client/display/{page}", name="displayClient", defaults={ "page"  = 1,})
+     * @Route("/loggedin/client/display/{page}/{search}", name="displayClient", defaults={ "page"  = 1,"search"= null})
      * @Template()
      */
-    public function displayClientAction(Request $request, $page)
+    public function displayClientAction(Request $request, $page,$search)
     {
 //        var_dump($page);die;
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('CibCustomerBundle:Client');
-        if(!$request->request->get('search'))
+        if(!$request->request->get('search') && !$search)
             $clients = $repo->findAll();
-        else
-            $clients = $repo->selectClientList($em,$request->request->get('txtSearch'));
+        else{
+            if($request->request->get('txtSearch'))
+                $search = $request->request->get('txtSearch');
+            $clients = $repo->selectClientList($em,$search);
+        }
+
         $csrf = $this->get('form.csrf_provider');
         foreach($clients as $client)
             $client->setToken($csrf->generateCsrfToken($client->getClientId()));
@@ -61,6 +66,7 @@ class CustomerController extends Controller
 
         return[
             'pagination' => $pagination,
+            'search' => $search,
         ];
     }
 

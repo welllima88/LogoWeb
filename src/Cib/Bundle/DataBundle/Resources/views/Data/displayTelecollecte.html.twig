@@ -1,0 +1,29 @@
+{% extends 'CibCoreBundle::layout.html.twig' %}
+
+
+{% block body %}
+<div class="row">
+    <div class="container">
+        <div class="pagination">
+            <a href="{{ path('index') }}"> Accueil</a> > Telecollectes
+        </div>
+    </div>
+</div>
+{% include 'CibCoreBundle:Core:displayFlash.html.twig' %}
+    <div class="container">
+        <div class="row">
+            <form method="POST" action="{{ path('displayTelecollecte') }}">
+
+            </form>
+            {% include 'CibDataBundle:Form:formTelecollecte.html.twig' %}
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <table class="table table-responsive" id="tabResult">
+
+            </table>
+        </div>
+    </div>
+
+{% endblock body %}

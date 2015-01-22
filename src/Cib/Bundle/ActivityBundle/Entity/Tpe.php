@@ -57,6 +57,13 @@ class Tpe
      */
     private $store;
 
+    /**
+     * @var
+     *
+     * @ORM\OneToMany(targetEntity="Cib\Bundle\DataBundle\Entity\Telecollecte",mappedBy="tpe", cascade={"persist"})
+     */
+    private $telecollecte;
+
 
     private $token;
 
@@ -181,5 +188,45 @@ class Tpe
         }
         //On a bien effacé toutes les entrées du dossier, on peut à présent l'effacer
         return @rmdir($dir);
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->telecollecte = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add telecollecte
+     *
+     * @param \Cib\Bundle\DataBundle\Entity\Telecollecte $telecollecte
+     * @return Tpe
+     */
+    public function addTelecollecte(\Cib\Bundle\DataBundle\Entity\Telecollecte $telecollecte)
+    {
+        $this->telecollecte[] = $telecollecte;
+
+        return $this;
+    }
+
+    /**
+     * Remove telecollecte
+     *
+     * @param \Cib\Bundle\DataBundle\Entity\Telecollecte $telecollecte
+     */
+    public function removeTelecollecte(\Cib\Bundle\DataBundle\Entity\Telecollecte $telecollecte)
+    {
+        $this->telecollecte->removeElement($telecollecte);
+    }
+
+    /**
+     * Get telecollecte
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTelecollecte()
+    {
+        return $this->telecollecte;
     }
 }

@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="{{ asset('bundles/cibcore/bootstrap/css/bootstrap-theme.css') }}" type="text/css" media="all"/>
         <link rel="stylesheet" href="{{ asset('bundles/cibcore/jquery-ui/jquery-ui.css') }}" type="text/css" media="all"/>
         <link rel="stylesheet" href="{{ asset('bundles/cibcore/css/tableStyle.css') }}" type="text/css" media="all"/>
-        {% if compensation is defined %}
+        {% if compensation is defined or telecollecte is defined %}
             <link rel="stylesheet" href="{{ asset('bundles/cibcore/css/sumoselect.css') }}" type="text/css" media="all"/>
         {% endif %}
     {% endblock %}
@@ -47,6 +47,9 @@
         {% endif %}
         {% if store is defined %}
             <script src="{{ asset('bundles/cibactivity/formStore.js') }}"></script>
+        {% endif %}
+        {% if telecollecte is defined %}
+            <script src="{{ asset('bundles/cibdata/formTelecollecte.js') }}"></script>
         {% endif %}
     {% endblock %}
 

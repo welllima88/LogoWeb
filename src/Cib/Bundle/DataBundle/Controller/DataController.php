@@ -5,6 +5,7 @@ namespace Cib\Bundle\DataBundle\Controller;
 use Cib\Bundle\DataBundle\Entity\Transaction;
 use Cib\Bundle\DataBundle\Form\EncloseType;
 use Cib\Bundle\DataBundle\Form\ResultsType;
+use Cib\Bundle\DataBundle\Form\TelecollecteType;
 use Cib\Bundle\DataBundle\Treatment\Treatment;
 use Cib\Bundle\FtpBundle\Entity\Ftp;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -30,6 +31,7 @@ class DataController extends Controller
      */
     public function displayResultsAction(Request $request,$page)
     {
+
         $em = $this->getDoctrine()->getManager();
         $repoTransaction = $em->getRepository('CibDataBundle:Transaction');
         $repoResults = $em->getRepository('CibDataBundle:Results');
@@ -613,5 +615,62 @@ class DataController extends Controller
     protected function setFormatCurrencyEur($column,$row,\PHPExcel $phpExcelObject)
     {
         $phpExcelObject->getActiveSheet()->getStyleByColumnAndRow($column,$row)->getNumberFormat()->setFormatCode(\PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00_EUR);
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return array
+     * @Route("/loggedin/admin/display/telecollecte/{page}", name="displayTelecollecte", defaults={"page":1})
+     * @Template()
+     */
+    public function displayTelecollecteAction(Request $request,$page)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repoTelco = $em->getRepository('CibDataBundle:Telecollecte');
+        $repoStore = $em->getRepository('CibActivityBundle:Store');
+        $formTelco = $this->createForm(new TelecollecteType());
+        $serializer = new SerializerBuilder();
+        if($request->isXmlHttpRequest()){
+            if(!$request->request->get('initRow')){
+                $results = $repoTelco->getTelecollectes($request->request->get('store'),$request->request->get('date'));
+                $queryResult['status'] = 'false';
+                $queryResult['path'] = null;
+
+                if($results){
+                    $queryResult['status'] = 'true';
+                    $queryResult['path'] = $this->container->get('templating.helper.assets')->getUrl($results->getPathFile());
+                }
+                return new Response($serializer->create()->build()->serialize($queryResult,'json'),200);
+            }
+            else{
+                return new Response($serializer->create()->build()->serialize($repoStore->find($request->request->get('initRow')),'json'),200);
+            }
+
+
+
+//            if($request->request->get('date'))
+//                $date = new \DateTime($request->request->get('date'));
+//            else
+//                $date = new \DateTime();
+
+
+
+        }
+
+
+//        $results = null;
+
+
+//        $repoStore = $em->getRepository('CibActivityBundle:Store');
+//        $telecollectes = $repoTelco->getTelecollectes();
+//        foreach($telecollectes as $telecollecte)
+//            $results[$telecollecte->getStore()->getStoreName()][] = $telecollecte;
+
+        return[
+//            'results' => $results,
+            'telecollecte' => 'telecollecte',
+            'form' => $formTelco->createView(),
+        ];
     }
 }

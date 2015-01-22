@@ -10,6 +10,8 @@ namespace Cib\Bundle\FtpBundle\Entity;
 
 
 use Cib\Bundle\ActivityBundle\Entity\Tpe;
+use Cib\Bundle\DataBundle\Entity\Telecollecte;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 
 class Ftp {
@@ -338,7 +340,7 @@ class Ftp {
             $content = ftp_nlist($this->ftpHandle,$origin = ftp_pwd($this->ftpHandle));
             foreach($content as $dir)
             {
-                if($dir != 'done')
+                if($dir != '/done' && $dir != '/LOPPO.TXT')
                 {
                     if(!file_exists($localDir.'/'.$dir))
                         mkdir($localDir.'/'.$dir,0777,true);
@@ -359,6 +361,7 @@ class Ftp {
                     }
                     $this->changeDirectory($origin);
                 }
+
 
             }
 

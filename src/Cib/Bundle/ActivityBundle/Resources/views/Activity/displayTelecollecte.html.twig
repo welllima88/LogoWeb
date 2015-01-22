@@ -1,0 +1,15 @@
+{% extends 'CibCoreBundle::layout.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="container">
+            <div class="pagination">
+                <a href="{{ path('index') }}"> Accueil</a> > <a href="{{ path('listActivity') }}">Activité</a> > TPE
+            </div>
+        </div>
+    </div>
+
+    {% include 'CibCoreBundle:Core:displayFlash.html.twig' %}
+
+
+{% endblock body %}

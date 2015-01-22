@@ -1,0 +1,72 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: cedric
+ * Date: 18/12/2014
+ * Time: 14:05
+ */
+
+namespace Cib\Bundle\DataBundle\Entity;
+
+use Cib\Bundle\CustomerBundle\Entity\Card;
+use Cib\Bundle\FtpBundle\Entity\Ftp;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+
+/**
+ * Class Telecollecte
+ * @package Cib\Bundle\DataBundle\Entity
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="cib_telecollecte")
+ * @ORM\Entity(repositoryClass="Cib\Bundle\DataBundle\Entity\telecollecteRepository")
+ */
+class Telecollecte
+{
+
+    /**
+     * @var
+     *
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $telecollecteId;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="date")
+     */
+    private $date;
+
+
+    /**
+     * @var
+     *
+     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\Tpe", inversedBy="telecollecte")
+     * @ORM\JoinColumn(name="tpeId", referencedColumnName="tpeId")
+     */
+    private $tpe;
+
+
+    /**
+     * @var
+     *
+     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\Store", inversedBy="telecollecte")
+     * @ORM\JoinColumn(name="storeId", referencedColumnName="storeId")
+     */
+    private $store;
+
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="string")
+     */
+    private $pathFile;
+} 

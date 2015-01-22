@@ -34,4 +34,23 @@ class storeRepository extends EntityRepository
 //            return new Store();
         return $query->getOneOrNullResult();
     }
+
+    public function getTelecollectesByStore(Store $store)
+    {
+        $date = new \DateTime();
+        $date->modify('-1 day');
+        return $this->findBy(array(
+            'store' => $store,
+            'date' => $date,
+        ));
+    }
+
+    public function getTelecollecte()
+    {
+        $date = new \DateTime();
+        $date->modify('-1 day');
+        $dql = "SELECT e FROM CibDataBundle:Telecollecte e WHERE e.date = '".$date->format('Y-m-d')."'";
+        $query = $this->getEntityManager()->createQuery($dql);
+        return $query->getResult();
+    }
 }
