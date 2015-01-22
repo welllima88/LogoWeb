@@ -9,6 +9,8 @@ var mySelect = storeContainer.SumoSelect({
 });
 var dateContainer = $("#cib_bundle_databundle_telecollecte_date");
 var tabResultContainer = $("#tabResult");
+var divResultContainer = $("#divResult");
+var srcLoader = divResultContainer.attr("class");
 
 
 $(document).ready(function() {
@@ -36,10 +38,12 @@ $(document).ready(function() {
     //$.selectTelecollecte();
     $.initTabResult();
     dateContainer.on('change',function(){
+        $(".rowResult").remove();
         $.initTabResult();
     });
 
     storeContainer.on('change',function(){
+        $(".rowResult").remove();
         $.initTabResult();
     });
 });
@@ -55,41 +59,16 @@ $.selectTelecollecte = function(storeId,date,valueContainer){
         success: function(data){
             $.each(JSON.parse(data),function(j,test){
                 if(j == 'store_name')
-                    valueContainer.append('<td>'+test+'</td>');
+                    valueContainer.append('<td class="titleTable">'+test+'</td>');
             });
         },
         complete: function(){
             $.each(date, function (i, itemDate) {
-                valueContainer.append('<td id="' + storeId + itemDate + '"></td>');
+                valueContainer.append('<td id="' + storeId + itemDate + '"><img src="'+srcLoader+'" id="loaderOn'+storeId+itemDate+'"></td>');
                 $.fillCell($("#"+storeId+itemDate),storeId,itemDate);
             })
         }
     });
-
-/*else
-{
-    $.ajax({
-        type : 'POST',
-        url : $('form').prop('action'),
-        data : {store : storeId,date : date},
-        content: 'json',
-        success: function(data){
-            $.each(JSON.parse(data),function(i,item){
-                if(i == 'status' && item == 'true')
-                    valueContainer.append('<td class="alert alert-success" id="' + storeId + date + '"></td>');
-                else
-                    valueContainer.append('<td class="alert alert-danger" id="' + storeId + date + '"></td>');
-
-                if(i == 'path' && item)
-                    $("#"+storeId + date).append('<a href="'+item+'">OK</a>');
-                else
-                    $("#"+storeId + date).append('<a href="#">KO</a>');
-            });
-
-
-        }
-    })
-}*/
 
 };
 
@@ -101,7 +80,8 @@ $.fillCell = function(container,storeId,date){
         content: 'json',
         success: function(data){
             $.each(JSON.parse(data),function(i,item){
-                //console.log(data);
+
+                $("#loaderOn"+storeId+date).remove();
                 if(i == 'status' && item == 'true')
                     container.attr('class','alert alert-success');
 
@@ -129,7 +109,7 @@ $.initTabResult = function(){
         date = new Date();
 
     tabResultContainer.append(
-        '<tr>' +
+        '<tr class="rowResult titleTable">' +
             '<td></td>' +
             '<td id="0000" class="date">'+(date.getDate()-5) +'-'+(date.getMonth() + 1) +'-'+date.getFullYear()+'</td>' +
             '<td id="0001" class="date">'+(date.getDate()-4) +'-'+(date.getMonth() + 1) +'-'+date.getFullYear()+'</td>' +
@@ -155,24 +135,8 @@ $.initTabResult = function(){
     //console.log(arrayDate);
     //console.log(count);
     $.each(stores,function(i,item){
-        tabResultContainer.append('<tr id="'+item+'"></tr>');
+        tabResultContainer.append('<tr id="'+item+'" class="rowResult"></tr>');
         $.selectTelecollecte(item,arrayDate,$("#"+item));
-        //rowString = row.toString();
-        //if(rowString.length == 1)
-        //    rowString = '0'+rowString;
-        ////console.log(rowString);
-        //for(column = 0;column <= 10;column++){
-        //    columnString = column.toString();
-        //    if(columnString.length == 1)
-        //        columnString = '0'+columnString;
-        //    dateColumn = $("#"+rowString+columnString).text();
-        //    //console.log(dateColumn);
-        //
-        //
-        //    $.selectTelecollecte(item,dateColumn,$("#"+item),column);
-        //}
-        //row++;
-        //$.selectTelecollecte(item,)
     });
 };
 
