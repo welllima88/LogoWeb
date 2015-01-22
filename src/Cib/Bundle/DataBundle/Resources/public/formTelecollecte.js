@@ -22,8 +22,8 @@ $(document).ready(function() {
         count = count + 1;
     });
 
-    for(var i =0;i < count; i++)
-        mySelect.sumo.selectItem(i);
+    //for(var i =0;i < count; i++)
+        mySelect.sumo.selectItem(0);
 
     dateContainer.datepicker({
         dateFormat: 'dd-mm-yy',
@@ -103,11 +103,16 @@ $.initTabResult = function(){
     var arrayStore = [];
     var arrayDate = [];
     var date = null;
-    if(dateContainer.innerHTML)
-        date = new Date(dateContainer.innerHTML);
+
+    if(dateContainer.val()){
+        var tempDate = dateContainer.val().split('-');
+        date = new Date(tempDate[2]+'-'+tempDate[1]+'-'+tempDate[0]);
+    }
     else
         date = new Date();
 
+
+    //console.log(date);
     tabResultContainer.append(
         '<tr class="rowResult titleTable">' +
             '<td></td>' +
@@ -123,17 +128,9 @@ $.initTabResult = function(){
             '<td id="0009" class="date">'+(date.getDate()+4) +'-'+(date.getMonth() + 1) +'-'+date.getFullYear()+'</td>' +
             '<td id="0010" class="date">'+(date.getDate()+5) +'-'+(date.getMonth() + 1) +'-'+date.getFullYear()+'</td>' +
         '</tr>');
-    var row = 0;
-    var rowString = "";
-    var column = 0;
-    var columnString = 0;
-    var dateColumn;
-    var count = storeContainer.length;
     $.each($(".date"),function(i,item){
         arrayDate.push(item.innerHTML);
     });
-    //console.log(arrayDate);
-    //console.log(count);
     $.each(stores,function(i,item){
         tabResultContainer.append('<tr id="'+item+'" class="rowResult"></tr>');
         $.selectTelecollecte(item,arrayDate,$("#"+item));

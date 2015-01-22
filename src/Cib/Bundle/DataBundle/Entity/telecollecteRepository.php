@@ -17,16 +17,19 @@ class telecollecteRepository extends EntityRepository
 
     public function getTelecollectes($store = null,$date = null)
     {
-        $arrayResult = new ArrayCollection();
+        $lastResult = null;
         if($date)
             $date = new \DateTime($date);
         else
             $date = new \DateTime();
             $dql = "SELECT e FROM CibDataBundle:Telecollecte e WHERE e.store = ".$store." AND e.date LIKE '".$date->format('Y-m-d')."'";
             $query = $this->getEntityManager()->createQuery($dql);
-            $results = $query->getOneOrNullResult();
+            $results = $query->getResult();
 //        var_dump($results);
-            return $results;
+        foreach($results as $result)
+            $lastResult = $result;
+
+            return $lastResult;
 //                $arrayResult->add($results);
 
 //        }
