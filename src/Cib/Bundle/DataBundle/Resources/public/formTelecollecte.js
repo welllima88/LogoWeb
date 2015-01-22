@@ -103,8 +103,8 @@ $.initTabResult = function(){
     var arrayStore = [];
     var arrayDate = [];
     var date = null;
-    if(dateContainer.val())
-        date = new Date(dateContainer.val());
+    if(dateContainer.innerHTML)
+        date = new Date(dateContainer.innerHTML);
     else
         date = new Date();
 
