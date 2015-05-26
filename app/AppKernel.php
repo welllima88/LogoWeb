@@ -27,6 +27,7 @@ class AppKernel extends Kernel
             new Cib\Bundle\DataBundle\CibDataBundle(),
             new Cib\Bundle\SoapBundle\CibSoapBundle(),
             new Liuggio\ExcelBundle\LiuggioExcelBundle(),
+            new Gregwar\ImageBundle\GregwarImageBundle(),
         ];
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

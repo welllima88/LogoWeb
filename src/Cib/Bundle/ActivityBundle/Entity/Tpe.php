@@ -41,6 +41,7 @@ class Tpe
      */
     private $tpeNumber;
 
+
     /**
      * @var
      *
@@ -56,6 +57,13 @@ class Tpe
      * @ORM\JoinColumn(name="storeId", referencedColumnName="storeId", onDelete="SET NULL")
      */
     private $store;
+
+    /**
+     * @var
+     *
+     * @ORM\OnetoMany(targetEntity="Cib\Bundle\CustomerBundle\Entity\Logo", mappedBy="tpes")
+     */
+    private $logos;
 
     /**
      * @var
@@ -77,6 +85,12 @@ class Tpe
      return $this->token;
     }
 
+
+    public function getLogos()
+    {
+        return $this->logos;
+
+    }
     /**
      * Get tpeId
      *

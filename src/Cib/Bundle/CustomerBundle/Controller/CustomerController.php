@@ -12,8 +12,10 @@ namespace Cib\Bundle\CustomerBundle\Controller;
 use Cib\Bundle\CustomerBundle\Entity\bankAccount;
 use Cib\Bundle\CustomerBundle\Entity\Card;
 use Cib\Bundle\CustomerBundle\Entity\Client;
+use Cib\Bundle\CustomerBundle\Entity\Logo;
 use Cib\Bundle\CustomerBundle\Form\CardType;
 use Cib\Bundle\CustomerBundle\Form\ClientType;
+use Cib\Bundle\CustomerBundle\Form\LogoType;
 use Cib\Bundle\FtpBundle\Entity\Ftp;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\DBALException;
@@ -350,6 +352,34 @@ class CustomerController extends Controller
     }
 
 
+
+    /**
+     * @param Request $request
+     * @param $page
+     * @return array
+     * @Route("/loggedin/logo/display/{page}", name="displayLogo", defaults={"page" = 1})
+     *
+     * @Template()
+     */
+    public function displayLogoAction(Request $request, $page)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('CibCustomerBundle:Logo');
+        $logos = $repo->findAll();
+
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $logos,
+            $page,
+            10
+        );
+
+        return [
+            'logos' => $logos,
+            'pagination' => $pagination,
+        ];
+    }
+
     /**
      * @param Request $request
      *
@@ -373,6 +403,7 @@ class CustomerController extends Controller
             {
                 $em->persist($card);
                 $em->flush();
+
                 $this->get('session')->getFlashBag()->all();
                 $this->get('session')->getFlashBag()->add('status','Ajout effectué');
                 return $this->redirect($this->generateUrl('displayCard'));
@@ -385,6 +416,133 @@ class CustomerController extends Controller
         ];
 
     }
+
+    /**
+     * @param Request $request
+     *
+     * @Route("/loggedin/logo/add", name="addLogo")
+     *
+     * @Template()
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     */
+    public function addLogoAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $logo = new Logo();
+        $form = $this->createForm(new LogoType(), $logo);
+
+        if($request ->isMethod('POST'))
+        {
+            $form->handleRequest($request);
+            if($form->isValid())
+            {
+                $logo->upload();
+                $em->persist($logo);
+                $em->flush();
+                $this->get('session')->getFlashBag()->all();
+                $this->get('session')->getFlashBag()->add('status','Yes');
+                $this->showSizeLogoPicture($logo);
+                $this->writeFileParam($logo);
+                return $this->redirect($this->generateUrl('displayLogo'));
+
+            }
+
+        }
+
+        return[
+            'form' => $form->createView(),
+        ];
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route("/loggedin/admin/logo/delete/{id}", name="deleteLogo", defaults={"id" = 0})
+     */
+    public function deleteLogoAction(Request $request,$id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('CibCustomerBundle:Logo');
+
+        $csrf = $this->get('form.csrf_provider');
+        if($id == 0)
+        {
+            if($request->isMethod('POST'))
+            {
+                if($request->get('multiDelete'))
+                {
+                    foreach($request->get('multiDelete') as $logoId)
+                    {
+                        $tempLogo = $repo->find($logoId);
+                        try{
+                            $em->remove($tempLogo);
+                        }
+                        catch(DBALException $e)
+                        {
+                            $this->get('session')->getFlashBag()->all();
+                            $this->get('session')->getFlashBag()->add('status','Impossible de supprimer le logo');
+                            return $this->redirect($this->generateUrl('displayLogo'));
+                        }
+
+                    }
+                    $em->flush();
+                    $this->get('session')->getFlashBag()->all();
+                    $this->get('session')->getFlashBag()->add('status','Suppression effectuée');
+                }
+
+                return $this->redirect($this->generateUrl('displayLogo'));
+            }
+        }
+        else
+        {
+            $logo = $repo->find($id);
+            if($csrf->generateCsrfToken($logo->getLogoId()))
+            {
+                $em->remove($logo);
+                $em->flush();
+                $this->get('session')->getFlashBag()->all();
+                $this->get('session')->getFlashBag()->add('status','Suppression(s) effectuée(s)');
+                return $this->redirect($this->generateUrl('displayLogo'));
+            }
+            else
+                throw $this->createNotFoundException('Page introuvable');
+        }
+
+    }
+
+    public function writeFileParam(Logo $logo)
+    {
+        $fileParam = $logo->getPathSrc().'/PARAM_LOGO.PAR';
+        $handle = fopen($fileParam, "w+");
+        fwrite($handle, $logo->getLogoName()."\n");
+        fwrite($handle, $logo->getSocietyName()."\n");
+        fwrite($handle, $logo->getSocietyAddress()."\n");
+        fwrite($handle, $logo->getSocietyTel()."\n");
+        fwrite($handle, $logo->getSocietyWebAddr()."\n");
+    }
+
+    public function showSizeLogoPicture(Logo $logo)
+    {
+        $this->get('image.handling')->open($logo->getWebPathTop())
+            ->resize(200,200)
+            ->save($logo->getPathSrc().'/ImageTop.png');
+        $this->get('image.handling')->open($logo->getWebPathLow())
+            ->resize(200,200)
+            ->save($logo->getPathSrc().'/ImageLow.png');
+        $this->get('image.handling')->open($logo->getWebPathWallpaper())
+            ->resize(300, 300)
+            ->save($logo->getPathSrc().'/ImageWallpaper.png');
+
+        unlink($logo->getWebPathWallpaper());
+        unlink($logo->getWebPathLow());
+        unlink($logo->getWebPathTop());
+
+    }
+
+
 
     /**
      * @param Request $request
@@ -555,6 +713,7 @@ class CustomerController extends Controller
     }
 
 
+
     /**
      * @param Request $request
      * @param $id
@@ -590,6 +749,10 @@ class CustomerController extends Controller
         return $this->redirect($this->generateUrl('displayCard'));
     }
 
+
+
+
+
 //    /**
 //     * @param Request $request
 //     * @param $id
@@ -623,4 +786,5 @@ class CustomerController extends Controller
 //        $opposition->writeOppositionFile($cards);
 //        return $this->redirect($this->generateUrl('displayCard'));
 //    }
-} 
+
+}

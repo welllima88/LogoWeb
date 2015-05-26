@@ -1,0 +1,88 @@
+{% extends 'CibCoreBundle::layout.html.twig' %}
+
+
+{% block body %}
+    <div class="row">
+        <div class="container">
+            <div class="pagination">
+                <a href="{{ path('index') }}"> Accueil</a> > Logos
+            </div>
+        </div>
+    </div>
+    {% include 'CibCoreBundle:Core:displayFlash.html.twig' %}
+
+    <div class="row" style="margin-top: 5%">
+        <div class="container">
+            <div class="col-xs-offset-3 col-xs-6" >
+                <form action="{{ path('displayLogo',{'page' : 1}) }}" method="post">
+                    <div class="row">
+                        <input type="text" name="txtSearch" style="width: 100%" placeholder="entrer le nom du logo"/>
+                    </div>
+                    <div class="row">
+                        <br>
+                        <center><button type="submit" name="search" value="search" class="btn btn-primary">Rechercher</button></center>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    {% if pagination %}
+        <div class="row" style="margin-top: 5%">
+            <div class="container">
+                <div class="col-xs-offset-3 col-xs-6">
+                    <form action="{{ path('deleteLogo') }}" method="post">
+                        <table class="table table-responsive">
+                            {#<thead>#}
+                            <tr class="titleTable">
+                                <td></td>
+                                <td>Nom du Logo</td>
+                                <td>Type de TPE</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            {#</thead>#}
+                            {% set count = 0 %}
+                            {% for logo in pagination.items %}
+                                <tbody>
+                                <tr class="rowLink{{ count }}">
+                                    <td>{% if app.user is not null and is_granted('ROLE_USER') %}<input class="check" type="checkbox" name="multiDelete[]" >{% endif %}</td>
+                                    <td>{{ logo.logoName }} </td>
+                                    <td>{{ logo.logoTypeTPE }} </td>
+                                    <td></td>
+                                    <td>{% if app.user is not null and is_granted('ROLE_USER') %}<a class="glyphicon glyphicon-edit" style="color:darkorange"></a>{% endif %}</td>
+                                    <td>{% if app.user is not null and is_granted('ROLE_USER') %}<a href="{{ path('deleteLogo',{'id':logo.logoId}) }}" class="glyphicon glyphicon-remove" style="color:orangered"></a>{% endif %}</td>
+                                </tr>
+                                </tbody>
+                                {% if count == 1 %}
+                                    {% set count = 0 %}
+                                {% else %}
+                                    {% set count = count + 1 %}
+                                {% endif %}
+                            {% endfor %}
+                        </table>
+                        {% if app.user is not null and is_granted('ROLE_USER') %}
+                            <button type="submit" name="delete" value="delete" class="btn btn-link glyphicon glyphicon-remove">supprimer<span style="font-style: italic"> (la séléction)</span></button>
+                            <a href="{{ path('addLogo') }}" class="btn btn-link glyphicon glyphicon-floppy-save">Ajouter logo</a>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        Aucun Logo à afficher
+    {% endif %}
+    <div class="row">
+        <div class="container">
+            <div class="col-xs-offset-3 col-xs-6">
+                <center>
+                    <div class="navigation">
+                        {{ knp_pagination_render(pagination) }}
+                    </div>
+                </center>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock body %}

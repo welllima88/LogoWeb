@@ -1,0 +1,75 @@
+<div class="row">
+    <div class="col-lg-offset-0 ">
+        <table class="table table-responsive">
+            <tr class="titleTable">
+                <td colspan="2"><center><B>Propriété du TPE</B></center></td>
+            </tr>
+            <tr class="row2">
+                <td>{{ form_label(form.logoName) }}</td>
+                <td>{{ form_widget(form.logoName) }} {{ form_errors(form.logoName) }}</td>
+            </tr>
+            <tr class="row0">
+                <td>{{ form_label(form.logoTypeTPE) }}</td>
+                <td>{{ form_widget(form.logoTypeTPE) }} {{ form_errors(form.logoTypeTPE) }}</td>
+            </tr>
+            <tr class="row2">
+                <td>{{ form_label(form.tpes) }}</td>
+                <td>{{ form_widget(form.tpes) }} {{ form_errors(form.tpes) }}</td>
+            </tr>
+            <tr class="row0">
+                <td>{{  form_label(form.logoGoal) }}</td>
+                <td>{{ form_widget(form.logoGoal) }} {{ form_errors(form.logoGoal) }}</td>
+            </tr>
+            <tr class="titleTable">
+                <td colspan="2"><center><B>Entete du Ticket</B></center></td>
+            </tr>
+            <tr class="row2">
+                <td>{{ form_label(form.societyName) }}</td>
+                <td>{{ form_widget(form.societyName) }} {{ form_errors(form.societyName) }}</td>
+            </tr>
+            <tr class="row0">
+                <td>{{ form_label(form.societyAddress) }}</td>
+                <td>{{ form_widget(form.societyAddress) }} {{ form_errors(form.societyAddress) }}</td>
+            </tr>
+            <tr class="row2">
+                <td>{{ form_label(form.societyTel) }}</td>
+                <td>{{ form_widget(form.societyTel) }} {{ form_errors(form.societyTel) }}</td>
+            </tr>
+            <tr class="row0">
+                <td>{{ form_label(form.societyWebAddr) }}</td>
+                <td>{{ form_widget(form.societyWebAddr) }} {{ form_errors(form.societyWebAddr) }}</td>
+            </tr>
+            <tr class="row2">
+                <td>{{ form_label(form.societyCp) }}</td>
+                <td>{{ form_widget(form.societyCp) }} {{ form_errors(form.societyCp) }}</td>
+            </tr>
+            <tr class="row0">
+                <td>{{ form_label(form.societyCity) }}</td>
+                <td>{{ form_widget(form.societyCity) }} {{ form_errors(form.societyCity) }}</td>
+            </tr>
+            <tr class="titleTable">
+                <td colspan="2"><center><B>Image à uploader</B></center></td>
+            </tr>
+            <tr class="row2">
+                <td>{{ form_label(form.logoTopTicket) }}</td>
+                <td>{{ form_widget(form.logoTopTicket) }} {{ form_errors(form.logoTopTicket) }}</td>
+            </tr>
+            <tr class="row0">
+                <td>{{ form_label(form.logoLowerTicket) }}</td>
+                <td>{{ form_widget(form.logoLowerTicket) }} {{ form_errors(form.logoLowerTicket) }}</td>
+            </tr>
+            <tr class="row2">
+                <td>{{ form_label(form.logoWallpaper) }}</td>
+                <td>{{ form_widget(form.logoWallpaper) }} {{ form_errors(form.logoWallpaper) }}</td>
+            </tr>
+            {{ form_widget(form) }}
+            <tr>
+                <td colspan="2">
+                    <br>
+                    <center> <button class="btn btn-lg btn-success" type="submit" name="valid">Valider</button></center>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

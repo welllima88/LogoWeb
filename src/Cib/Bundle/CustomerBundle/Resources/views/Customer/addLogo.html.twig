@@ -1,0 +1,20 @@
+{% extends 'CibCoreBundle::layout.html.twig' %}
+
+
+{% block body %}
+    <div class="row">
+        <div class="container">
+            <div class="pagination">
+                <a href="{{ path('index') }}"> Accueil</a> > <a href="{{ path('displayLogo') }}">Logo</a> > Ajouter
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <center><h1 class="title">Ajouter un Logo</h1></center><br>
+        </div>
+    </div>
+    <form action="{{ path('addLogo') }}" method="post"  {{ form_enctype(form) }} novalidate="novalidate">
+        {% include 'CibCustomerBundle:Form:formLogo.html.twig' %}
+    </form>
+{% endblock body %}
