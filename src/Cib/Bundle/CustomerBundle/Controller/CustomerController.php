@@ -513,34 +513,8 @@ class CustomerController extends Controller
 
     }
 
-    public function writeFileParam(Logo $logo)
-    {
-        $fileParam = $logo->getPathSrc().'/PARAM_LOGO.PAR';
-        $handle = fopen($fileParam, "w+");
-        fwrite($handle, $logo->getLogoName()."\n");
-        fwrite($handle, $logo->getSocietyName()."\n");
-        fwrite($handle, $logo->getSocietyAddress()."\n");
-        fwrite($handle, $logo->getSocietyTel()."\n");
-        fwrite($handle, $logo->getSocietyWebAddr()."\n");
-    }
 
-    public function showSizeLogoPicture(Logo $logo)
-    {
-        $this->get('image.handling')->open($logo->getWebPathTop())
-            ->resize(200,200)
-            ->save($logo->getPathSrc().'/ImageTop.png');
-        $this->get('image.handling')->open($logo->getWebPathLow())
-            ->resize(200,200)
-            ->save($logo->getPathSrc().'/ImageLow.png');
-        $this->get('image.handling')->open($logo->getWebPathWallpaper())
-            ->resize(300, 300)
-            ->save($logo->getPathSrc().'/ImageWallpaper.png');
 
-        unlink($logo->getWebPathWallpaper());
-        unlink($logo->getWebPathLow());
-        unlink($logo->getWebPathTop());
-
-    }
 
 
 
@@ -786,5 +760,43 @@ class CustomerController extends Controller
 //        $opposition->writeOppositionFile($cards);
 //        return $this->redirect($this->generateUrl('displayCard'));
 //    }
+    public function showSizeLogoPicture(Logo $logo)
+    {
+        if ($logo->getLogoTypeTPE() == "ICT250") {
 
+            $this->get('image.handling')->open($logo->getWebPathTop())
+                ->resize(200, 200)
+                ->save($logo->getPathSrc() . '/ImageTop.png');
+            $this->get('image.handling')->open($logo->getWebPathWallpaper())
+                ->resize(300, 300)
+                ->save($logo->getPathSrc() . '/ImageWallpaper.png');
+        }
+        else if($logo->getLogoTypeTPE() == "IWL250") {
+            $this->get('image.handling')->open($logo->getWebPathTop())
+                ->resize(200, 200)
+                ->save($logo->getPathSrc() . '/ImageTop.png');
+            $this->get('image.handling')->open($logo->getWebPathWallpaper())
+                ->resize(300, 300)
+                ->save($logo->getPathSrc() . '/ImageWallpaper.png');
+        }
+        else if ($logo->getLogoTypeTPE() == "EFT930"){
+            $this->get('image.handling')->open($logo->getWebPathTop())
+                ->resize(200, 200)
+                ->save($logo->getPathSrc() . '/ImageTop.png');
+            $this->get('image.handling')->open($logo->getWebPathWallpaper())
+                ->resize(300, 300)
+                ->save($logo->getPathSrc() . '/ImageWallpaper.png');
+        }
+        else{
+            $this->get('image.handling')->open($logo->getWebPathTop())
+                ->resize(200, 200)
+                ->save($logo->getPathSrc() . '/ImageTop.png');
+            $this->get('image.handling')->open($logo->getWebPathWallpaper())
+                ->resize(300, 300)
+                ->save($logo->getPathSrc() . '/ImageWallpaper.png');
+        }
+        unlink($logo->getWebPathWallpaper());
+        unlink($logo->getWebPathTop());
+
+    }
 }

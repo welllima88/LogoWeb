@@ -15,6 +15,16 @@
                         {{ form_widget(form.store) }}
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-3 col-xs-3" style="font-size: large;text-transform: uppercase">
+                        {{ form_label(form.logo.logoTypeTPE) }}
+                        {{ form_widget(form.logo.logoTypeTPE) }}
+                    </div>
+                    <div class="col-xs-offset-3 col-md-offset-3 col-md-2 col-xs-2" style="font-size: large;text-transform: uppercase">
+                        {{ form_label(form.logo.logoGoal) }}
+                        {{ form_widget(form.logo.logoGoal) }}
+                    </div>
+                </div>
             </div>
         </div>
         <br>
@@ -90,138 +100,14 @@
                     </div>
                 </div>
             </div>
-            <a class="btn btn-lg col-md-offset-1 col-md-4" data-toggle="modal" data-target="#modalPme" style="/*border:solid gold 1px;*/ background-color: #ffcc00/*;padding: 10%*/">
-                <h1 style="text-decoration: none;font-family: 'Lato';color: #606060">PME</h1>
-            </a>
-            <!-- Modal -->
-            <div class="modal fade" id="modalPme" tabindex="-1" role="dialog" aria-labelledby="pme" aria-hidden="true">
-                <div class="modal-dialog" style="width: 50%">
-                    <div class="modal-content">
-                        <div class="modal-header titleTableLarge">
-                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                            <h1 class="modal-title " id="myModalLabel"><center>PME</center></h1>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-offset-2 col-xs-offset-2 col-md-7 col-xs-7">
-                                    <div class="row">
-                                        <table class="table table-responsive">
-                                            <tr class="titleTable">
-                                                <td>PME</td>
-                                                <td>1</td>
-                                                <td>2</td>
-                                                <td>3</td>
-                                                <td>4</td>
-                                                <td>5</td>
-                                            </tr>
-                                            <tr class="row1">
-                                                <td>ACTIF</td>
-                                                <td>{{ form_widget(form.tpeParameters.isPme1) }}</td>
-                                                <td>{{ form_widget(form.tpeParameters.isPme2) }}</td>
-                                                <td>{{ form_widget(form.tpeParameters.isPme3) }}</td>
-                                                <td>{{ form_widget(form.tpeParameters.isPme4) }}</td>
-                                                <td>{{ form_widget(form.tpeParameters.isPme5) }}</td>
-                                            </tr>
-                                            <tr class="row0">
-                                                <td>TYPE</td>
-                                                <td>{{ form_widget(form.tpeParameters.isPme1Unit) }}</td>
-                                                <td>{{ form_widget(form.tpeParameters.isPme2Unit) }}</td>
-                                                <td>{{ form_widget(form.tpeParameters.isPme3Unit) }}</td>
-                                                <td>{{ form_widget(form.tpeParameters.isPme4Unit) }}</td>
-                                                <td>{{ form_widget(form.tpeParameters.isPme5Unit) }}</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-offset-4 col-xs-offset-5">
-                                <div class="row" style="font-size: large">
-                                    {{ form_label(form.tpeParameters.minPurchase) }}
-                                </div>
-                                <div class="row">
-                                    {{ form_widget(form.tpeParameters.minPurchase) }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
 
-                    </div>
-                </div>
+
             </div>
 
         </div>
 
         <div class="row" style="margin-top: 5%">
-            <a class="btn btn-lg col-md-offset-1 col-md-4" data-toggle="modal" data-target="#modalPrime" style="/*border:solid gold 1px;*/ background-color: #ffcc00/*;padding: 10%*/">
-                <h1 style="text-decoration: none;font-family: 'Lato';color: #606060">PRIME</h1>
-            </a>
-            <!-- Modal -->
-            <div class="modal fade" id="modalPrime" tabindex="-1" role="dialog" aria-labelledby="prime" aria-hidden="true">
-                <div class="modal-dialog" style="width: 70%">
-                    <div class="modal-content">
-                        <div class="modal-header titleTableLarge">
-                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                            <center><h1 class="modal-title" id="myModalLabel">PRIME</h1></center>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-offset-2 col-xs-offset-2 col-md-7 col-xs-7">
-                                    <table class="table table-responsive">
-                                        <tr class="titleTable">
-                                            <td>PRIME</td>
-                                            <td>1</td>
-                                            <td>2</td>
-                                            <td>3</td>
-                                            <td>4</td>
-                                            <td>5</td>
-                                        </tr>
-                                        <tr class="row1">
-                                            <td>ACTIVE</td>
-                                            <td>{{ form_widget(form.tpeParameters.isPrime1) }}</td>
-                                            <td>{{ form_widget(form.tpeParameters.isPrime2) }}</td>
-                                            <td>{{ form_widget(form.tpeParameters.isPrime3) }}</td>
-                                            <td>{{ form_widget(form.tpeParameters.isPrime4) }}</td>
-                                            <td>{{ form_widget(form.tpeParameters.isPrime5) }}</td>
-                                        </tr>
-                                        <tr class="row0">
-                                            <td>TYPE</td>
-                                            <td>{{ form_widget(form.tpeParameters.typePrime1) }}</td>
-                                            <td>{{ form_widget(form.tpeParameters.typePrime2) }}</td>
-                                            <td>{{ form_widget(form.tpeParameters.typePrime3) }}</td>
-                                            <td>{{ form_widget(form.tpeParameters.typePrime4) }}</td>
-                                            <td>{{ form_widget(form.tpeParameters.typePrime5) }}</td>
-                                        </tr>
-                                        <tr class="row1">
-                                            <td>PALIER</td>
-                                            <td>{{ form_widget(form.tpeParameters.levelPrime1) }}</td>
-                                            <td>{{ form_widget(form.tpeParameters.levelPrime2) }}</td>
-                                            <td>{{ form_widget(form.tpeParameters.levelPrime3) }}</td>
-                                            <td>{{ form_widget(form.tpeParameters.levelPrime4) }}</td>
-                                            <td>{{ form_widget(form.tpeParameters.levelPrime5) }}</td>
-                                        </tr>
-                                        <tr class="row0">
-                                            <td>MONTANT</td>
-                                            <td>{{ form_widget(form.tpeParameters.amountPrime1) }}</td>
-                                            <td>{{ form_widget(form.tpeParameters.amountPrime2) }}</td>
-                                            <td>{{ form_widget(form.tpeParameters.amountPrime3) }}</td>
-                                            <td>{{ form_widget(form.tpeParameters.amountPrime4) }}</td>
-                                            <td>{{ form_widget(form.tpeParameters.amountPrime5) }}</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
 
             <a class="btn btn-lg col-md-offset-1 col-md-4" data-toggle="modal" data-target="#modalSoap" style="/*border:solid gold 1px;*/ background-color: #606060/*;padding: 10%*/">
                 <h1 style="text-decoration: none;font-family: 'Lato';color: gold">SOAP</h1>
@@ -332,7 +218,84 @@
                 </div>
             </div>
         </div>
+        <div class="row" style="margin-top: 5%">
+            <a class="btn btn-lg col-md-offset-1 col-md-4" data-toggle="modal" data-target="#modalLogos" style="/*border:solid gold 1px;*/ background-color: #606060/*;padding: 10%*/">
+                <h1 style="text-decoration: none;font-family: 'Lato';color: gold">LOGO</h1>
+            </a>
+            <div class="modal fade" id="modalLogos" tabindex="-1" role="dialog" aria-labelledby="prime" aria-hidden="true">
+                <div class="modal-dialog" style="width: 80%">
+                    <div class="modal-content">
+                        <div class="modal-header titleTableLarge">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <center><h1 class="modal-title" id="myModalLabel">LOGO</h1></center>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-5 col-xs-5">
+                                    <table class="table table-responsive">
+                                        <tr class="titleTable">
+                                            <td colspan="2">Nom du Logo</td>
+                                        </tr>
+                                        <tr class="row2">
+                                            <td>{{ form_label(form.logo.logoName) }}</td>
+                                            <td>{{ form_widget(form.logo.logoName) }}</td>
+                                        </tr>
+                                    </table>
+                                    <table class="table table-responsive">
+                                        <tr class="titleTable">
+                                            <td colspan="2">Entete de Ticket</td>
+                                        </tr>
+                                        <tr class="row0">
+                                            <td>{{ form_label(form.logo.societyName) }}</td>
+                                            <td>{{ form_widget(form.logo.societyName) }}</td>
+                                        </tr>
+                                        <tr class="row2">
+                                            <td>{{ form_label(form.logo.societyAddress) }}</td>
+                                            <td>{{ form_widget(form.logo.societyAddress) }}</td>
+                                        </tr>
+                                        <tr class="row0">
+                                            <td>{{ form_label(form.logo.societyTel) }}</td>
+                                            <td>{{ form_widget(form.logo.societyTel) }}</td>
+                                        </tr>
+                                        <tr class="row2">
+                                            <td>{{ form_label(form.logo.societyWebAddr) }}</td>
+                                            <td>{{ form_widget(form.logo.societyWebAddr) }}</td>
+                                        </tr>
+                                        <tr class="row0">
+                                            <td>{{ form_label(form.logo.societyCp) }}</td>
+                                            <td>{{ form_widget(form.logo.societyCp) }}</td>
+                                        </tr>
+                                        <tr class="row2">
+                                            <td>{{ form_label(form.logo.societyCity) }}</td>
+                                            <td>{{ form_widget(form.logo.societyCity) }}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-md-offset-1 col-xs-offset-1 col-md-5 col-xs-5">
+                                    <table class="table table-responsive">
+                                        <tr class="titleTable">
+                                            <td colspan="2">Logo</td>
+                                        </tr>
+                                        <tr class="row2">
+                                            <td>{{ form_label(form.logo.logoTopTicket) }}</td>
+                                            <td>{{ form_widget(form.logo.logoTopTicket) }}</td>
+                                        </tr>
+                                        <tr class="row0">
+                                            <td>{{ form_label(form.logo.logoWallpaper) }}</td>
+                                            <td>{{ form_widget(form.logo.logoWallpaper) }}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+        </div>
         {{ form_widget(form) }}
 
         <div class="row">
@@ -340,5 +303,4 @@
             <center><button type="submit" value="valider" name="valider" class="btn btn-primary btn-lg" style="width: 15%">Valider</button></center>
         </div>
 
-        </div>
-    </div>
+</div>

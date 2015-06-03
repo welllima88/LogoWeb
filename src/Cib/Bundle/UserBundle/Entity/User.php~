@@ -8,12 +8,15 @@
 
 namespace Cib\Bundle\UserBundle\Entity;
 
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="fos_user")
+ * @UniqueEntity(fields="username", message="Cet utilisateur existe déjà")
+ * @UniqueEntity(fields="email", message="Adresse mail dèjà utilisée")
  */
 class User extends BaseUser
 {
@@ -24,9 +27,103 @@ class User extends BaseUser
      */
     protected $id;
 
+    private $token;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $rights;
+
+    /**
+     * @var
+     *
+     * @ORM\OneToMany(targetEntity="Cib\Bundle\ActivityBundle\Entity\Signboard", mappedBy="user", cascade={"persist"})
+     */
+    private $signboards;
+
     public function __construct()
     {
         parent::__construct();
         // your own logic
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setToken($token)
+    {
+        $this->token = $token;
+    }
+
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    /**
+     * Set rights
+     *
+     * @param integer $rights
+     *
+     * @return User
+     */
+    public function setRights($rights)
+    {
+        $this->rights = $rights;
+
+        return $this;
+    }
+
+    /**
+     * Get rights
+     *
+     * @return integer
+     */
+    public function getRights()
+    {
+        return $this->rights;
+    }
+
+    /**
+     * Add tpe
+     *
+     * @param \Cib\Bundle\ActivityBundle\Entity\Tpe $tpe
+     *
+     * @return User
+     */
+    public function addTpe(\Cib\Bundle\ActivityBundle\Entity\Tpe $tpe)
+    {
+        $this->tpes[] = $tpe;
+
+        return $this;
+    }
+
+    /**
+     * Remove tpe
+     *
+     * @param \Cib\Bundle\ActivityBundle\Entity\Tpe $tpe
+     */
+    public function removeTpe(\Cib\Bundle\ActivityBundle\Entity\Tpe $tpe)
+    {
+        $this->tpes->removeElement($tpe);
+    }
+
+    /**
+     * Get tpes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTpes()
+    {
+        return $this->tpes;
     }
 }

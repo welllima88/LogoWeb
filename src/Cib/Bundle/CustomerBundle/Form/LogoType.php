@@ -35,7 +35,7 @@ class LogoType extends AbstractType
                 'label' => 'Nom de la Societe',
             ))
             ->add('societyAddress', 'text', array(
-                'label' => 'Addresse de la Societe'
+                'label' => 'Adresse de la Societe'
             ))
             ->add('societyTel', 'text', array(
                 'label' => 'Numéro de telephone de la Societe'
@@ -49,20 +49,11 @@ class LogoType extends AbstractType
             ->add('societyCp', 'text', array(
                 'label' => 'Code Postal'
             ))
-            ->add('tpes', 'entity', array(
-                'class' => 'CibActivityBundle:Tpe',
-                'property' => 'tpeNumber',
-                'label'     => 'Numéro de TPE',
-                'required' => true,
-            ))
             ->add('logoTopTicket', 'file', array(
-                'label'     => 'Haut du Ticket',
-            ))
-           ->add('logoLowerTicket', 'file', array(
-                'label'     => 'Bas de Ticket',
+                'label'     => 'Logo Ticket',
             ))
             ->add('logoWallpaper', 'file', array(
-                'label'     => 'Fond Ecran TPE'
+                'label'     => 'Fond Ecran'
             ))
 
         ;
@@ -74,7 +65,8 @@ class LogoType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Cib\Bundle\CustomerBundle\Entity\Logo'
+            'data_class' => 'Cib\Bundle\CustomerBundle\Entity\Logo',
+            'cascade_validation' => true,
         ));
     }
 
@@ -83,6 +75,6 @@ class LogoType extends AbstractType
      */
     public function getName()
     {
-        return 'cib_bundle_customerbundle_logo';
+        return 'logo';
     }
 }

@@ -37,7 +37,11 @@ class UserType extends AbstractType
             'multiple' => true,
             'expanded' => true,
 //            'mapped' => false,
-        ));
+        ))
+        ->add('rights','text', array(
+            'label' => 'Nombre de droits',
+        ))
+        ;
 
     }
 

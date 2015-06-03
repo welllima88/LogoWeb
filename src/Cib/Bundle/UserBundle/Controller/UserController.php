@@ -24,7 +24,8 @@ class UserController extends BaseController
     {
         $em = $this->getDoctrine()->getManager();
         $userRepo = $em->getRepository('CibUserBundle:User');
-        $users = $userRepo->findAll();
+
+            $users = $userRepo->findAll();
 
         $csrf = $this->get('form.csrf_provider');
         foreach($users as $user)

@@ -14,7 +14,7 @@
             <center><h1 class="title">Ajouter un TPE</h1></center><br>
         </div>
     </div>
-    <form action="{{ path('addTpe') }}" method="post" novalidate="novalidate">
+    <form action="{{ path('addTpe') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
         {% include 'CibActivityBundle:Form:formTpe.html.twig' %}
     </form>
 {% endblock body %}

@@ -46,12 +46,12 @@
                             {% for logo in pagination.items %}
                                 <tbody>
                                 <tr class="rowLink{{ count }}">
-                                    <td>{% if app.user is not null and is_granted('ROLE_USER') %}<input class="check" type="checkbox" name="multiDelete[]" >{% endif %}</td>
+                                    <td><input class="check" type="checkbox" name="multiDelete[]" ></td>
                                     <td>{{ logo.logoName }} </td>
                                     <td>{{ logo.logoTypeTPE }} </td>
                                     <td></td>
-                                    <td>{% if app.user is not null and is_granted('ROLE_USER') %}<a class="glyphicon glyphicon-edit" style="color:darkorange"></a>{% endif %}</td>
-                                    <td>{% if app.user is not null and is_granted('ROLE_USER') %}<a href="{{ path('deleteLogo',{'id':logo.logoId}) }}" class="glyphicon glyphicon-remove" style="color:orangered"></a>{% endif %}</td>
+                                    <td><a class="glyphicon glyphicon-edit" style="color:darkorange"></a></td>
+                                    <td><a href="{{ path('deleteLogo',{'id':logo.logoId}) }}" class="glyphicon glyphicon-remove" style="color:orangered"></a></td>
                                 </tr>
                                 </tbody>
                                 {% if count == 1 %}
@@ -61,10 +61,8 @@
                                 {% endif %}
                             {% endfor %}
                         </table>
-                        {% if app.user is not null and is_granted('ROLE_USER') %}
                             <button type="submit" name="delete" value="delete" class="btn btn-link glyphicon glyphicon-remove">supprimer<span style="font-style: italic"> (la séléction)</span></button>
                             <a href="{{ path('addLogo') }}" class="btn btn-link glyphicon glyphicon-floppy-save">Ajouter logo</a>
-                        {% endif %}
                     </form>
                 </div>
             </div>

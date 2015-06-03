@@ -5,9 +5,13 @@ namespace Cib\Bundle\ActivityBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Security\Core\SecurityContext;
 
 class SignboardType extends AbstractType
 {
+
+    private $securityContext;
+
         /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -24,7 +28,15 @@ class SignboardType extends AbstractType
                     'maxlength' => 4,
                 )
             ))
+            ->add('user', 'entity', array(
+                'class' => 'CibUserBundle:User',
+                'property' => 'username',
+                'label' => 'Utilisateur',
+            ))
+
         ;
+
+
     }
     
     /**
@@ -37,6 +49,11 @@ class SignboardType extends AbstractType
         ));
     }
 
+
+    public function __construct(SecurityContext $securityContext)
+    {
+        $this->securityContext = $securityContext;
+    }
     /**
      * @return string
      */

@@ -13,6 +13,12 @@
                     <td>Numéro</td>
                     <td>{{ form_widget(form.signboardNumber) }}</td>
                 </tr>
+                {% if app.user is not null and is_granted('ROLE_ADMIN') %}
+                    {#<tr>#}
+                        {#<td>Utilisateur</td>#}
+                        {#<td>{{ form_widget(form.user) }}</td>#}
+                    {#</tr>#}
+                {% endif %}
             </table>
             {{ form_rest(form) }}
             <button type="submit" value="valider" name="valider" class="btn btn-primary">Valider</button>

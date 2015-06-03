@@ -14,6 +14,7 @@ use Cib\Bundle\ActivityBundle\Entity\tpeParameters;
 use Cib\Bundle\ActivityBundle\Form\SignboardType;
 use Cib\Bundle\ActivityBundle\Form\StoreType;
 use Cib\Bundle\ActivityBundle\Form\TpeType;
+use Cib\Bundle\CustomerBundle\Entity\Logo;
 use Cib\Bundle\DataBundle\Treatment\Treatment;
 use Cib\Bundle\FtpBundle\Entity\Ftp;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -24,6 +25,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Validator\Constraints\Null;
 
 class ActivityController extends Controller
 {
@@ -50,10 +52,14 @@ class ActivityController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('CibActivityBundle:Signboard');
-        if(!$request->request->get('search'))
-            $signboards = $repo->findAll();
-        else
-            $signboards = $repo->selectSignboardList($em,$request->request->get('txtSearch'));
+        $signboards = $this->getDataList($repo, $request->request->get('txtSearch'));
+
+//            $users = $userRepo->findBy(array('user' => $this->get('security.context')->getToken()->getUser()));
+
+//        if(!$request->request->get('search'))
+//            $signboards = $repo->findAll();
+//        else
+//            $signboards = $repo->selectSignboardList($em,$request->request->get('txtSearch'));
 
         $csrf = $this->get('form.csrf_provider');
         foreach($signboards as $signboard)
@@ -82,7 +88,7 @@ class ActivityController extends Controller
      */
     public function addSignboardAction(Request $request)
     {
-        $form = $this->createForm(new SignboardType());
+        $form = $this->createForm(new SignboardType($this->get('security.context')));
         $form->handleRequest($request);
 
         if($form->isValid())
@@ -120,7 +126,7 @@ class ActivityController extends Controller
         $repo = $em->getRepository('CibActivityBundle:Signboard');
         $signboard = $repo->find($id);
 
-        $form = $this->createForm(new SignboardType(),$signboard);
+        $form = $this->createForm(new SignboardType($this->get('security.context')),$signboard);
         $form->handleRequest($request);
         if($form->isValid())
         {
@@ -214,10 +220,12 @@ class ActivityController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('CibActivityBundle:Store');
-        if(!$request->request->get('search'))
+        $stores = $this->getDataList($repo, $request->request->get('txtSearch'));
+
+/*        if(!$request->request->get('search'))
             $stores = $repo->findAll();
         else
-            $stores = $repo->selectStoreList($em, $request->request->get('txtSearch'));
+            $stores = $repo->selectStoreList($em, $request->request->get('txtSearch'));*/
 
         $csrf = $this->get('form.csrf_provider');
         foreach($stores as $store)
@@ -271,14 +279,21 @@ class ActivityController extends Controller
     /**
      * @param Request $request
      * @return array|RedirectResponse
-     * @Route("/loggedin/admin/store/add", name="addStore")
+     * @Route("/loggedin/store/add", name="addStore")
      *
      * @Template()
      */
     public function addStoreAction(Request $request)
     {
         $store = new \Cib\Bundle\ActivityBundle\Entity\Store();
-        $form = $this->createForm(new StoreType(),$store);
+        $em = $this->getDoctrine()->getManager();
+        $repoSignboard = $em->getRepository('CibActivityBundle:Signboard');
+        if ($this->get('security.context')->getToken()->getUser()->isAdmin())
+            $signboards = $repoSignboard->findAll();
+        else
+            $signboards = $repoSignboard->findBy(array('user' => $this->get('security.context')->getToken()->getUser()));
+
+        $form = $this->createForm(new StoreType($signboards),$store);
         $form->handleRequest($request);
         $originalTpe = new ArrayCollection();
 
@@ -314,7 +329,7 @@ class ActivityController extends Controller
      * @param $id
      * @return array|RedirectResponse
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     * @Route("/loggedin/admin/store/edit/{id}", name="editStore", defaults={"id" = "0"})
+     * @Route("/loggedin/store/edit/{id}", name="editStore", defaults={"id" = "0"})
      *
      * @Template()
      */
@@ -375,7 +390,7 @@ class ActivityController extends Controller
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return RedirectResponse
      *
-     * @Route("/loggedin/admin/store/delete/{id}/{token}", name="deleteStore", defaults={"id" = 0, "token" = 0})
+     * @Route("/loggedin/store/delete/{id}/{token}", name="deleteStore", defaults={"id" = 0, "token" = 0})
      */
     public function deleteStoreAction(Request $request,$id,$token)
     {
@@ -418,8 +433,6 @@ class ActivityController extends Controller
             else
                 throw $this->createNotFoundException('page introuvable');
         }
-
-
     }
 
 
@@ -435,11 +448,7 @@ class ActivityController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('CibActivityBundle:Tpe');
-
-        if(!$request->request->get('search'))
-            $tpe = $repo->findAll();
-        else
-            $tpe = $repo -> selectTpeList($em, $request->request->get('txtSearch'));
+        $tpe = $this->getDataList($repo, $request->request->get('txtSearch'));
         $csrf = $this->get('form.csrf_provider');
         foreach($tpe as $tp)
             $tp->setToken($csrf->generateCsrfToken($tp->getTpeId()));
@@ -457,22 +466,38 @@ class ActivityController extends Controller
     }
 
 
+    public function removeOneRight($tpe)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $storeRepo = $em->getRepository('CibActivityBundle:Store');
+        $signboardRepo = $em->getRepository('CibActivityBundle:Signboard');
+        $userRepo = $em->getRepository('CibUserBundle:User');
+
+        $store = $storeRepo->find($tpe->getStore());
+        $signboard = $signboardRepo->find($store->getSignboard());
+        $user = $userRepo->find($signboard->getUser());
+        $user->setRights($user->getRights() - 1);
+        $em->flush();
+    }
+
     /**
      * @param Request $request
      * @return array|RedirectResponse
      *
-     * @Route("/loggedin/admin/tpe/add", name="addTpe")
+     * @Route("/loggedin/tpe/add", name="addTpe")
      * @Template()
      */
     public function addTpeAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $tpe = new Tpe();
+        $logo = new Logo();
+
+        $tpe->setLogo($logo);
         $param = $em->getRepository('CibCoreBundle:Parameters')->find(1);
         $ftp = new Ftp($param->getFtpUrl(),$param->getFtpUser(),$param->getFtpPassword(),$param->getFtpPort(),false,false);
         $form = $this->createForm(new TpeType(),$tpe);
         $form->handleRequest($request);
-
         if($form->isValid())
         {
             $tpe = $form->getData();
@@ -483,10 +508,13 @@ class ActivityController extends Controller
                 $this->get('session')->getFlashBag()->add('ftpError','echec de l\'envoi du fichier de paramétrage');
             $em->persist($tpe);
             $em->flush();
-
+            if ($logo) {
+                $this->removeOneRight($tpe);
+                $this->showSizeLogoPicture($logo);
+                $logo->writeFileParam($logo, $ftp);
+            }
             $this->get('session')->getFlashBag()->all();
             $this->get('session')->getFlashBag()->add('status','Ajout effectué');
-
             return $this->redirect($this->generateUrl('displayTpe'));
         }
 
@@ -499,7 +527,7 @@ class ActivityController extends Controller
      * @param Request $request
      * @param $id
      *
-     * @Route("/loggedin/admin/tpe/edit/{id}", name="editTpe", defaults={"id" = "0"})
+     * @Route("/loggedin/tpe/edit/{id}", name="editTpe", defaults={"id" = "0"})
      * @Template()
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
@@ -556,7 +584,7 @@ class ActivityController extends Controller
      * @param $token
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @Route("/loggedin/admin/tpe/delete/{id}/{token}", name="deleteTpe", defaults={"id" = 0, "token" = 0})
+     * @Route("/loggedin/tpe/delete/{id}/{token}", name="deleteTpe", defaults={"id" = 0, "token" = 0})
      */
     public function deleteTpeAction(Request $request, $id, $token)
     {
@@ -625,6 +653,114 @@ class ActivityController extends Controller
         }
 
         return $array;
+    }
+
+    private function getDataList($repository, $search = null)
+    {
+        if($this->get('security.context')->getToken()->getUser()->isAdmin()){
+            if(!$search)
+               return  $repository->findAll();
+            else
+                return $repository->selectList($search);
+        }
+        else{
+            if(!$search)
+                return $repository->getByUser($this->get('security.context')->getToken()->getUser());
+            else
+                return  $repository->getByUser($this->get('security.context')->getToken()->getUser(),$search);
+
+        }
+    }
+
+    public function sizeRenamePictureNonGoalLogo(Logo $logo)
+    {
+        if ($logo->getLogoTypeTPE() == "ICT250") {
+
+            $this->get('image.handling')->open($logo->getWebPathTop())
+                ->resize(200, 200)
+                ->save($logo->getPathSrc() . '/ImageTop.bmp');
+            $this->get('image.handling')->open($logo->getWebPathWallpaper())
+                ->resize(300, 300)
+                ->save($logo->getPathSrc() . '/ImageWallpaper.bmp');
+        }
+        else if($logo->getLogoTypeTPE() == "IWL250") {
+            $this->get('image.handling')->open($logo->getWebPathTop())
+                ->resize(200, 200)
+                ->save($logo->getPathSrc() . '/ImageTop.bmp');
+            $this->get('image.handling')->open($logo->getWebPathWallpaper())
+                ->resize(300, 300)
+                ->save($logo->getPathSrc() . '/ImageWallpaper.bmp');
+        }
+        else if ($logo->getLogoTypeTPE() == "EFT930"){
+            $this->get('image.handling')->open($logo->getWebPathTop())
+                ->resize(200, 200)
+                ->save($logo->getPathSrc() . '/ImageTop.bmp');
+            $this->get('image.handling')->open($logo->getWebPathWallpaper())
+                ->resize(300, 300)
+                ->save($logo->getPathSrc() . '/ImageWallpaper.bmp');
+        }
+        else{
+            $this->get('image.handling')->open($logo->getWebPathTop())
+                ->resize(200, 200)
+                ->save($logo->getPathSrc() . '/ImageTop.bmp');
+            $this->get('image.handling')->open($logo->getWebPathWallpaper())
+                ->resize(300, 300)
+                ->save($logo->getPathSrc() . '/ImageWallpaper.bmp');
+        }
+    }
+
+    public function sizeRenamePictureGoalLogo(Logo $logo)
+    {
+        if ($logo->getLogoTypeTPE() == "ICT250") {
+            if ($logo->getWebPathTop() != Null) {
+                $this->get('image.handling')->open($logo->getWebPathTop())
+                    ->resize(200, 200)
+                    ->save($logo->getPathSrc() . '/ImageTop.pngit statusg');
+            }
+            if ($logo->getWebPathWallpaper() != Null) {
+                $this->get('image.handling')->open($logo->getWebPathWallpaper())
+                    ->resize(300, 300)
+                    ->save($logo->getPathSrc() . '/ImageWallpaper.png');
+            }
+        }
+        else if($logo->getLogoTypeTPE() == "IWL250") {
+            $this->get('image.handling')->open($logo->getWebPathTop())
+                ->resize(200, 200)
+                ->save($logo->getPathSrc() . '/ImageTop.png');
+            $this->get('image.handling')->open($logo->getWebPathWallpaper())
+                ->resize(300, 300)
+                ->save($logo->getPathSrc() . '/ImageWallpaper.png');
+        }
+        else if ($logo->getLogoTypeTPE() == "EFT930"){
+            $this->get('image.handling')->open($logo->getWebPathTop())
+                ->resize(200, 200)
+                ->save($logo->getPathSrc() . '/ImageTop.png');
+            $this->get('image.handling')->open($logo->getWebPathWallpaper())
+                ->resize(300, 300)
+                ->save($logo->getPathSrc() . '/ImageWallpaper.png');
+        }
+        else{
+            $this->get('image.handling')->open($logo->getWebPathTop())
+                ->resize(200, 200)
+                ->save($logo->getPathSrc() . '/ImageTop.png');
+            $this->get('image.handling')->open($logo->getWebPathWallpaper())
+                ->resize(300, 300)
+                ->save($logo->getPathSrc() . '/ImageWallpaper.png');
+        }
+    }
+
+
+
+    public function showSizeLogoPicture(Logo $logo)
+    {
+        if ($logo->getLogoGoal() == "true") {
+            $this->sizeRenamePictureGoalLogo($logo);
+        }
+        else
+            $this->sizeRenamePictureNonGoalLogo($logo);
+
+        unlink($logo->getWebPathWallpaper());
+        unlink($logo->getWebPathTop());
     }
 
 

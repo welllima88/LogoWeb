@@ -2,6 +2,7 @@
 
 namespace Cib\Bundle\ActivityBundle\Entity;
 
+use Cib\Bundle\UserBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 
@@ -13,12 +14,25 @@ use Doctrine\ORM\EntityRepository;
  */
 class signboardRepository extends EntityRepository
 {
-    public function selectSignboardList(EntityManager $em,$search)
+    public function selectList(EntityManager $em,$search)
     {
         $dql = "SELECT s FROM CibActivityBundle:Signboard s WHERE (s.signboardName LIKE :search OR s.signboardNumber LIKE :search)";
         $query = $em->createQuery($dql);
         $query->setParameter('search','%'.$search.'%');
 
         return $signboards = $query->getResult();
+    }
+
+    public function getByUser(User $user, $search = null)
+    {
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder();
+        $queryBuilder->select('s')
+            ->from('CibActivityBundle:Signboard', 's')
+            ->where('s.user = ?1')
+            ->andWhere('s.signboardName LIKE ?2')
+            ->setParameter(1,$user)
+            ->setParameter(2,'%'.$search.'%');
+        $results = $queryBuilder->getQuery();
+        return $results->getResult();
     }
 }

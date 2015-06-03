@@ -56,6 +56,12 @@ class Signboard
      */
     private $store;
 
+    /**
+     * @var
+     *
+     * @ORM\ManyToOne(targetEntity="Cib\Bundle\UserBundle\Entity\User", cascade={"persist"}, inversedBy="signboards")
+     */
+    private $user;
 
     private $token;
 
@@ -165,5 +171,29 @@ class Signboard
     public function getStore()
     {
         return $this->store;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Cib\Bundle\UserBundle\Entity\User $user
+     *
+     * @return Signboard
+     */
+    public function setUser(\Cib\Bundle\UserBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Cib\Bundle\UserBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

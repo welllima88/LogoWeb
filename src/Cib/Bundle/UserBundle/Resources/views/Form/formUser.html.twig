@@ -8,10 +8,12 @@
                 <tr class="titleTable">
                     <td class="col-xs-1 col-md-1">UTILISATEUR</td>
                     <td class="col-xs-1 col-md-1">ROLES</td>
+                    <td class="col-xs-1 col-md-1">DROITS</td>
                 </tr>
                 <tr class="row0">
                     <td class="col-xs-1 col-md-1">{{ form_widget(form.username) }}</td>
                     <td class="col-xs-2 col-md-2">{% for role in form.roles %}{{ form_label(role) }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ form_widget(role) }}<br>{% endfor %}</td>
+                    <td class="col-xs-1 col-md-1">{{ form_widget(form.rights) }}</td>
                 </tr>
             </table>
             {{ form_widget(form) }}

@@ -185,3 +185,6 @@ services:
             - {json: @serializer.encoder.json }
     hello_service:
         class: Cib\Bundle\SoapBundle\Services\HelloService
+    right_service:
+        class: Cib\Bundle\SoapBundle\Services\RightService
+        arguments: [@doctrine.orm.entity_manager]

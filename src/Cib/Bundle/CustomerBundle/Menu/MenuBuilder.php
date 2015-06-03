@@ -26,9 +26,10 @@ class MenuBuilder
     {
         $menu = $this->factory->createItem('customer');
         $menu->setChildrenAttribute('class','nav navbar-nav');
-        $menu->addChild('Clients')->setAttribute('dropdown',true);
-        $menu['Clients']->addChild('Clients',array('route' => 'displayClient'))->setAttribute('divider_append',true);
-        $menu['Clients']->addChild('Cartes',array('route' => 'displayCard'));
+        $menu->addChild('Logo',array('route' => 'displayLogo'));
+        //        $menu['Clients']->addChild('Clients',array('route' => 'displayClient'))->setAttribute('divider_append',true);
+//        $menu['Clients']->addChild('Cartes',array('route' => 'displayCard'));
+//        $menu['Clients']->addChild('Cartes',array('route' => 'displayCard'));
 
         return $menu;
     }

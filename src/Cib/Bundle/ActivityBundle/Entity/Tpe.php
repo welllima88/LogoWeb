@@ -17,6 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity
  * @ORM\Table(name="cib_tpe")
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="Cib\Bundle\ActivityBundle\Entity\tpeRepository")
  * @UniqueEntity(fields="tpeNumber", message="un tpe portant ce numéro éxiste déjà")
  */
@@ -61,9 +62,10 @@ class Tpe
     /**
      * @var
      *
-     * @ORM\OnetoMany(targetEntity="Cib\Bundle\CustomerBundle\Entity\Logo", mappedBy="tpes")
+     * @ORM\OneToOne(targetEntity="Cib\Bundle\CustomerBundle\Entity\Logo", mappedBy="tpe",cascade={"persist"})
+     * @ORM\JoinColumn(name="logoId", referencedColumnName="logoId", onDelete="SET NULL")
      */
-    private $logos;
+    private $logo;
 
     /**
      * @var
@@ -86,11 +88,7 @@ class Tpe
     }
 
 
-    public function getLogos()
-    {
-        return $this->logos;
 
-    }
     /**
      * Get tpeId
      *
@@ -242,5 +240,30 @@ class Tpe
     public function getTelecollecte()
     {
         return $this->telecollecte;
+    }
+
+    /**
+     * Set logo
+     *
+     * @param \Cib\Bundle\CustomerBundle\Entity\Logo $logo
+     *
+     * @return Tpe
+     */
+    public function setLogo(\Cib\Bundle\CustomerBundle\Entity\Logo $logo = null)
+    {
+        $this->logo = $logo;
+        $logo->setTpe($this);
+
+        return $this;
+    }
+
+    /**
+     * Get logo
+     *
+     * @return \Cib\Bundle\CustomerBundle\Entity\Logo
+     */
+    public function getLogo()
+    {
+        return $this->logo;
     }
 }

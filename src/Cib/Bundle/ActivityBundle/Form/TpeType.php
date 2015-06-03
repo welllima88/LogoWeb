@@ -3,6 +3,7 @@
 namespace Cib\Bundle\ActivityBundle\Form;
 
 use Cib\Bundle\ActivityBundle\Entity\tpeParameters;
+use Cib\Bundle\CustomerBundle\Form\LogoType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -38,6 +39,9 @@ class TpeType extends AbstractType
                 'required' => false,
                 )
             )
+            ->add('logo', new LogoType(), array(
+                'required' => false,
+            ))
         ;
     }
     

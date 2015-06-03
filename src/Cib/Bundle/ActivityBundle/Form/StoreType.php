@@ -10,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class StoreType extends AbstractType
 {
 
-    private $signboard;
+    private $signboards;
 
      /**
      * @param FormBuilderInterface $builder
@@ -53,7 +53,7 @@ class StoreType extends AbstractType
                 'label' => 'enseigne',
                 'class' => 'CibActivityBundle:Signboard',
                 'property' => 'signboardName',
-                'data' => $this->signboard,
+                'choices' => $this->signboards,
             ))
             ->add('weekPrice','money',array(
                 'label' => 'prix semaine',
@@ -83,7 +83,7 @@ class StoreType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Cib\Bundle\ActivityBundle\Entity\Store',
             'cascade_validation' => true,
-            'empty_value' => new Store($this->signboard),
+            'empty_value' => new Store($this->signboards),
         ));
     }
 
@@ -96,11 +96,8 @@ class StoreType extends AbstractType
     }
 
 
-    public function __construct(array $arrayOtpions = null)
+    public function __construct($signboards)
     {
-        if($arrayOtpions['signboard'] != null)
-            $this->signboard = $arrayOtpions['signboard'];
-        else
-            $this->signboard = '';
+        $this->signboards = $signboards;
     }
 }

@@ -31,7 +31,6 @@ class MenuBuilder
         $menu['Activité']->addChild('Enseigne',array('route' => 'displaySignboard'))->setAttribute('divider_append',true);
         $menu['Activité']->addChild('Magasin',array('route' => 'displayStore'))->setAttribute('divider_append',true);
         $menu['Activité']->addChild('Tpe',array('route' => 'displayTpe'))->setAttribute('divider_append',true);
-        $menu['Activité']->addChild('Télécollectes',array('route' => 'displayTelecollecte'));
 
         return $menu;
     }

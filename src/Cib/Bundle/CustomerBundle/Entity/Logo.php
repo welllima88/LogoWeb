@@ -2,6 +2,7 @@
 
 namespace Cib\Bundle\CustomerBundle\Entity;
 
+use Cib\Bundle\FtpBundle\Entity\Ftp;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -40,11 +41,6 @@ class Logo
     /**
      * @Assert\File(maxSize="6000000")
      */
-    private $logoLowerTicket;
-
-    /**
-     * @Assert\File(maxSize="6000000")
-     */
     private $logoWallpaper;
 
     /**
@@ -60,13 +56,6 @@ class Logo
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $logoGoal;
-
-    /**
-     * @var
-     *
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $pathLow;
 
     /**
      * @var
@@ -127,20 +116,20 @@ class Logo
     /**
      * @var
      *
-     * @ORM\ManyToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\Tpe",cascade={"persist"}, inversedBy="logos")
+     * @ORM\OneToOne(targetEntity="Cib\Bundle\ActivityBundle\Entity\Tpe",cascade={"persist"})
      * @ORM\JoinColumn(name="tpeId", referencedColumnName="tpeId", onDelete="SET NULL")
      */
-    private $tpes;
+    private $tpe;
 
 
-    public function getTpes()
+    public function getTpe()
     {
-        return $this->tpes;
+        return $this->tpe;
     }
 
-    public function setTpes($tpes)
+    public function setTpe($tpe)
     {
-        $this->tpes = $tpes;
+        $this->tpe = $tpe;
 
         return $this;
     }
@@ -148,13 +137,6 @@ class Logo
     public function setLogoTopTicket($logoTopTicket = null)
     {
         $this->logoTopTicket = $logoTopTicket;
-
-        return $this;
-    }
-
-    public function setLogoLowerTicket($logoLowerTicket = null)
-    {
-        $this->logoLowerTicket = $logoLowerTicket;
 
         return $this;
     }
@@ -186,10 +168,6 @@ class Logo
         return $this->logoTopTicket;
     }
 
-    public function getLogoLowerTicket()
-    {
-        return $this->logoLowerTicket;
-    }
 
     public function getLogoWallpaper()
     {
@@ -291,10 +269,6 @@ class Logo
         return null === $this->pathEntete ? null : $this->getUploadRootDir().'/'.$this->pathEntete;
     }
 
-    public function getAbsolutePathLow()
-    {
-        return null === $this->pathLow ? null : $this->getUploadRootDir().'/'.$this->pathLow;
-    }
 
     public function getAbsolutePathWallpaper()
     {
@@ -311,10 +285,6 @@ class Logo
         return null === $this->pathWallpaper ? null : $this->getUploadDir().'/'.$this->pathWallpaper;
     }
 
-    public function getWebPathLow()
-    {
-        return null === $this->pathLow ? null : $this->getUploadDir().'/'.$this->pathLow;
-    }
 
     public function getPathSrc()
     {
@@ -330,7 +300,7 @@ class Logo
     {
         // get rid of the __DIR__ so it doesn't screw up
         // when displaying uploaded doc/image in the view.
-        return 'parameters/'.$this->tpes->getTpeNumber();
+        return 'parameters/'.$this->tpe->getTpeNumber();
     }
 
     /**
@@ -342,10 +312,6 @@ class Logo
         if (null !== $this->logoTopTicket) {
             // faites ce que vous voulez pour générer un nom unique
             $this->pathTop = sha1(uniqid(mt_rand(), true)).'.'.$this->logoTopTicket->getClientOriginalExtension();
-        }
-        if (null !== $this->logoLowerTicket) {
-            // faites ce que vous voulez pour générer un nom unique
-            $this->pathLow = sha1(uniqid(mt_rand(), true)).'.'.$this->logoLowerTicket->getClientOriginalExtension();
         }
         if (null !== $this->logoWallpaper) {
             // faites ce que vous voulez pour générer un nom unique
@@ -361,9 +327,6 @@ class Logo
         if ($this->pathTop == $this->getAbsolutePathTop()) {
             $this->pathTop = null;
         }
-        if ($this->pathLow == $this->getAbsolutePathLow()) {
-            $this->pathLow = null;
-        }
         if ($this->pathWallpaper == $this->getAbsolutePathWallpaper()) {
             $this->pathWallpaper = null;
         }
@@ -378,13 +341,20 @@ class Logo
 
         // la propriété « file » peut être vide si le champ n'est pas requis
         if (null === $this->logoTopTicket) {
-            return;
+            $this->logoTopTicket = null;
         }
-        if (null === $this->logoLowerTicket) {
-            return;
+        else{
+            $this->logoTopTicket->move($this->getUploadRootDir(), $this->logoTopTicket->getClientOriginalName());
+            $this->pathTop = $this->logoTopTicket->getClientOriginalName();
+            $this->logoTopTicket = null;
         }
         if (null === $this->logoWallpaper) {
-            return;
+            $this->logoWallpaper = null;
+        }
+        else {
+            $this->logoWallpaper->move($this->getUploadRootDir(), $this->logoWallpaper->getClientOriginalName());
+            $this->pathWallpaper = $this->logoWallpaper->getClientOriginalName();
+            $this->logoWallpaper = null;
         }
 
         // utilisez le nom de fichier original ici mais
@@ -393,21 +363,11 @@ class Logo
 
         // la méthode « move » prend comme arguments le répertoire cible et
         // le nom de fichier cible où le fichier doit être déplacé
-        $this->logoTopTicket->move($this->getUploadRootDir(), $this->logoTopTicket->getClientOriginalName());
-        $this->logoWallpaper->move($this->getUploadRootDir(), $this->logoWallpaper->getClientOriginalName());
-        $this->logoLowerTicket->move($this->getUploadRootDir(), $this->logoLowerTicket->getClientOriginalName());
-
 
         // définit la propriété « path » comme étant le nom de fichier où vous
         // avez stocké le fichier
-        $this->pathTop = $this->logoTopTicket->getClientOriginalName();
-        $this->pathLow = $this->logoLowerTicket->getClientOriginalName();
-        $this->pathWallpaper = $this->logoWallpaper->getClientOriginalName();
 
         // « nettoie » la propriété « file » comme vous n'en aurez plus besoin
-        $this->logoTopTicket = null;
-        $this->logoLowerTicket = null;
-        $this->logoWallpaper = null;
     }
 
 
@@ -435,29 +395,7 @@ class Logo
         return $this->pathTop;
     }
 
-    /**
-     * Set pathLow
-     *
-     * @param string $pathLow
-     *
-     * @return Logo
-     */
-    public function setPathLow($pathLow)
-    {
-        $this->pathLow = $pathLow;
 
-        return $this;
-    }
-
-    /**
-     * Get pathLow
-     *
-     * @return string
-     */
-    public function getPathLow()
-    {
-        return $this->pathLow;
-    }
 
     /**
      * Set pathWallpaper
@@ -507,4 +445,23 @@ class Logo
     {
         return $this->logoGoal;
     }
+
+    public function writeFileParam(Logo $logo, Ftp $ftp)
+    {
+        $fileParam = $logo->getPathSrc().'/PARAM_LOGO.PAR';
+        $handle = fopen($fileParam, "w+");
+        fwrite($handle, $logo->getSocietyName().";");
+        fwrite($handle, $logo->getSocietyAddress().";");
+        fwrite($handle, $logo->getSocietyTel().";");
+        fwrite($handle, $logo->getSocietyWebAddr().";");
+        fwrite($handle, $logo->getSocietyCity().";");
+        fwrite($handle, $logo->getSocietyCp().";");
+        fwrite($handle, $ftp->getFtpHost().";");
+        fwrite($handle, $ftp->getFtpLogin().";");
+        fwrite($handle, $ftp->getFtpPassword().";");
+        fwrite($handle, $ftp->getFtpPort().";");
+        fwrite($handle, $ftp->getFtpMode()."\n");
+    }
+
+
 }

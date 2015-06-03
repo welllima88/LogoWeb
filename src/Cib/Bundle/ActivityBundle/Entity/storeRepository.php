@@ -2,6 +2,7 @@
 
 namespace Cib\Bundle\ActivityBundle\Entity;
 
+use Cib\Bundle\UserBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 
@@ -13,10 +14,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class storeRepository extends EntityRepository
 {
-    public function selectStoreList(EntityManager $em,$search)
+    public function selectList($search)
     {
         $dql = "SELECT s FROM CibActivityBundle:Store s WHERE (s.storeName LIKE :search)";
-        $query = $em->createQuery($dql);
+        $query = $this->getEntityManager()->createQuery($dql);
         $query->setParameter('search','%'.$search.'%');
 
         return $signboards = $query->getResult();
@@ -53,4 +54,19 @@ class storeRepository extends EntityRepository
         $query = $this->getEntityManager()->createQuery($dql);
         return $query->getResult();
     }
+
+    public function getByUser(User $user, $search = null)
+    {
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder();
+        $queryBuilder->select('s', 'Si')
+            ->from('CibActivityBundle:Store', 's')
+            ->join('s.signboard',' Si')
+            ->where('Si.user = ?1')
+            ->andWhere('s.storeName LIKE ?2')
+        ->setParameter(1,$user)
+        ->setParameter(2,'%'.$search.'%');
+        $results = $queryBuilder->getQuery();
+        return $results->getResult();
+    }
+
 }
