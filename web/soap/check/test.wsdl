@@ -1,4 +1,4 @@
-<definitions name="rightCheck" targetNamespace="http://localhost/LogoWeb/web/app_dev.php/soap/check" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://localhost/LogoWeb/web/app_dev.php/soap/check" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap-enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<definitions name="rightCheck" targetNamespace="http://logo.cib-ingenierie.fr/soap/check" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://logo.cib-ingenierie.fr/soap/check" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap-enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
     <portType name="rightPortType">
         <operation name="rightCheck">
             <input message="tns:rightRequest"/>
@@ -6,7 +6,7 @@
         </operation>
     </portType>
     <types>
-        <xsd:schema targetNamespace="http://localhost/LogoWeb/web/app_dev.php/soap/check"/>
+        <xsd:schema targetNamespace="http://logo.cib-ingenierie.fr/soap/check"/>
     </types>
     <message name="rightRequest">
         <part name="numTpe" type="xsd:string"/>
@@ -16,18 +16,18 @@
     </message>
     <service name="rightService">
         <port name="rightPort" binding="tns:rightBinding">
-            <soap:address location="http://localhost/LogoWeb/web/app_dev.php/soap/check"/>
+            <soap:address location="http://logo.cib-ingenierie.fr/soap/check"/>
         </port>
     </service>
     <binding name="rightBinding" type="tns:rightPortType">
         <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc"/>
         <operation name="rightCheck">
-            <soap:operation soapAction="http://localhost/LogoWeb/web/app_dev.php/soap/check"/>
+            <soap:operation soapAction="http://logo.cib-ingenierie.fr/soap/check"/>
             <input>
-                <soap:body use="literal" namespace="http://localhost/LogoWeb/web/app_dev.php/soap/check" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="literal" namespace="http://logo.cib-ingenierie.fr/soap/check" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </input>
             <output>
-                <soap:body use="literal" namespace="http://localhost/LogoWeb/web/app_dev.php/soap/check" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="literal" namespace="http://logo.cib-ingenierie.fr/soap/check" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </output>
         </operation>
     </binding>
