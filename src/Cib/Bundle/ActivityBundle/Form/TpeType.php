@@ -36,7 +36,7 @@ class TpeType extends AbstractType
             ))
 //            ->add('cib_bundle_activitybundle_tpeparameters',new tpeParametersType());
             ->add('tpeParameters',new tpeParametersType($this->tpeParameters),array(
-                'required' => false,
+                    'required' => false,
                 )
             )
             ->add('logo', new LogoType(), array(
@@ -67,6 +67,7 @@ class TpeType extends AbstractType
     public function __construct(array $arrayOtpions = null)
     {
         $this->store = $arrayOtpions['store'];
+        $this->logo = $arrayOtpions['logo'];
         if($arrayOtpions['tpeParameters'])
             $this->tpeParameters = $arrayOtpions['tpeParameters'];
         else

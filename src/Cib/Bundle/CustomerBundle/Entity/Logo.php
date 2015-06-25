@@ -50,6 +50,7 @@ class Logo
      */
     private $pathTop;
 
+
     /**
      * @var
      *
@@ -76,42 +77,35 @@ class Logo
      *
      * @ORM\Column(type="string", nullable=true)
      */
-    private $societyName;
+    private $intitule1;
 
     /**
      * @var
      *
      * @ORM\Column(type="string", nullable=true)
      */
-    private $societyAddress;
+    private $intitule2;
 
     /**
      * @var
      *
      * @ORM\Column(type="string", nullable=true)
      */
-    private $societyTel;
+    private $intitule3;
 
     /**
      * @var
      *
      * @ORM\Column(type="string", nullable=true)
      */
-    private $societyWebAddr;
+    private $intitule4;
 
     /**
      * @var
      *
      * @ORM\Column(type="string", nullable=true)
      */
-    private $societyCity;
-
-    /**
-     * @var
-     *
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $societyCp;
+    private $intitule5;
 
     /**
      * @var
@@ -177,36 +171,6 @@ class Logo
     public function getLogoTypeTPE()
     {
         return $this->logoTypeTPE;
-    }
-
-    public function getSocietyName()
-    {
-        return $this->societyName;
-    }
-
-    public function getSocietyAddress()
-    {
-        return $this->societyAddress;
-    }
-
-    public function getSocietyTel()
-    {
-        return $this->societyTel;
-    }
-
-    public function getSocietyWebAddr()
-    {
-        return $this->societyWebAddr;
-    }
-
-    public function getSocietyCity()
-    {
-        return $this->societyCity;
-    }
-
-    public function getSocietyCp()
-    {
-        return $this->societyCp;
     }
 
     public function setLogoName($logoName)
@@ -286,6 +250,7 @@ class Logo
     }
 
 
+
     public function getPathSrc()
     {
         return $this->getUploadDir();
@@ -294,6 +259,7 @@ class Logo
     {
         return __DIR__.'/../../../../../web/'.$this->getUploadDir();
     }
+
 
 
     protected function getUploadDir()
@@ -324,6 +290,7 @@ class Logo
      */
     public function removeUpload()
     {
+
         if ($this->pathTop == $this->getAbsolutePathTop()) {
             $this->pathTop = null;
         }
@@ -450,12 +417,11 @@ class Logo
     {
         $fileParam = $logo->getPathSrc().'/PARAM_LOGO.PAR';
         $handle = fopen($fileParam, "w+");
-        fwrite($handle, $logo->getSocietyName().";");
-        fwrite($handle, $logo->getSocietyAddress().";");
-        fwrite($handle, $logo->getSocietyTel().";");
-        fwrite($handle, $logo->getSocietyWebAddr().";");
-        fwrite($handle, $logo->getSocietyCity().";");
-        fwrite($handle, $logo->getSocietyCp().";");
+        fwrite($handle, $logo->getIntitule1().";");
+        fwrite($handle, $logo->getIntitule2().";");
+        fwrite($handle, $logo->getIntitule3().";");
+        fwrite($handle, $logo->getIntitule4().";");
+        fwrite($handle, $logo->getIntitule5().";");
         fwrite($handle, $ftp->getFtpHost().";");
         fwrite($handle, $ftp->getFtpLogin().";");
         fwrite($handle, $ftp->getFtpPassword().";");
@@ -464,4 +430,172 @@ class Logo
     }
 
 
+
+    /**
+     * Set intitule1
+     *
+     * @param string $intitule1
+     *
+     * @return Logo
+     */
+    public function setIntitule1($intitule1)
+    {
+        $this->intitule1 = $intitule1;
+
+        return $this;
+    }
+
+    /**
+     * Get intitule1
+     *
+     * @return string
+     */
+    public function getIntitule1()
+    {
+        return $this->intitule1;
+    }
+
+    /**
+     * Set intitule2
+     *
+     * @param string $intitule2
+     *
+     * @return Logo
+     */
+    public function setIntitule2($intitule2)
+    {
+        $this->intitule2 = $intitule2;
+
+        return $this;
+    }
+
+    /**
+     * Get intitule2
+     *
+     * @return string
+     */
+    public function getIntitule2()
+    {
+        return $this->intitule2;
+    }
+
+    /**
+     * Set intitule3
+     *
+     * @param string $intitule3
+     *
+     * @return Logo
+     */
+    public function setIntitule3($intitule3)
+    {
+        $this->intitule3 = $intitule3;
+
+        return $this;
+    }
+
+    /**
+     * Get intitule3
+     *
+     * @return string
+     */
+    public function getIntitule3()
+    {
+        return $this->intitule3;
+    }
+
+    /**
+     * Set intitule4
+     *
+     * @param string $intitule4
+     *
+     * @return Logo
+     */
+    public function setIntitule4($intitule4)
+    {
+        $this->intitule4 = $intitule4;
+
+        return $this;
+    }
+
+    /**
+     * Get intitule4
+     *
+     * @return string
+     */
+    public function getIntitule4()
+    {
+        return $this->intitule4;
+    }
+
+    /**
+     * Set intitule5
+     *
+     * @param string $intitule5
+     *
+     * @return Logo
+     */
+    public function setIntitule5($intitule5)
+    {
+        $this->intitule5 = $intitule5;
+
+        return $this;
+    }
+
+    /**
+     * Get intitule5
+     *
+     * @return string
+     */
+    public function getIntitule5()
+    {
+        return $this->intitule5;
+    }
+
+    /**
+     * Set pathFtpTop
+     *
+     * @param string $pathFtpTop
+     *
+     * @return Logo
+     */
+    public function setPathFtpTop($pathFtpTop)
+    {
+        $this->pathFtpTop = $pathFtpTop;
+
+        return $this;
+    }
+
+    /**
+     * Get pathFtpTop
+     *
+     * @return string
+     */
+    public function getPathFtpTop()
+    {
+        return $this->pathFtpTop;
+    }
+
+    /**
+     * Set pathFtpWallpaper
+     *
+     * @param string $pathFtpWallpaper
+     *
+     * @return Logo
+     */
+    public function setPathFtpWallpaper($pathFtpWallpaper)
+    {
+        $this->pathFtpWallpaper = $pathFtpWallpaper;
+
+        return $this;
+    }
+
+    /**
+     * Get pathFtpWallpaper
+     *
+     * @return string
+     */
+    public function getPathFtpWallpaper()
+    {
+        return $this->pathFtpWallpaper;
+    }
 }

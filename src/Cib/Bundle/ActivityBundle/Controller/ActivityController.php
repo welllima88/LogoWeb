@@ -26,6 +26,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Validator\Constraints\Null;
+use Symfony\Component\Validator\Constraints\True;
 
 class ActivityController extends Controller
 {
@@ -496,6 +497,7 @@ class ActivityController extends Controller
         $tpe->setLogo($logo);
         $param = $em->getRepository('CibCoreBundle:Parameters')->find(1);
         $ftp = new Ftp($param->getFtpUrl(),$param->getFtpUser(),$param->getFtpPassword(),$param->getFtpPort(),false,false);
+
         $form = $this->createForm(new TpeType(),$tpe);
         $form->handleRequest($request);
         if($form->isValid())
@@ -510,8 +512,9 @@ class ActivityController extends Controller
             $em->flush();
             if ($logo) {
                 $this->removeOneRight($tpe);
-                $this->showSizeLogoPicture($logo);
+                $this->showSizeLogoPicture($logo, $tpe);
                 $logo->writeFileParam($logo, $ftp);
+                $this->sendFiletoFtp($logo, $tpe);
             }
             $this->get('session')->getFlashBag()->all();
             $this->get('session')->getFlashBag()->add('status','Ajout effectué');
@@ -542,8 +545,7 @@ class ActivityController extends Controller
         $param = $em->getRepository('CibCoreBundle:Parameters')->find(1);
         $ftp = new Ftp($param->getFtpUrl(),$param->getFtpUser(),$param->getFtpPassword(),$param->getFtpPort(),false,false);
         $tpe = $repo->find($id);
-
-        $form = $this->createForm(new TpeType(array('store' => $tpe->getStore(),'tpeParameters' => $tpe->getTpeParameters())),$tpe);
+        $form = $this->createForm(new TpeType(array('logo' => $tpe->getLogo(), 'store' => $tpe->getStore(),'tpeParameters' => $tpe->getTpeParameters())),$tpe);
         $form->handleRequest($request);
 
         if($form->isValid())
@@ -559,7 +561,12 @@ class ActivityController extends Controller
                     $this->get('session')->getFlashBag()->add('ftpError','echec de l\'envoi du fichier de paramétrage');
                 $em->persist($tpe);
                 $em->flush();
-
+                if ($logo) {
+                    $this->removeOneRight($tpe);
+                    $this->showSizeLogoPicture($logo, $tpe);
+                    $logo->writeFileParam($logo, $ftp);
+                    $this->sendFiletoFtp($logo, $tpe);
+                }
 
                 $this->get('session')->getFlashBag()->add('status','Modification(s) effectuée(s)');
 
@@ -675,37 +682,52 @@ class ActivityController extends Controller
     public function sizeRenamePictureNonGoalLogo(Logo $logo)
     {
         if ($logo->getLogoTypeTPE() == "ICT250") {
-
-            $this->get('image.handling')->open($logo->getWebPathTop())
-                ->resize(200, 200)
-                ->save($logo->getPathSrc() . '/ImageTop.bmp');
-            $this->get('image.handling')->open($logo->getWebPathWallpaper())
-                ->resize(300, 300)
-                ->save($logo->getPathSrc() . '/ImageWallpaper.bmp');
+            if ($logo->getWebPathTop() != Null) {
+                $this->get('image.handling')->open($logo->getWebPathTop())
+                    ->resize(300, 300)
+                    ->save($logo->getPathSrc() . '/ImageTop.bmp');
+            }
+            if ($logo->getWebPathWallpaper() != Null) {
+                $this->get('image.handling')->open($logo->getWebPathWallpaper())
+                    ->resize(300, 300)
+                    ->save($logo->getPathSrc() . '/ImageWallpaper.bmp');
+            }
         }
         else if($logo->getLogoTypeTPE() == "IWL250") {
-            $this->get('image.handling')->open($logo->getWebPathTop())
-                ->resize(200, 200)
-                ->save($logo->getPathSrc() . '/ImageTop.bmp');
-            $this->get('image.handling')->open($logo->getWebPathWallpaper())
-                ->resize(300, 300)
-                ->save($logo->getPathSrc() . '/ImageWallpaper.bmp');
+            if ($logo->getWebPathTop() != Null) {
+                $this->get('image.handling')->open($logo->getWebPathTop())
+                    ->resize(300, 300)
+                    ->save($logo->getPathSrc() . '/ImageTop.bmp');
+            }
+            if ($logo->getWebPathWallpaper() != Null) {
+                $this->get('image.handling')->open($logo->getWebPathWallpaper())
+                    ->resize(300, 300)
+                    ->save($logo->getPathSrc() . '/ImageWallpaper.bmp');
+            }
         }
-        else if ($logo->getLogoTypeTPE() == "EFT930"){
-            $this->get('image.handling')->open($logo->getWebPathTop())
-                ->resize(200, 200)
-                ->save($logo->getPathSrc() . '/ImageTop.bmp');
-            $this->get('image.handling')->open($logo->getWebPathWallpaper())
-                ->resize(300, 300)
-                ->save($logo->getPathSrc() . '/ImageWallpaper.bmp');
+        else if ($logo->getLogoTypeTPE() == "EFT930") {
+            if ($logo->getWebPathTop() != Null) {
+                $this->get('image.handling')->open($logo->getWebPathTop())
+                    ->resize(300, 300)
+                    ->save($logo->getPathSrc() . '/ImageTop.bmp');
+            }
+            if ($logo->getWebPathWallpaper() != Null) {
+                $this->get('image.handling')->open($logo->getWebPathWallpaper())
+                    ->resize(300, 300)
+                    ->save($logo->getPathSrc() . '/ImageWallpaper.bmp');
+            }
         }
-        else{
-            $this->get('image.handling')->open($logo->getWebPathTop())
-                ->resize(200, 200)
-                ->save($logo->getPathSrc() . '/ImageTop.bmp');
-            $this->get('image.handling')->open($logo->getWebPathWallpaper())
-                ->resize(300, 300)
-                ->save($logo->getPathSrc() . '/ImageWallpaper.bmp');
+        else {
+            if ($logo->getWebPathTop() != Null) {
+                $this->get('image.handling')->open($logo->getWebPathTop())
+                    ->resize(300, 300)
+                    ->save($logo->getPathSrc() . '/ImageTop.bmp');
+            }
+            if ($logo->getWebPathWallpaper() != Null) {
+                $this->get('image.handling')->open($logo->getWebPathWallpaper())
+                    ->resize(300, 300)
+                    ->save($logo->getPathSrc() . '/ImageWallpaper.bmp');
+            }
         }
     }
 
@@ -714,53 +736,98 @@ class ActivityController extends Controller
         if ($logo->getLogoTypeTPE() == "ICT250") {
             if ($logo->getWebPathTop() != Null) {
                 $this->get('image.handling')->open($logo->getWebPathTop())
-                    ->resize(200, 200)
-                    ->save($logo->getPathSrc() . '/ImageTop.pngit statusg');
+                    ->resize(300, 300)
+                    ->save($logo->getPathSrc() . '/ImageTop.jpg');
+            }
+            if ($logo->getWebPathWallpaper() != Null) {
+                if ($logo->getWebPathWallpaper() != Null) {
+                    $this->get('image.handling')->open($logo->getWebPathWallpaper())
+                        ->resize(300, 300)
+                        ->save($logo->getPathSrc() . '/ImageWallpaper.jpg');
+                }
+            }
+        }
+        else if($logo->getLogoTypeTPE() == "IWL250") {
+            if ($logo->getWebPathTop() != Null) {
+                $this->get('image.handling')->open($logo->getWebPathTop())
+                    ->resize(300, 300)
+                    ->save($logo->getPathSrc() . '/ImageTop.jpg');
             }
             if ($logo->getWebPathWallpaper() != Null) {
                 $this->get('image.handling')->open($logo->getWebPathWallpaper())
                     ->resize(300, 300)
-                    ->save($logo->getPathSrc() . '/ImageWallpaper.png');
+                    ->save($logo->getPathSrc() . '/ImageWallpaper.jpg');
             }
         }
-        else if($logo->getLogoTypeTPE() == "IWL250") {
-            $this->get('image.handling')->open($logo->getWebPathTop())
-                ->resize(200, 200)
-                ->save($logo->getPathSrc() . '/ImageTop.png');
-            $this->get('image.handling')->open($logo->getWebPathWallpaper())
-                ->resize(300, 300)
-                ->save($logo->getPathSrc() . '/ImageWallpaper.png');
+        else if ($logo->getLogoTypeTPE() == "EFT930") {
+            if ($logo->getWebPathTop() != Null) {
+                $this->get('image.handling')->open($logo->getWebPathTop())
+                    ->resize(300, 300)
+                    ->save($logo->getPathSrc() . '/ImageTop.jpg');
+            }
+            if ($logo->getWebPathWallpaper() != Null) {
+                $this->get('image.handling')->open($logo->getWebPathWallpaper())
+                    ->resize(300, 300)
+                    ->save($logo->getPathSrc() . '/ImageWallpaper.jpg');
+            }
         }
-        else if ($logo->getLogoTypeTPE() == "EFT930"){
-            $this->get('image.handling')->open($logo->getWebPathTop())
-                ->resize(200, 200)
-                ->save($logo->getPathSrc() . '/ImageTop.png');
-            $this->get('image.handling')->open($logo->getWebPathWallpaper())
-                ->resize(300, 300)
-                ->save($logo->getPathSrc() . '/ImageWallpaper.png');
-        }
-        else{
-            $this->get('image.handling')->open($logo->getWebPathTop())
-                ->resize(200, 200)
-                ->save($logo->getPathSrc() . '/ImageTop.png');
-            $this->get('image.handling')->open($logo->getWebPathWallpaper())
-                ->resize(300, 300)
-                ->save($logo->getPathSrc() . '/ImageWallpaper.png');
+        else {
+            if ($logo->getWebPathTop() != Null) {
+                $this->get('image.handling')->open($logo->getWebPathTop())
+                    ->resize(300, 300)
+                    ->save($logo->getPathSrc() . '/ImageTop.jpg');
+            }
+            if ($logo->getWebPathWallpaper() != Null) {
+                $this->get('image.handling')->open($logo->getWebPathWallpaper())
+                    ->resize(300, 300)
+                    ->save($logo->getPathSrc() . '/ImageWallpaper.jpg');
+            }
         }
     }
 
+    public function sendFiletoFtp(Logo $logo , Tpe $tpe)
+    {
+        $iPort = 21200;
 
+        $ftp_flux = ftp_connect("92.222.171.6", $iPort);
+        if (ftp_login($ftp_flux, "logo", "logocib"))
+        {
+            if (preg_match("/Windows/i", $_SERVER["HTTP_USER_AGENT"]) == 1)
+                ftp_pasv($ftp_flux, true);
 
-    public function showSizeLogoPicture(Logo $logo)
+            ftp_mkdir($ftp_flux, $tpe->getTpeNumber());
+
+            if (file_exists($logo->getPathSrc().'/ImageTop.jpg'))
+            {
+                ftp_put($ftp_flux, $tpe->getTpeNumber() . '/ImageTop.jpg', $logo->getPathSrc(). '/ImageTop.jpg',FTP_ASCII);
+            }
+            if (file_exists($logo->getPathSrc().'/ImageTop.bmp'))
+                ftp_put($ftp_flux, $tpe->getTpeNumber(). '/ImageTop.bmp', $logo->getPathSrc(). '/ImageTop.bmp', FTP_ASCII);
+            if (file_exists($logo->getPathSrc().'/ImageWallpaper.jpg'))
+                ftp_put($ftp_flux, $tpe->getTpeNumber(). '/ImageWallpaper.jpg', $logo->getPathSrc(). '/ImageWallpaper.jpg', FTP_ASCII);
+            if (file_exists($logo->getPathSrc().'/ImageWallpaper.bmp'))
+                ftp_put($ftp_flux, $tpe->getTpeNumber().'/ImageWallpaper.bmp', $logo->getPathSrc(). '/ImageWallpaper.bmp', FTP_ASCII);
+            if (file_exists($logo->getPathSrc(). '/PARAM_LOGO.PAR'))
+                ftp_put($ftp_flux, $tpe->getTpeNumber().'/PARAM_LOGO.PAR', $logo->getPathSrc(). '/PARAM_LOGO.PAR', FTP_ASCII);
+        }
+
+        ftp_close($ftp_flux);
+    }
+
+    public function showSizeLogoPicture(Logo $logo, Tpe $tpe)
     {
         if ($logo->getLogoGoal() == "true") {
             $this->sizeRenamePictureGoalLogo($logo);
-        }
-        else
+        } else
             $this->sizeRenamePictureNonGoalLogo($logo);
 
-        unlink($logo->getWebPathWallpaper());
-        unlink($logo->getWebPathTop());
+
+        if ($logo->getWebPathWallpaper() != Null) {
+            unlink($logo->getWebPathWallpaper());
+        }
+        if ($logo->getWebPathTop() != Null) {
+            unlink($logo->getWebPathTop());
+        }
     }
 
 

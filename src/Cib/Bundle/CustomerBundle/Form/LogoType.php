@@ -31,23 +31,25 @@ class LogoType extends AbstractType
                 'label' => 'Mode Goal',
 
             ))
-            ->add('societyName', 'text', array(
-                'label' => 'Nom de la Societe',
+            ->add('intitule1', 'text', array(
+                'label' => 'Ligne 1',
+                'max_length' => "21",
             ))
-            ->add('societyAddress', 'text', array(
-                'label' => 'Adresse de la Societe'
+            ->add('intitule2', 'text', array(
+                'label' => 'Ligne 2',
+                'max_length' => "21",
             ))
-            ->add('societyTel', 'text', array(
-                'label' => 'Numéro de telephone de la Societe'
+            ->add('intitule3', 'text', array(
+                'label' => 'Ligne 3',
+                'max_length' => "21",
             ))
-            ->add('societyWebAddr', 'text', array(
-                'label' => 'Site internet de l\'entreprise'
+            ->add('intitule4', 'text', array(
+                'label' => 'Ligne 4',
+                'max_length' => "21",
             ))
-            ->add('societyCity', 'text', array(
-                'label' => 'Ville'
-            ))
-            ->add('societyCp', 'text', array(
-                'label' => 'Code Postal'
+            ->add('intitule5', 'text', array(
+                'label' => 'Ligne 5',
+                'max_length' => "21",
             ))
             ->add('logoTopTicket', 'file', array(
                 'label'     => 'Logo Ticket',
