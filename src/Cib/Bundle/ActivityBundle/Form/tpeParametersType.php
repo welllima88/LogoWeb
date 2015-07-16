@@ -61,13 +61,13 @@ class tpeParametersType extends AbstractType
             ->add('passwordGprs','text',array(
                 'label' => 'mot de passe',
             ))
-            ->add('urlSoap','text',array(
+/*            ->add('urlSoap','text',array(
                 'label' => 'Url SOAP',
             ))
             ->add('portSoap','text',array(
                 'label' => 'Port SOAP'
-            ))
-            ->add('header1','text',array(
+            ))*/
+/*            ->add('header1','text',array(
                 'label' => 'ligne 1',
                 'attr' => array(
                     'maxlength' => 12,
@@ -126,7 +126,7 @@ class tpeParametersType extends AbstractType
                 'attr' => array(
                     'maxlength' => 25
                 )
-            ))
+            ))*/
         ;
     }
     

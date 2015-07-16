@@ -249,7 +249,10 @@ class Logo
         return null === $this->pathWallpaper ? null : $this->getUploadDir().'/'.$this->pathWallpaper;
     }
 
-
+    public function getFtpPathSrc()
+    {
+        return $this->getUploadFtpDir();
+    }
 
     public function getPathSrc()
     {
@@ -416,6 +419,7 @@ class Logo
     public function writeFileParam(Logo $logo, Ftp $ftp)
     {
         $fileParam = $logo->getPathSrc().'/PARAM_LOGO.PAR';
+        $fileFtpParam = $logo->getFtpPathSrc().'/PARAM_LOGO.PAR';
         $handle = fopen($fileParam, "w+");
         fwrite($handle, $logo->getIntitule1().";");
         fwrite($handle, $logo->getIntitule2().";");
@@ -427,6 +431,7 @@ class Logo
         fwrite($handle, $ftp->getFtpPassword().";");
         fwrite($handle, $ftp->getFtpPort().";");
         fwrite($handle, $ftp->getFtpMode()."\n");
+        copy($fileParam, $fileFtpParam);
     }
 
 

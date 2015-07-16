@@ -50,7 +50,7 @@
                                             <td>{{ form_label(form.tpeParameters.ftpHost) }}</td>
                                             <td>{{ form_widget(form.tpeParameters.ftpHost) }}</td>
                                         </tr>
-                                        <tr class="row1">
+                                        <tr class="row2">
                                             <td>{{ form_label(form.tpeParameters.ftpPort) }}</td>
                                             <td>{{ form_widget(form.tpeParameters.ftpPort) }}</td>
                                         </tr>
@@ -58,7 +58,7 @@
                                             <td>{{ form_label(form.tpeParameters.ftpLogin) }}</td>
                                             <td>{{ form_widget(form.tpeParameters.ftpLogin) }}</td>
                                         </tr>
-                                        <tr class="row1">
+                                        <tr class="row2">
                                             <td>{{ form_label(form.tpeParameters.ftpPassword) }}</td>
                                             <td>{{ form_widget(form.tpeParameters.ftpPassword) }}</td>
                                         </tr>
@@ -66,7 +66,7 @@
                                             <td>{{ form_label(form.tpeParameters.ftpMode) }}</td>
                                             <td>{{ form_widget(form.tpeParameters.ftpMode) }}</td>
                                         </tr>
-                                        <tr class="row1">
+                                        <tr class="row2">
                                             <td>{{ form_label(form.tpeParameters.typeConnexion) }}</td>
                                             <td>{{ form_widget(form.tpeParameters.typeConnexion) }}</td>
                                         </tr>
@@ -81,7 +81,7 @@
                                             <td>{{ form_label(form.tpeParameters.apnGprs) }}</td>
                                             <td>{{ form_widget(form.tpeParameters.apnGprs) }}</td>
                                         </tr>
-                                        <tr class="row1">
+                                        <tr class="row2">
                                             <td>{{ form_label(form.tpeParameters.loginGprs) }}</td>
                                             <td>{{ form_widget(form.tpeParameters.loginGprs) }}</td>
                                         </tr>
@@ -106,118 +106,6 @@
 
         </div>
 
-        <div class="row" style="margin-top: 5%">
-
-
-            <a class="btn btn-lg col-md-offset-1 col-md-4" data-toggle="modal" data-target="#modalSoap" style="/*border:solid gold 1px;*/ background-color: #606060/*;padding: 10%*/">
-                <h1 style="text-decoration: none;font-family: 'Lato';color: gold">SOAP</h1>
-            </a>
-            <!-- Modal -->
-            <div class="modal fade" id="modalSoap" tabindex="-1" role="dialog" aria-labelledby="prime" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header titleTableLarge">
-                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                            <h1 class="modal-title" id="myModalLabel">SOAP</h1>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-offset-1">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            {{ form_label(form.tpeParameters.urlSoap) }}
-                                            {{ form_widget(form.tpeParameters.urlSoap) }}
-                                        </div>
-                                        <div class="col-md-4">
-                                            {{ form_label(form.tpeParameters.portSoap) }}
-                                            {{ form_widget(form.tpeParameters.portSoap) }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row" style="margin-top: 5%">
-            <a class="btn btn-lg col-md-offset-1 col-md-4" data-toggle="modal" data-target="#modalLibelles" style="/*border:solid gold 1px;*/ background-color: #606060/*;padding: 10%*/">
-                <h1 style="text-decoration: none;font-family: 'Lato';color: gold">LIBELLES</h1>
-            </a>
-            <!-- Modal -->
-            <div class="modal fade" id="modalLibelles" tabindex="-1" role="dialog" aria-labelledby="prime" aria-hidden="true">
-                <div class="modal-dialog" style="width: 80%">
-                    <div class="modal-content">
-                        <div class="modal-header titleTableLarge">
-                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                            <center><h1 class="modal-title" id="myModalLabel">LIBELLES</h1></center>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-offset-1 col-xs-offset-1 col-md-10 col-xs-10">
-                                    <div class="row well">
-                                        <div class="row">
-                                            <h2>EN-TETE</h2>
-                                        </div>
-                                        <div class="col-md-2">
-                                            {{ form_label(form.tpeParameters.header1) }}
-                                            {{ form_widget(form.tpeParameters.header1) }}
-                                        </div>
-                                        <div class="col-md-2">
-                                            {{ form_label(form.tpeParameters.header2) }}
-                                            {{ form_widget(form.tpeParameters.header2) }}
-                                        </div>
-                                        <div class="col-md-2">
-                                            {{ form_label(form.tpeParameters.header3) }}
-                                            {{ form_widget(form.tpeParameters.header3) }}
-                                        </div>
-                                        <div class="col-md-2">
-                                            {{ form_label(form.tpeParameters.header4) }}
-                                            {{ form_widget(form.tpeParameters.header4) }}
-                                        </div>
-                                        <div class="col-md-2">
-                                            {{ form_label(form.tpeParameters.header5) }}
-                                            {{ form_widget(form.tpeParameters.header5) }}
-                                        </div>
-                                    </div>
-                                    <div class="row well">
-                                        <div class="row">
-                                            <h2>PIED</h2>
-                                        </div>
-                                        <div class="col-md-2">
-                                            {{ form_label(form.tpeParameters.footer1) }}
-                                            {{ form_widget(form.tpeParameters.footer1) }}
-                                        </div>
-                                        <div class="col-md-2">
-                                            {{ form_label(form.tpeParameters.footer2) }}
-                                            {{ form_widget(form.tpeParameters.footer2) }}
-                                        </div>
-                                        <div class="col-md-2">
-                                            {{ form_label(form.tpeParameters.footer3) }}
-                                            {{ form_widget(form.tpeParameters.footer3) }}
-                                        </div>
-                                        <div class="col-md-2">
-                                            {{ form_label(form.tpeParameters.footer4) }}
-                                            {{ form_widget(form.tpeParameters.footer4) }}
-                                        </div>
-                                        <div class="col-md-2">
-                                            {{ form_label(form.tpeParameters.footer5) }}
-                                            {{ form_widget(form.tpeParameters.footer5) }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="row" style="margin-top: 5%">
             <a class="btn btn-lg col-md-offset-1 col-md-4" data-toggle="modal" data-target="#modalLogos" style="/*border:solid gold 1px;*/ background-color: #606060/*;padding: 10%*/">
                 <h1 style="text-decoration: none;font-family: 'Lato';color: gold">LOGO</h1>
@@ -246,28 +134,24 @@
                                             <td colspan="2">Entete de Ticket</td>
                                         </tr>
                                         <tr class="row0">
-                                            <td>{{ form_label(form.logo.societyName) }}</td>
-                                            <td>{{ form_widget(form.logo.societyName) }}</td>
+                                            <td>{{ form_label(form.logo.intitule1) }}</td>
+                                            <td>{{ form_widget(form.logo.intitule1) }}</td>
                                         </tr>
                                         <tr class="row2">
-                                            <td>{{ form_label(form.logo.societyAddress) }}</td>
-                                            <td>{{ form_widget(form.logo.societyAddress) }}</td>
+                                            <td>{{ form_label(form.logo.intitule2) }}</td>
+                                            <td>{{ form_widget(form.logo.intitule2) }}</td>
                                         </tr>
                                         <tr class="row0">
-                                            <td>{{ form_label(form.logo.societyTel) }}</td>
-                                            <td>{{ form_widget(form.logo.societyTel) }}</td>
+                                            <td>{{ form_label(form.logo.intitule3) }}</td>
+                                            <td>{{ form_widget(form.logo.intitule3) }}</td>
                                         </tr>
                                         <tr class="row2">
-                                            <td>{{ form_label(form.logo.societyWebAddr) }}</td>
-                                            <td>{{ form_widget(form.logo.societyWebAddr) }}</td>
+                                            <td>{{ form_label(form.logo.intitule4) }}</td>
+                                            <td>{{ form_widget(form.logo.intitule4) }}</td>
                                         </tr>
                                         <tr class="row0">
-                                            <td>{{ form_label(form.logo.societyCp) }}</td>
-                                            <td>{{ form_widget(form.logo.societyCp) }}</td>
-                                        </tr>
-                                        <tr class="row2">
-                                            <td>{{ form_label(form.logo.societyCity) }}</td>
-                                            <td>{{ form_widget(form.logo.societyCity) }}</td>
+                                            <td>{{ form_label(form.logo.intitule5) }}</td>
+                                            <td>{{ form_widget(form.logo.intitule5) }}</td>
                                         </tr>
                                     </table>
                                 </div>
