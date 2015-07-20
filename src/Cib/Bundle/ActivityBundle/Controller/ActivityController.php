@@ -495,19 +495,28 @@ class ActivityController extends Controller
         $logo = new Logo();
 
         $tpe->setLogo($logo);
+        $userId = $this->container->get('security.context')->getToken()->getUser()->getId();
+        $user = $em->getRepository('CibUserBundle:User')->find($userId);
         $param = $em->getRepository('CibCoreBundle:Parameters')->find(1);
         $ftp = new Ftp($param->getFtpUrl(),$param->getFtpUser(),$param->getFtpPassword(),$param->getFtpPort(),false,false);
-
         $form = $this->createForm(new TpeType(),$tpe);
         $form->handleRequest($request);
+
         if($form->isValid())
         {
             $tpe = $form->getData();
-            $tpe->getTpeParameters()->createParameterFile($tpe);
-            if($tpe->uploadParameterFile($ftp,$request))
+            //$tpe->getTpeParameters()->createParameterFile($tpe);
+/*            if($tpe->uploadParameterFile($ftp,$request))
                 $this->get('session')->getFlashBag()->add('ftpSuccess','envoi du fichier de paramétrage réussi');
             else
-                $this->get('session')->getFlashBag()->add('ftpError','echec de l\'envoi du fichier de paramétrage');
+                $this->get('session')->getFlashBag()->add('ftpError','echec de l\'envoi du fichier de paramétrage');*/
+
+            if ($user->getRights() <= 0)
+            {
+                $this->get('session')->getFlashBag()->all();
+                $this->get('session')->getFlashBag()->add('ftpError', 'Manque de droit pour ajouter un tpe');
+                return $this->redirect($this->generateUrl('displayTpe'));
+            }
             $em->persist($tpe);
             $em->flush();
             if ($logo) {
@@ -562,7 +571,6 @@ class ActivityController extends Controller
                 $em->persist($tpe);
                 $em->flush();
                 if ($logo) {
-                    $this->removeOneRight($tpe);
                     $this->showSizeLogoPicture($logo, $tpe);
                     $logo->writeFileParam($logo, $ftp);
                     $this->sendFiletoFtp($logo, $tpe);

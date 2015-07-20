@@ -5,31 +5,39 @@
     <div class="container">
         <div class="row">
             <div class="col-md-offset-2 col-md-10">
-                <div class="row">
-                    <div class="col-md-3 col-xs-3" style="font-size: large;text-transform: uppercase">
-                        {{ form_label(form.tpeNumber) }}
-                        {{ form_widget(form.tpeNumber) }}
+                    <div class="col-md-offset-3 col-md-4" style="font-size: large;text-transform: uppercase">
+                      <center>  {{ form_label(form.tpeNumber) }} </center>
                     </div>
-                    <div class="col-xs-offset-3 col-md-offset-3 col-md-2 col-xs-2" style="font-size: large;text-transform: uppercase">
-                        {{ form_label(form.store) }}
-                        {{ form_widget(form.store) }}
+                    <div class="col-md-offset-3 col-md-4" style="font-size: large;text-transform: uppercase">
+                        <center>   {{ form_widget(form.tpeNumber) }}</center>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 col-xs-3" style="font-size: large;text-transform: uppercase">
-                        {{ form_label(form.logo.logoTypeTPE) }}
-                        {{ form_widget(form.logo.logoTypeTPE) }}
+                    <br>
+                    <div class="col-md-offset-3 col-md-4" style="font-size: large;text-transform: uppercase">
+                        <center>  {{ form_label(form.store) }} </center>
                     </div>
-                    <div class="col-xs-offset-3 col-md-offset-3 col-md-2 col-xs-2" style="font-size: large;text-transform: uppercase">
-                        {{ form_label(form.logo.logoGoal) }}
-                        {{ form_widget(form.logo.logoGoal) }}
+                <div class="col-md-offset-3 col-md-4" style="font-size: large;text-transform: uppercase">
+                    <center> {{ form_widget(form.store) }} </center>
                     </div>
-                </div>
+                    <div class="col-md-offset-3 col-md-4" style="font-size: large;text-transform: uppercase">
+                        <center>   {{ form_label(form.logo.logoTypeTPE) }} </center>
+                        </div>
+                <div class="col-md-offset-3 col-md-4" style="font-size: large;text-transform: uppercase">
+
+                    <center>{{ form_widget(form.logo.logoTypeTPE) }} </center>
+                    </div>
+                    <div class="col-md-offset-3 col-md-4" style="font-size: large;text-transform: uppercase">
+                     <center>   {{ form_label(form.logo.logoGoal) }} </center>
+                        </div>
+                <div class="col-md-offset-3 col-md-4" style="font-size: large;text-transform: uppercase">
+
+                    <center>{{ form_widget(form.logo.logoGoal) }} </center>
+                    </div>
+
             </div>
         </div>
         <br>
-        <div class="row">
-            <a class="btn btn-lg col-md-offset-1 col-md-4" data-toggle="modal" data-target="#modalConnexion" style="/*border:solid gold 1px;*/ background-color: #606060/*;padding: 10%*/">
+        {#<div class="row">
+            <a class="btn btn-lg col-md-offset-4 col-md-4" data-toggle="modal" data-target="#modalConnexion" style="/*border:solid gold 1px;*/ background-color: #606060/*;padding: 10%*/">
                 <h1 style="text-decoration: none;font-family: 'Lato';color: gold">CONNEXION</h1>
             </a>
             <!-- Modal -->
@@ -95,7 +103,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            {#<button type="button" class="btn btn-primary">Save changes</button>#}
+                            &#123;&#35;<button type="button" class="btn btn-primary">Save changes</button>&#35;&#125;
                         </div>
                     </div>
                 </div>
@@ -104,11 +112,11 @@
 
             </div>
 
-        </div>
+        </div>#}
 
         <div class="row" style="margin-top: 5%">
-            <a class="btn btn-lg col-md-offset-1 col-md-4" data-toggle="modal" data-target="#modalLogos" style="/*border:solid gold 1px;*/ background-color: #606060/*;padding: 10%*/">
-                <h1 style="text-decoration: none;font-family: 'Lato';color: gold">LOGO</h1>
+            <a class="btn btn-lg col-md-offset-4 col-md-4" data-toggle="modal" data-target="#modalLogos" style="/*border:solid gold 1px;*/ background-color: #305aff/*;padding: 10%*/">
+                <h1 style="text-decoration: none;font-family: 'Lato';color: blanchedalmond">LOGO</h1>
             </a>
             <div class="modal fade" id="modalLogos" tabindex="-1" role="dialog" aria-labelledby="prime" aria-hidden="true">
                 <div class="modal-dialog" style="width: 80%">
@@ -180,11 +188,13 @@
             </div>
 
         </div>
-        {{ form_widget(form) }}
+
+        {{ form_widget(form._token) }}
+
 
         <div class="row">
             <br>
-            <center><button type="submit" value="valider" name="valider" class="btn btn-primary btn-lg" style="width: 15%">Valider</button></center>
+            <center><button type="submit" value="valider" name="valider" class="btn btn-primary btn-lg" style="width: 15%; margin-bottom: 10px">Valider</button></center>
         </div>
 
 </div>

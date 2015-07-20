@@ -9,12 +9,15 @@
             </div>
         </div>
     </div>
-    <div class="row">
+{#    <div class="row">
         <div class="container">
             <center><h1 class="title">Ajouter un TPE</h1></center><br>
         </div>
-    </div>
+    </div>#}
+    <div class="panel panel-primary" >
+        <div class="panel-heading"><center><h1 class="title">Ajouter un TPE</h1></center></div>
     <form action="{{ path('addTpe') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
         {% include 'CibActivityBundle:Form:formTpe.html.twig' %}
     </form>
+    </div>
 {% endblock body %}

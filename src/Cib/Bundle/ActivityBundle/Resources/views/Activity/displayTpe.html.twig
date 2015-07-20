@@ -33,7 +33,9 @@
                             <tr class="titleTable">
                                 <th></th>
                                 <th>TPE</th>
-                                {#<th>Numéro</th>#}
+                                <th>Nom du Logo</th>
+                                <th>Nom du Magasin</th>
+                                <th>Type de TPE</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -44,7 +46,9 @@
                                 <tr class="row{{ count }}">
                                     <td><input type="checkbox" name="multiDelete[]" value="{{ tpe.tpeId }}"></td>
                                     <td>{{ tpe.tpeNumber }}</td>
-                                    {#<td>{{ signboard.signboardNumber }}</td>#}
+                                    <td>{{ tpe.logo.logoName }}</td>
+                                    <td>{{ tpe.store.storeName }}</td>
+                                    <td>{{ tpe.logo.logoTypeTPE }}</td>
                                     <td><a href="{{ path('editTpe',{'id' : tpe.tpeId }) }}" class="glyphicon glyphicon-edit" style="color:darkorange"></a></td>
                                     <td><a href="{{ path('deleteTpe',{'id' : tpe.tpeId , 'token' : tpe.token }) }}" class="glyphicon glyphicon-remove" style="color:orangered"></a></td>
                                 </tr>

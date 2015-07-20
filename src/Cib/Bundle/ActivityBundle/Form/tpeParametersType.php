@@ -14,8 +14,7 @@ class tpeParametersType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('ftpHost','text',array(
+/*            ->add('ftpHost','text',array(
                 'label' => 'adresse ftp',
             ))
             ->add('ftpPort','text',array(
@@ -60,7 +59,7 @@ class tpeParametersType extends AbstractType
             ))
             ->add('passwordGprs','text',array(
                 'label' => 'mot de passe',
-            ))
+            ))*/
 /*            ->add('urlSoap','text',array(
                 'label' => 'Url SOAP',
             ))
@@ -127,7 +126,6 @@ class tpeParametersType extends AbstractType
                     'maxlength' => 25
                 )
             ))*/
-        ;
     }
     
     /**
@@ -144,7 +142,7 @@ class tpeParametersType extends AbstractType
      * @return string
      */
     public function getName()
-    {
-        return 'tpeParameters';
-    }
+        {
+            return 'tpeParameters';
+        }
 }
